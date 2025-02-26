@@ -1,6 +1,7 @@
 DO $$
 BEGIN
     -- Insert customers if they don't already exist
+    -- For now, email will be used for comparisons
     IF NOT EXISTS (SELECT 1 FROM customers WHERE email = 'john@example.com') THEN
         INSERT INTO customers (first_name, last_name, email, password_hash, phone, address)
         VALUES ('John', 'Doe', 'john@example.com', 'hashed_password_here', '123-456-7890', '123 Main St, NY');
