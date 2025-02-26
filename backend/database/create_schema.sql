@@ -40,6 +40,15 @@ VALUES ('Chuck Taylor All Star',
         'https://m.media-amazon.com/images/I/514DUfoH7mL._AC_SX575_.jpg'
     );
 
+INSERT INTO shoes (name, brand, price, stock, sizes, image_url)
+VALUES ('Mens Running Shoe', 
+        'Nike',
+        72.99,
+        200, 
+        ARRAY[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        'https://m.media-amazon.com/images/I/51yUmzHLKBL._AC_SY695_.jpg'
+    );
+
 INSERT INTO customers (first_name, last_name, email, password_hash, phone, address)
 VALUES ('John',
         'Doe',
@@ -47,6 +56,15 @@ VALUES ('John',
         'hashed_password_here',
         '123-456-7890',
         '123 Main St, NY'
+    );
+
+INSERT INTO customers (first_name, last_name, email, password_hash, phone, address)
+VALUES ('Robby',
+        'McBobbit',
+        'test@robbymcbobbit.com',
+        'hashed_password_here TODO:write the scripit',
+        '456-575-4569',
+        '111 Converse St., NY'
     );
 
 
