@@ -14,7 +14,7 @@ console.log("Database Host:", dbConfig.host);
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
-const homePage = "arn:aws:s3:::ecommerce-static-0130/index.html"
+const homePage = "http://ecommerce-static-0130.s3-website.us-east-2.amazonaws.com"
 
 app.get('/', (req, res) => {
     res.redirect(homePage);
