@@ -38,7 +38,7 @@ pm2 restart all || { echo "xxxx Error: Node.js restart failed xxxx"; exit 1; };
 # Quick HTTP check to verify server response
 # Adjust the URL to match your actual server (localhost or domain)
 echo "#### Verifying server is responding on localhost ####"
-HTTP_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" http://ec2-3-144-13-97.us-east-2.compute.amazonaws.com)
+HTTP_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -L http://ec2-3-144-13-97.us-east-2.compute.amazonaws.com)
 
 if [ "$HTTP_RESPONSE" -eq 200 ]
 then
