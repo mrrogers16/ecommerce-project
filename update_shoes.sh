@@ -15,3 +15,15 @@ echo "#### Syncing files to S3... ####"
 aws s3 sync "$STAGING_DIR" "$S3_BUCKET" --delete || { echo "xxx Error: S3 sync failed xxx"; exit 1; }
 
 echo "#### Deployment to S3 complete ####"
+
+# Restart Nginx
+echo "#### Restarting Nginx... ####"
+sudo systemctl restart nginx || { echo "xxx Error: Nginx restart failed"; exit 1; };
+
+# Restart Node.js server using PM2
+echo "#### Restarting Node.js server... ####"
+pm2 restart all || { echo "xxx Error: Node.js restart failed xxx"; exit 1; };
+
+echo "######## Deployment Complete ########";
+
+
