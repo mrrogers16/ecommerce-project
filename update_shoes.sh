@@ -11,6 +11,6 @@ S3_BUCKET="s3://ecommerce-static-0130"
 
 # Sync files to S3
 echo "Syncing files to S3..."
-aws s3 sync "$STAGING_DIR" "$S3_BUCKET" --delete --acl public-read || { echo "Error: S3 sync failed"; exit 1; }
+aws s3 sync "$STAGING_DIR" "$S3_BUCKET" --delete || { echo "Error: S3 sync failed"; exit 1; }
 
 echo "Deployment to S3 complete"
