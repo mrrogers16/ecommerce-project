@@ -1,2 +1,11 @@
-// TODO Fill in readme
+# Deployment Script update_shoes.sh
 
+This Bash script automates the deployment process for your e - commerce project.It performs the following actions:
+
+- ** Pulls the latest changes ** from your Git repository.
+- ** Synchronizes the frontend static files ** to your AWS S3 bucket.
+- ** Restarts Nginx ** to apply any new configuration or serve updated content.
+- ** Verifies that Nginx is running.**
+- ** Restarts your Node.js backend server ** using PM2.
+- ** Performs a quick HTTP check ** to confirm the server is responding with an acceptable status code.
+- ** Concludes the deployment process ** with a confirmation message.
