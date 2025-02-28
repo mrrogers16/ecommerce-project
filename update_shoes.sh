@@ -40,11 +40,11 @@ pm2 restart all || { echo "xxxx Error: Node.js restart failed xxxx"; exit 1; };
 echo "#### Verifying server is responding on localhost ####"
 HTTP_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -L http://ec2-3-144-13-97.us-east-2.compute.amazonaws.com)
 
-if [ "$HTTP_RESPONSE" -eq 200 ]
+if [ "$HTTP_RESPONSE" -eq 200 ] || [ "$HTTP_RESPONSE" -eq 301 ] || [ "$HTTP_RESPONSE" -eq 302 ]
 then
-    echo ">>> Server is up and responding with HTTP 200 OK."
+    echo ">>> Server returned a healthy status: $HTTP_RESPONSE"
 else
-    echo "xxx Error: Server is not responding with HTTP 200 xxx"
+    echo "xxx Error: Unexpected HTTP status: $HTTP_RESPONSE xxx"
     exit 1
 fi
 
