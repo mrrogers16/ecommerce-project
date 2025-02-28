@@ -1,5 +1,3 @@
-import { run } from "node:test"
-
 # Deployment Script update_shoes.sh
 
 This Bash script automates the deployment process for your e - commerce project.It performs the following actions:
