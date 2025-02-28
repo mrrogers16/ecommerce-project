@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo " Starting Deployment Script..."
+
+echo "Pulling latest changes from Git..."
+sudo git pull
+
+# NOTE: To add directories to syncable list use following command format
+# sudo rsync -av --delete /home/ubuntu/staging/aws_assigned_server/ /var/www/html/INSERT_YOUR_NEW_DIRECTORY_HERE/
+
+# Path definitions
+STAGING_DIR="/home/ubuntu/ecommerce-project/"
+WEB_DIR="/var/www/ecommerce"
+
+# Sync backend directory
+sudo rsync -av --delete "$STAGING_DIR/backend/" "$WEB_DIR/backend/"
+
+
+# Restart Node.js backend 
+pm2 restart ecommerce-backend || pm2 start "$WEB_DIR/app.js" --name ecommerce-backend
+
+# Reload the Nginx service to apply changes
+sudo service nginx reload
