@@ -1,6 +1,6 @@
 #!/bin/bash
-
-echo " Starting S3 Deployment..."
+echo "#### Starting ecommerce-project deployment ####"
+echo "#### Starting S3 Deployment... ####"
 
 echo "#### Pulling latest changes from Git... ####"
 git pull || { echo "xxxx Error: Git pull failed xxxx"; exit 1; }
