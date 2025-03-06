@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("✅ Products.js loaded!");
+    console.log("✅ products.js loaded!");
 
     const productList = document.getElementById("product-list");
 
@@ -8,22 +8,37 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // Example Product Data (You can replace this with an API fetch)
+    // Hardcoded product data (Replace this with API data when backend is ready) --taken from the shoe.sql in the seed folder
     const products = [
-        { id: 1, name: "Running Shoes", price: 59.99, image: "../assets/images/shoe1.jpg" },
-        { id: 2, name: "Casual Sneakers", price: 49.99, image: "../frontend/assets/images/shoe2.jpg" },
-        { id: 3, name: "Basketball Shoes", price: 89.99, image: "../frontend/assets/images/shoe3.jpg" }
+        {
+            id: 1,
+            name: "Chuck Taylor All Star",
+            brand: "Converse",
+            price: 65.00,
+            sizes: [2, 3, 4, 5, 6, 7, 8, 9],
+            image_url: "https://m.media-amazon.com/images/I/514DUfoH7mL._AC_SX575_.jpg"
+        },
+        {
+            id: 2,
+            name: "Men's Running Shoe",
+            brand: "Nike",
+            price: 72.99,
+            sizes: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            image_url: "https://m.media-amazon.com/images/I/51yUmzHLKBL._AC_SY695_.jpg"
+        }
     ];
 
-    // Function to generate Bootstrap-styled product cards
+    // Function to generate product cards
     function generateProductCard(product) {
         return `
             <div class="col-md-4">
                 <div class="card shadow-sm">
-                    <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                    <img src="${product.image_url}" class="card-img-top" alt="${product.name}">
                     <div class="card-body text-center">
                         <h5 class="card-title">${product.name}</h5>
-                        <p class="card-text">$${product.price.toFixed(2)}</p>
+                        <p class="card-text"><strong>Brand:</strong> ${product.brand}</p>
+                        <p class="card-text"><strong>Price:</strong> $${product.price.toFixed(2)}</p>
+                        <p class="card-text"><strong>Sizes:</strong> ${product.sizes.join(", ")}</p>
                         <button class="btn btn-success add-to-cart" data-id="${product.id}">Add to Cart</button>
                     </div>
                 </div>
@@ -34,19 +49,23 @@ document.addEventListener("DOMContentLoaded", () => {
     // Insert product cards into the page
     productList.innerHTML = `<div class="row g-4">${products.map(generateProductCard).join("")}</div>`;
 
-    console.log("✅ Products added to the page!");
+    console.log("✅ Shoes loaded from hardcoded data!");
 
-    // Add event listeners to "Add to Cart" buttons
-    document.querySelectorAll(".add-to-cart").forEach(button => {
-        button.addEventListener("click", event => {
-            const productId = event.target.getAttribute("data-id");
-            addToCart(productId);
-        });
-    });
+    // TODO: Replace the hardcoded products with API data when backend is ready (should be similar to this)
+    /*
+    async function fetchShoes() {
+        try {
+            const response = await fetch("http://your-backend-url/api/shoes"); // Update with actual API
+            const shoes = await response.json();
 
-    // Function to handle adding to cart
-    function addToCart(productId) {
-        console.log(`🛒 Product ${productId} added to cart!`);
-        alert(`Product ${productId} added to cart!`);
+            productList.innerHTML = `<div class="row g-4">${shoes.map(generateProductCard).join("")}</div>`;
+
+            console.log("✅ Shoes loaded from backend!");
+        } catch (error) {
+            console.error("❌ Error fetching shoes:", error);
+        }
     }
+    
+    fetchShoes();
+    */
 });

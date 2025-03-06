@@ -21,6 +21,7 @@ header h1 a {
 header h1 a:hover {
     color: #ff5733; /* Change color on hover (optional) */
 }
+/* General navigation styles */
 nav ul {
     list-style: none;
     padding: 0;
@@ -31,11 +32,19 @@ nav ul li {
     margin: 0 15px;
 }
 
+/* Default link styling */
 nav ul li a {
     color: white;
     text-decoration: none;
     font-size: 18px;
+    transition: color 0.3s ease-in-out; /* Smooth color transition */
 }
+
+/* Hover effect for all navigation links */
+nav ul li a:hover {
+    color: #ff5733; /* Light blue hover for all links */
+}
+
 
 /* Hero(banner) Section */
 .hero {
