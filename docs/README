@@ -18,3 +18,5 @@ chmod + x update_shoes.sh
 # Run
 
     ./ update_shoes.sh
+
+# To manage use pm2 [list|start/stop instancename]
