@@ -2,3 +2,4 @@
 # Need to create your own database config file
 .env
 node_modules/
+.vscode/

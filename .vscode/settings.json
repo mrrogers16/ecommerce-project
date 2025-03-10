@@ -12,10 +12,10 @@
         "statusBar.debuggingBackground": "#c0fff4",
         "statusBar.debuggingForeground": "#15202b",
         "statusBar.foreground": "#15202b",
-        "statusBarItem.hoverBackground": "#ff8da1",
-        "statusBarItem.remoteBackground": "#ffc0cb",
+        "statusBarItem.hoverBackground": "#000000",
+        "statusBarItem.remoteBackground": "#010000",
         "statusBarItem.remoteForeground": "#15202b",
-        "titleBar.activeBackground": "#ffc0cb",
+        "titleBar.activeBackground": "#000000",
         "titleBar.activeForeground": "#15202b",
         "titleBar.inactiveBackground": "#ffc0cb99",
         "titleBar.inactiveForeground": "#15202b99"
