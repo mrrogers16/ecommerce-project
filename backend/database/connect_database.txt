@@ -1,1 +1,3 @@
 psql -h database-1.c30oe4oesm2e.us-east-2.rds.amazonaws.com -U dbadmin -d postgres
+
+

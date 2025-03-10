@@ -11,4 +11,5 @@ BEGIN
         INSERT INTO shoes (name, brand, price, stock, sizes, image_url)
         VALUES ('Mens Running Shoe', 'Nike', 72.99, 200, ARRAY[2,3,4,5,6,7,8,9,10,11,12], 'https://m.media-amazon.com/images/I/51yUmzHLKBL._AC_SY695_.jpg');
     END IF;
+    
 END $$;

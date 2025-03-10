@@ -23,6 +23,8 @@
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
 
+
+
 -- Insert Sample Data Example (Moved to external files)
 -- 
 -- INSERT INTO customers (first_name, last_name, email, password_hash, phone, address)
