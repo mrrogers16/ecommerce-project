@@ -8,25 +8,21 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // Hardcoded product data (Replace this with API data when backend is ready) --taken from the shoe.sql in the seed folder
-    const products = [
-        {
-            id: 1,
-            name: "Chuck Taylor All Star",
-            brand: "Converse",
-            price: 65.00,
-            sizes: [2, 3, 4, 5, 6, 7, 8, 9],
-            image_url: "https://m.media-amazon.com/images/I/514DUfoH7mL._AC_SX575_.jpg"
-        },
-        {
-            id: 2,
-            name: "Men's Running Shoe",
-            brand: "Nike",
-            price: 72.99,
-            sizes: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-            image_url: "https://m.media-amazon.com/images/I/51yUmzHLKBL._AC_SY695_.jpg"
+    // Function to fetch products from backend
+    async function fetchShoes() {
+        try {
+            const response = await fetch("https://api.fly-feet.com/api/shoes");
+            const shoes = await response.json();
+
+            productList.innerHTML = `<div class="row g-4">${setHeapSnapshotNearHeapLimit.map(generateProductCard).join("")}</div>`;
+
+            console.log("Shoes Loaded from backend");
         }
-    ];
+
+        catch (error) {
+            console.error("Error loading shoes", error);
+        }
+    }
 
     // Function to generate product cards
     function generateProductCard(product) {
@@ -47,25 +43,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Insert product cards into the page
-    productList.innerHTML = `<div class="row g-4">${products.map(generateProductCard).join("")}</div>`;
+    //productList.innerHTML = `<div class="row g-4">${products.map(generateProductCard).join("")}</div>`;
+    //console.log("✅ Shoes loaded from hardcoded data!");
 
-    console.log("✅ Shoes loaded from hardcoded data!");
-
-    // TODO: Replace the hardcoded products with API data when backend is ready (should be similar to this)
-    /*
-    async function fetchShoes() {
-        try {
-            const response = await fetch("http://your-backend-url/api/shoes"); // Update with actual API
-            const shoes = await response.json();
-
-            productList.innerHTML = `<div class="row g-4">${shoes.map(generateProductCard).join("")}</div>`;
-
-            console.log("✅ Shoes loaded from backend!");
-        } catch (error) {
-            console.error("❌ Error fetching shoes:", error);
-        }
-    }
-    
     fetchShoes();
-    */
 });
+
+
+
+
+
+
+
+
+
+// Hardcoded product data (Replace this with API data when backend is ready) --taken from the shoe.sql in the seed folder
+// const products = [
+//     {
+//         id: 1,
+//         name: "Chuck Taylor All Star",
+//         brand: "Converse",
+//         price: 65.00,
+//         sizes: [2, 3, 4, 5, 6, 7, 8, 9],
+//         image_url: "https://m.media-amazon.com/images/I/514DUfoH7mL._AC_SX575_.jpg"
+//     },
+//     {
+//         id: 2,
+//         name: "Men's Running Shoe",
+//         brand: "Nike",
+//         price: 72.99,
+//         sizes: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+//         image_url: "https://m.media-amazon.com/images/I/51yUmzHLKBL._AC_SY695_.jpg"
+//     }
+// ];

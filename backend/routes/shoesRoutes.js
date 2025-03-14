@@ -10,7 +10,7 @@ router.get('/shoes', async (req, res) => {
         // result.rows will be an array of shoe objects
         res.json(result.rows); 
     } catch (error) {
-        console.error('Errorfetching shoes:', error);
+        console.error('Error fetching shoes:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
@@ -24,7 +24,7 @@ router.get('/shoes/:id', async (req, res) => {
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Shoe not found' });
         }
-        res.json*(result.rows[0]);
+        res.json(result.rows[0]);
     } catch (error) {
         console.error('Error fetching she by ID:', error);
         res.status(500).json({ error: 'Internal server error' });
