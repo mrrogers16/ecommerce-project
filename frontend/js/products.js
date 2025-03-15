@@ -1,5 +1,7 @@
+//Temparary mock data for testing 
+
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("✅ products.js loaded!");
+    console.log("✅ Using mock data instead of API!");
 
     const productList = document.getElementById("product-list");
 
@@ -8,23 +10,31 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // Function to fetch products from backend
-    async function fetchShoes() {
-        try {
-            const response = await fetch("https://api.fly-feet.com/api/shoes");
-            const shoes = await response.json();
-
-            productList.innerHTML = `<div class="row g-4">${shoes.map(generateProductCard).join("")}</div>`;
-
-            console.log("Shoes Loaded from backend");
+    // Mock shoe data for testing (same structure as DB)
+    const shoes = [
+        {
+            id: 1,
+            name: "Chuck Taylor All Star",
+            brand: "Converse",
+            price: 65,
+            sizes: [6, 7, 8, 9, 10],
+            image_url: "https://m.media-amazon.com/images/I/514DUfoH7mL._AC_SX575_.jpg"
+        },
+        {
+            id: 2,
+            name: "Men's Running Shoe",
+            brand: "Nike",
+            price: 72.99,
+            sizes: [6, 7, 8, 9, 10, 11],
+            image_url: "https://m.media-amazon.com/images/I/51yUmzHLKBL._AC_SY695_.jpg"
         }
+    ];
 
-        catch (error) {
-            console.error("Error loading shoes", error);
-        }
-    }
+    // Render products dynamically
+    productList.innerHTML = `<div class="row g-4">${shoes.map(generateProductCard).join("")}</div>`;
 
-    // Function to generate product cards
+    console.log("✅ Mock Shoes Loaded");
+
     function generateProductCard(product) {
         return `
             <div class="col-md-4">
@@ -42,19 +52,17 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
     }
 
+
+
+
+
+
     // Insert product cards into the page
     //productList.innerHTML = `<div class="row g-4">${products.map(generateProductCard).join("")}</div>`;
-    //console.log("✅ Shoes loaded from hardcoded data!");
+    //console.log(" Shoes loaded from hardcoded data!");
 
-    fetchShoes();
+
 });
-
-
-
-
-
-
-
 
 
 // Hardcoded product data (Replace this with API data when backend is ready) --taken from the shoe.sql in the seed folder
