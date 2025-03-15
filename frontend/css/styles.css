@@ -39,7 +39,11 @@ nav ul li a {
     font-size: 18px;
     transition: color 0.3s ease-in-out; /* Smooth color transition */
 }
-
+nav ul li a.active {
+    font-weight: bold;
+    border-bottom: 2px solid #ff5733;
+    color: #9409ff !important; /* Can change color */
+}
 /* Hover effect for all navigation links */
 nav ul li a:hover {
     color: #ff5733; /* Light blue hover for all links */
