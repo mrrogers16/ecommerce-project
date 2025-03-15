@@ -16,6 +16,41 @@ aws s3 sync "$STAGING_DIR" "$S3_BUCKET" --delete || { echo "xxxx Error: S3 sync 
 
 echo "#### Deployment to S3 complete ####"
 
+##### ADD NEW PAGES AND THINGS LIKE THAT HERE
+##### Think of $S3_BUCKET/ as the frontend project root folder. All directories and files branch off of it.
+
+echo "#### Syncing index.html to S3 root ####"
+aws s3 cp "$STAGING_DIR/index.html" "$S3_BUCKET/index.html" || { echo "xxxx Error syncing index.html xxxx"; exit 1; }
+
+echo "#### Syncing JS folder to S3 ####"
+aws s3 sync "$STAGING_DIR/js" "$S3_BUCKET/js" --delete || { echo "xxxx Error syncing JS folder xxxx"; exit 1; }
+
+echo "#### Syncing CSS folder to S3 ####"
+aws s3 sync "$STAGING_DIR/css" "$S3_BUCKET/css" --delete || { echo "xxxx Error syncing CSS folder xxxx"; exit 1; }
+
+echo "#### Syncing Images folder to S3 ####"
+aws s3 sync "$STAGING_DIR/images" "$S3_BUCKET/images" --delete || { echo "xxxx Error syncing Images folder xxxx"; exit 1; }
+
+echo "#### Syncing Fonts folder to S3 ####"
+aws s3 sync "$STAGING_DIR/fonts" "$S3_BUCKET/fonts" --delete || { echo "xxxx Error syncing Fonts folder xxxx"; exit 1; }
+
+echo "#### Deployment to S3 complete ####"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Restart Nginx
 echo "#### Restarting Nginx... ####"
 sudo systemctl restart nginx || { echo "xxxx Error: Nginx restart failed"; exit 1; };

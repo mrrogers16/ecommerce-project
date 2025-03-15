@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const response = await fetch("https://api.fly-feet.com/api/shoes");
             const shoes = await response.json();
 
-            productList.innerHTML = `<div class="row g-4">${setHeapSnapshotNearHeapLimit.map(generateProductCard).join("")}</div>`;
+            productList.innerHTML = `<div class="row g-4">${shoes.map(generateProductCard).join("")}</div>`;
 
             console.log("Shoes Loaded from backend");
         }
