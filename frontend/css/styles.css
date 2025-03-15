@@ -1,11 +1,11 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+    background-color: #f8f9fa; 
+    font-family: "Poppins", sans-serif; 
     text-align: center;
-    background-color: #f4f4f4;
+    color: #333; 
 }
+
 
 /* Header */
 header {
@@ -94,8 +94,15 @@ nav ul li a:hover {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
-    width: 200px;
+    width: 250px; /* Make them slightly bigger */
+    transition: transform 0.3s ease-in-out;
 }
+
+/* Hover Effect to Match the Landing Page's "Shop Now" Button */
+.product:hover {
+    transform: scale(1.05);
+}
+
 
 .product img {
     width: 100%;
@@ -221,4 +228,41 @@ nav ul li a:hover {
 .hero .btn-warning:hover {
     transform: scale(1.1); /* Grows 10% bigger */
     background-color: #fee000; /* Darker red on hover */
+}
+/* for footer of landing page */
+.shoe-carousel {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    width: 100%;
+    background: #f8f9fa;
+    padding: 20px 0;
+}
+
+.shoe-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: scroll 8s linear infinite;
+}
+
+/* Hover Effect: Stop Scrolling */
+.shoe-carousel:hover .shoe-track {
+    animation-play-state: paused;
+}
+
+.shoe-track img {
+    width: 150px;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Scrolling Animation */
+@keyframes scroll {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
 }

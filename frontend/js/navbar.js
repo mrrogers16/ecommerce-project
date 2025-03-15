@@ -1,11 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Get current page URL path (e.g., "contact.html")
-    let currentPage = window.location.pathname.split("/").pop();
+    const navLinks = document.querySelectorAll("nav ul li a");
+    const currentPage = window.location.pathname.split("/").pop(); // Get current page name
 
-    // Find the matching navbar link and add "active" class
-    document.querySelectorAll("#navbar a").forEach(link => {
+    navLinks.forEach(link => {
         if (link.getAttribute("href") === currentPage) {
-            link.classList.add("active");
+            link.classList.add("active"); // Add active class only to the current page
+        } else {
+            link.classList.remove("active"); // Remove from others
         }
     });
 });
