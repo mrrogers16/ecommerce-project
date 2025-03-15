@@ -1,7 +1,7 @@
 /* General Styles */
 body {
     background-color: #f8f9fa; 
-    font-family: "Poppins", sans-serif; 
+    font-family: Arial, Helvetica, sans-serif; 
     text-align: center;
     color: #333; 
 }
@@ -265,4 +265,92 @@ nav ul li a:hover {
     to {
         transform: translateX(-100%);
     }
+}
+
+/* 🔹 for size Modal Background (Full-Screen Overlay) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 🔹 Hide the modal properly */
+.modal.hidden {
+    display: none !important;
+}
+
+/* 🔹 Modal Content (Small Centered Window) */
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    position: relative;
+}
+
+/* 🔹 Close Button */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #555;
+}
+
+.close:hover {
+    color: #000;
+}
+
+/* 🔹 Target only the size selection inside the modal */
+#sizeModal .size-options {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px; /* Adds spacing between buttons */
+    margin-bottom: 15px;
+}
+
+/* 🔹 Style the size buttons inside the modal */
+#sizeModal .size-btn {
+    padding: 12px 18px;
+    border: 2px solid #333;
+    background-color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px; /* Rounded corners */
+    transition: all 0.3s ease;
+}
+
+/* 🔹 Hover & Active State for Size Buttons */
+#sizeModal .size-btn:hover,
+#sizeModal .size-btn.active {
+    background-color: #ff5733;
+    color: white;
+    border: 2px solid #ff5733;
+    transform: scale(1.1);
+}
+
+/* 🔹 Add focus effect only inside the modal */
+#sizeModal .size-btn:focus {
+    outline: none;
+    box-shadow: 0px 0px 10px rgba(255, 87, 51, 0.5);
+}
+/* 🔹 Keep Selected Size Highlighted */
+#sizeModal .size-btn.active {
+    background-color: #ff5733 !important;
+    color: white !important;
+    border: 2px solid #ff5733 !important;
+    transform: scale(1.1);
 }
