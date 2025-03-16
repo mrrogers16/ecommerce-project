@@ -11,8 +11,8 @@ app.get('/', (req, res) => {
 
 app.use(express.json());
 
-const authRoutes = require('./routes/authRoutes');
-app.use('/auth', authRoutes);
+// const authRoutes = require('./routes/authRoutes');
+// app.use('/auth', authRoutes);
 
 const shoesRoutes = require('./routes/shoesRoutes');
 app.use('/api', shoesRoutes);
