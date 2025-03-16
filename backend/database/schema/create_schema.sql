@@ -23,6 +23,15 @@
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
 
+-- --Create discount tabble
+--CREATE TABLE discounts(
+--   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--   code VARCHAR(50) UNIQUE NOT NULL,
+--   discount_percent DECIMAL(5,2) NOT NULL,
+--   expiration_date TIMESTAMP NOT NULL,
+--   is_active BOOLEAN DEFAULT TRUE
+-- );
+
 
 
 -- Insert Sample Data Example (Moved to external files)
