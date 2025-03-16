@@ -9,6 +9,8 @@ git pull || { echo "xxxx Error: Git pull failed xxxx"; exit 1; }
 STAGING_DIR="/home/ubuntu/ecommerce-project/frontend"
 S3_BUCKET="s3://ecommerce-static-0130"
 
+
+
 # Sync files to S3
 ##### ADD NEW PAGES AND THINGS LIKE THAT HERE
 ##### Think of $S3_BUCKET/ and STAGING_DIR as the frontend project root folder. All directories and files branch off of it.
