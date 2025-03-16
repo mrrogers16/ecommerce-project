@@ -36,6 +36,7 @@ nav ul li {
 nav ul li a {
     color: white;
     text-decoration: none;
+    padding: 15px 20px;
     font-size: 18px;
     transition: color 0.3s ease-in-out; /* Smooth color transition */
 }
@@ -123,6 +124,7 @@ nav ul li a:hover {
     background: #1d7c33;
 }
 
+<<<<<<< HEAD
 /* 🔹 The container for the focus effect */
 .focus-container {
     position: relative;
@@ -354,3 +356,93 @@ nav ul li a:hover {
     border: 2px solid #ff5733 !important;
     transform: scale(1.1);
 }
+=======
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #f4f4f4;
+}
+
+/* Header */
+header {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+}
+
+header h1 a {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Use the same text color as the header */
+}
+
+header h1 a:hover {
+    color: #ff5733; /* Change color on hover (optional) */
+}
+
+/* Navbar Styling */
+#navbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    background-color: #333;
+}
+
+#navbar ul li {
+    margin: 0 15px;
+}
+
+#navbar ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 18px;
+}
+
+#navbar ul li a:hover {
+    background-color: #ff5733;
+    color: white;
+}
+
+
+.dropdown { /* for dropdown shop*/
+    position: relative;
+}
+
+.dropdown .dropdown-content { /* for dropdown shop*/
+    display: none; /* Hide the dropdown by default */
+    position: absolute;
+    background-color: #333;
+    min-width: 180px; /* Adjust the width of the dropdown */
+    z-index: 1;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dropdown .dropdown-content a { /* for dropdown shop*/
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown .dropdown-content a:hover { /* for dropdown shop*/
+    background-color: #ff5733;
+}
+
+/* shows dropdown when user hovers */
+.dropdown:hover .dropdown-content { 
+    display: block;
+}
+
+/* adds hover effect on shop when active */
+.dropdown:hover > .dropbtn {
+    background-color: #ff5733;
+    color: white;
+}
+
+>>>>>>> 96a3f8273aa775e06e03ab0b1dec06c5fd68e649

@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     
-    <!-- Custom Styles -->
+    <!-- Styles -->
     <link rel="stylesheet" href="../css/styles.css">   
     <link rel="stylesheet" href="../css/contact.css">
 </head>
@@ -17,6 +17,17 @@
     <nav id="navbar">
         <ul>
             <li><a href="home.html">Home</a></li>
+<<<<<<< HEAD
+=======
+            <li class="dropdown">
+                <a href="#" class="dropbtn">Shop</a>
+                <div class="dropdown-content">
+                  <a href="#">Men</a>
+                  <a href="#">Women</a>
+                  <a href="#">Kids</a>
+                </div>
+              </li>
+>>>>>>> 96a3f8273aa775e06e03ab0b1dec06c5fd68e649
             <li><a href="#">About</a></li>
             <li><a href="contact.html" class="active">Contact</a></li> 
             <li><a href="cart.html">Cart</a></li>
@@ -25,8 +36,8 @@
 </header>
 
 <body>
-    <p> Welcome to our contact page</p>
-    <div class = "contact-container">
+    <p> To contact us please fill out the form below:</p>
+    <div class="contact-container">
         <h2> Contact Us</h2>
         <form action="\submit_form" method="POST">
             <label for="name">Your Name:</label>
@@ -41,10 +52,47 @@
             <button type="submit">Send message</button>
         </form>
     </div>
- <!-- Bootstrap JS -->
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Nav bar active page-->
- <script src="js/navbar.js"></script>
 
+    <!-- Creators Section -->
+    <div class="creator-container">
+        <h2>Creators</h2>
+        <div class="creator-grid">
+            <div class="creator-box">
+                <img src="creator1.jpg" alt="Creator 1">
+                <p>Brandon Gallegos</p>
+                <a href="mailto:brandon.gallegos@my.utsa.edu">brandon.gallegos@my.utsa.edu</a>
+            </div>
+            <div class="creator-box">
+                <img src="creator2.jpg" alt="Creator 2">
+                <p>Odalys Chacon</p>
+                <a href="mailto:odalys.chacon@my.utsa.edu">odalys.chacon@my.utsa.edu</a>
+            </div>
+            <div class="creator-box">
+                <img src="creator3.jpg" alt="Creator 3">
+                <p>Sean Jauregui</p>
+                <a href="mailto:sean.jauregui@my.utsa.edu">sean.jauregui@my.utsa.edu</a>
+            </div>
+            <div class="creator-box">
+                <img src="creator4.jpg" alt="Creator 4">
+                <p>Mickey</p>
+                <a href="mailto:example@my.utsa.edu">need mickeys email</a>
+            </div>
+            <div class="creator-box">
+                <img src="creator5.jpg" alt="Creator 5">
+                <p>Ashley Adeniyi</p>
+                <a href="mailto:ashleu.adeniyi@my.utsa.edu">ashley.adeniyi@my.utsa.edu</a>
+            </div>
+            <div class="creator-box">
+                <img src="creator6.jpg" alt="Creator 6">
+                <p>Raul Chavez</p>
+                <a href="mailto:raul.chavez@my.utsa.edu">raul.chavez@my.utsa.edu</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Nav bar active page-->
+    <script src="js/navbar.js"></script>
 </body>
 </html>

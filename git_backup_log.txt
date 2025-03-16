@@ -1,0 +1,73 @@
+* 96a3f82 Add files via upload
+* b74e3f8 Delete frontend/static_pages/cart.js
+* 3071060 Add files via upload
+* f62db9d Added dropdown for shop, and creator content for contact page
+| * 099271e .
+| * eb771b8 added cart page
+| * ae28132 Minor changes just to get a feel of possible styling (font maybe want to change)
+| * 43ae2e0 made the index.html page a bit more interactive
+| * 6499e59 moved products to hoem page (aks our products page)
+|/  
+* f6e978c Added Navbar to each page
+* 5351f9a working
+*   dce5ce2 Merge branch 'main' of https://github.com/mrrogers16/ecommerce-project
+|\  
+| * 64fc6e5 Wrote contact part to contact page, added a contact css for organization
+* | 3d33354 working on api communication
+|/  
+* be18ac3 Added shesRoutes and api functions
+* 0e755a3 added .vscode/ to ignore. I dont want your theme
+* d5ad3df .
+* 1b192cf updated css styling & changed the produces to what is in the shoe.sql
+* 335d5ec Updated the landing page(index) as well as adding JS files, and updated the CSS.
+*   633bab1 Merge branch 'main' of https://github.com/mrrogers16/ecommerce-project
+|\  
+| * 412fe87 updating home page
+| * e35af60 First push for homepage
+| * 92cc2ca this is adding home page
+* | 76b84f0 created assets and css folder
+|/  
+* d9feccc Update update_shoes.sh
+* f708ff3 working on user auth/login
+* 239df96 Update README
+* 3923796 Update README
+* 89a19ba Update README
+* 579f9ce Update README
+* d71d420 Update README
+* b45a81a Update update_shoes.sh
+* 3d790ac Update update_shoes.sh
+* 1b69bcb Update update_shoes.sh
+* 9363fba Update update_shoes.sh
+* e2eb65c Update update_shoes.sh
+* 0b1cbd4 Update update_shoes.sh
+* d0e9118 Update app.js
+* 0e1d281 Update update_shoes.sh
+* a14d86f Update app.js
+* 08e8a6c Update app.js
+* 6629589 Update update_shoes.sh
+* 1f9c206 .
+* 1a87f9f Update update_shoes.sh
+* 337991e Update update_shoes.sh
+* cea0d14 Update update_shoes.sh
+*   99788f7 Merge branch 'main' of https://github.com/mrrogers16/ecommerce-project
+|\  
+| * e9ccaa4 chmod
+* | e15d4d8 .
+|/  
+* 6271996 .
+* 035453e working on frontend
+* 92f7329 Create update_shoes NOT FINISHED
+* 6d4ff22 database folder organization
+* b183378 .
+* f1924ba .
+* 2915c2b database changes
+* f282f5e test
+* 44bdfb0 .
+* 48b20e0 Create schema
+* 35847c0 .
+* 38432bd .
+* 3ff3d2c from aws test
+* cc2c19c .
+* 9ca30a8 .
+* 087d584 Initial commit testing
+* f046a33 Initial commit
