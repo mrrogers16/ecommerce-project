@@ -1,6 +1,4 @@
 require('dotenv').config();
-
-require('dotenv').config();
 console.log('DEBUG ENV:', {
     DB_HOST: process.env.DB_HOST,
     DB_USER: process.env.DB_USER,
