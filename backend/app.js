@@ -23,7 +23,7 @@ app.use(express.json());
 // const authRoutes = require('./routes/authRoutes');
 // app.use('/auth', authRoutes);
 
-const shoesRoutes = require('./backend/routes/shoesRoutes');
+const shoesRoutes = require('./routes/shoesRoutes');
 app.use('/api', shoesRoutes);
 
 // Start Server
