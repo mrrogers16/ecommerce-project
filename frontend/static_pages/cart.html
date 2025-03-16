@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    
+
     <!-- Custom Styles -->
     <link rel="stylesheet" href="../css/styles.css">
 </head>
@@ -17,10 +17,17 @@
     <h1><a href="index.html">Welcome to Fly Feet!</a></h1>
     <nav id="navbar">
         <ul>
-            <li><a href="shop.html">Home</a></li>
+            <li class="dropdown">
+                <a href="shop.html" class="dropbtn">Shop ▼</a>
+                <div class="dropdown-content">
+                    <a href="shop.html?category=mens">Men's Shoes</a>
+                    <a href="shop.html?category=womens">Women's Shoes</a>
+                    <a href="shop.html?category=kids">Kids' Shoes</a>
+                </div>
+            </li>
             <li><a href="#">About</a></li>
             <li><a href="contact.html">Contact</a></li>
-            <li><a href="cart.html" class="active">Cart</a></li>
+            <li><a href="cart.html">Cart</a></li>
         </ul>
     </nav>
 </header>
@@ -28,12 +35,15 @@
 <!-- Cart Section -->
 <section class="cart py-5">
     <div class="container">
-        <h2 class="text-center mb-4">Your Cart</h2>
+        <h2 class="text-center mb-4">Your Shopping Cart</h2>
+
         <div id="cart-items" class="row">
-            <!-- JavaScript will dynamically insert cart items here -->
+            <!-- JavaScript will dynamically load cart items here -->
         </div>
-        <h3 class="text-center mt-4">Total: $<span id="cart-total">0.00</span></h3>
-        <div class="text-center">
+
+        <!-- Cart Total -->
+        <div class="text-center mt-4">
+            <h4>Total: $<span id="cart-total">0.00</span></h4>
             <button id="clearCart" class="btn btn-danger mt-3">Clear Cart</button>
         </div>
     </div>
@@ -44,7 +54,7 @@
 
 <!-- JavaScript Files -->
 <script src="../js/navbar.js"></script> <!-- Navbar Active Page -->
-<script src="../js/cart.js"></script> <!-- Loads cart items -->
+<script src="../js/cart.js"></script> <!-- Handles Cart Display & Functionality -->
 
 </body>
 </html>
