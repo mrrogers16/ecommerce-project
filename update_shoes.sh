@@ -6,7 +6,7 @@ echo "#### Pulling latest changes from Git... ####"
 git pull || { echo "xxxx Error: Git pull failed xxxx"; exit 1; }
 
 # Path definitions
-STAGING_DIR="/home/ubuntu/ecommerce-project/frontend/"
+STAGING_DIR="/home/ubuntu/ecommerce-project/frontend"
 S3_BUCKET="s3://ecommerce-static-0130"
 
 # Sync files to S3
@@ -17,16 +17,16 @@ echo "#### Syncing index.html to S3 root ####"
 aws s3 cp "$STAGING_DIR/static_pages/index.html" "$S3_BUCKET/index.html" || { echo "xxxx Error syncing index.html xxxx"; exit 1; }
 
 echo "#### Syncing JS folder to S3 ####"
-aws s3 sync "$STAGING_DIR/static_pages/js" "$S3_BUCKET/js" --delete || { echo "xxxx Error syncing JS folder xxxx"; exit 1; }
+aws s3 sync "$STAGING_DIR/js" "$S3_BUCKET/js" --delete || { echo "xxxx Error syncing JS folder xxxx"; exit 1; }
 
 echo "#### Syncing CSS folder to S3 ####"
-aws s3 sync "$STAGING_DIR/static_pages/css" "$S3_BUCKET/css" --delete || { echo "xxxx Error syncing CSS folder xxxx"; exit 1; }
+aws s3 sync "$STAGING_DIR/css" "$S3_BUCKET/css" --delete || { echo "xxxx Error syncing CSS folder xxxx"; exit 1; }
 
 echo "#### Syncing Images folder to S3 ####"
-aws s3 sync "$STAGING_DIR/static_pages/images" "$S3_BUCKET/images" --delete || { echo "xxxx Error syncing Images folder xxxx"; exit 1; }
+aws s3 sync "$STAGING_DIR/images" "$S3_BUCKET/images" --delete || { echo "xxxx Error syncing Images folder xxxx"; exit 1; }
 
 echo "#### Syncing Fonts folder to S3 ####"
-aws s3 sync "$STAGING_DIR/static_pages/fonts" "$S3_BUCKET/fonts" --delete || { echo "xxxx Error syncing Fonts folder xxxx"; exit 1; }
+aws s3 sync "$STAGING_DIR/fonts" "$S3_BUCKET/fonts" --delete || { echo "xxxx Error syncing Fonts folder xxxx"; exit 1; }
 
 echo "#### Deployment to S3 complete ####"
 
