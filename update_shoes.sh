@@ -21,6 +21,9 @@ aws s3 cp "$STAGING_DIR/index.html" "$S3_BUCKET/index.html" || { echo "xxxx Erro
 echo "#### Syncing JS folder to S3 ####"
 aws s3 sync "$STAGING_DIR/js" "$S3_BUCKET/js" --delete || { echo "xxxx Error syncing JS folder xxxx"; exit 1; }
 
+echo "#### Syncing Routes folder to S3 ####"
+aws s3 sync "$STAGING_DIR/../backend/routes" "$S3_BUCKET/routes" --delete || { echo "xxxx Error syncing JS folder xxxx"; exit 1; }
+
 echo "#### Syncing CSS folder to S3 ####"
 aws s3 sync "$STAGING_DIR/css" "$S3_BUCKET/css" --delete || { echo "xxxx Error syncing CSS folder xxxx"; exit 1; }
 
