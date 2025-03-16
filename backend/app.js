@@ -7,7 +7,7 @@ console.log('DEBUG ENV:', {
     DB_PORT: process.env.DB_PORT
 });
 
-const { Pool } = require('pg');
+//const { Pool } = require('pg');
 
 const express = require('express');
 const app = express();
