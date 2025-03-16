@@ -10,14 +10,8 @@ STAGING_DIR="/home/ubuntu/ecommerce-project/frontend/"
 S3_BUCKET="s3://ecommerce-static-0130"
 
 # Sync files to S3
-# As of now, the entire ecommerce-project directory is copied to the S3 bucket. May change to individual folders in the future.
-echo "#### Syncing files to S3... ####"
-aws s3 sync "$STAGING_DIR" "$S3_BUCKET" --delete || { echo "xxxx Error: S3 sync failed xxxx"; exit 1; }
-
-echo "#### Deployment to S3 complete ####"
-
 ##### ADD NEW PAGES AND THINGS LIKE THAT HERE
-##### Think of $S3_BUCKET/ as the frontend project root folder. All directories and files branch off of it.
+##### Think of $S3_BUCKET/ and STAGING_DIR as the frontend project root folder. All directories and files branch off of it.
 
 echo "#### Syncing index.html to S3 root ####"
 aws s3 cp "$STAGING_DIR/static_pages/index.html" "$S3_BUCKET/index.html" || { echo "xxxx Error syncing index.html xxxx"; exit 1; }
