@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
             brand: "Converse",
             price: 65,
             sizes: [6, 7, 8, 9, 10],
-            image: "https://m.media-amazon.com/images/I/514DUfoH7mL._AC_SX575_.jpg"
+            image_url: "https://m.media-amazon.com/images/I/514DUfoH7mL._AC_SX575_.jpg"
         },
         {
             id: 2,
@@ -24,9 +24,16 @@ document.addEventListener("DOMContentLoaded", () => {
             brand: "Nike",
             price: 72.99,
             sizes: [6, 7, 8, 9, 10, 11],
-            image: "https://m.media-amazon.com/images/I/51yUmzHLKBL._AC_SY695_.jpg"
+            image_url: "https://m.media-amazon.com/images/I/51yUmzHLKBL._AC_SY695_.jpg"
         }
     ];
+
+    // EXAMPLE on how to fetch data from api
+    // fetch("https://fly-feet.com/api/shoes")
+    //     .then(response => response.json())
+    //     .then(shoes => {
+    //         // render product cards here
+    //     });
 
     productList.innerHTML = `<div class="row g-4">${shoes.map(generateProductCard).join("")}</div>`;
 
