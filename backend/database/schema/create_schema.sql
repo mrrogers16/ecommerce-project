@@ -23,7 +23,7 @@
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
 
--- --Create discount tabble
+-- --Create discount table
 --CREATE TABLE discounts(
 --   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 --   code VARCHAR(50) UNIQUE NOT NULL,
@@ -32,15 +32,38 @@
 --   is_active BOOLEAN DEFAULT TRUE
 -- );
 
+-- Create carts table
+-- CREATE TABLE carts ( 
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     customer_id UUID REFERENCES customers(id) ON DELETE CASCADE,
+--     created_at TIMESTAMP DEFAULT NOW(),
+--     updated_at TIMESTAMP DECIMAL NOW()
+-- );
 
+-- CREATE TABLE cart_items (
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     cart_id UUID REFERENCES carts(id) ON DELETE CASCADE,
+--     shoe_id UUID REFERENCES shoes(id),
+--     quantity INT CHECK (quantity > 0),
+--     created_at TIMESTAMP DEFAULT NOW()
+-- );
 
--- Insert Sample Data Example (Moved to external files)
--- 
--- INSERT INTO customers (first_name, last_name, email, password_hash, phone, address)
--- VALUES ('John', 'Doe', 'john@example.com', 'hashed_password_here', '123-456-7890', '123 Main St, NY');
+-- CREATE TABLE orders (
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     customer_id UUID REFERENCES customers(id) ON DELETE CASCADE,
+--     total_price DECIMAL(10,2) NOT NULL,
+--     status VARCHAR(20) DEFAULT 'pending',
+--     created_at TIMESTAMP DEFAULT NOW()
+-- );
 
--- INSERT INTO shoes (name, brand, price, stock, sizes, image_url)
--- VALUES ('Air Jordan 1', 'Nike', 199.99, 50, ARRAY[7,8,9,10,11], 'https://example.com/airjordan1.jpg');
+-- CREATE TABLE order_items (
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
+--     shoe_id UUID REFERENCES shoes(id),
+--     quantity INT CHECK (quantity > 0),
+--     price DECIMAL(10,2) NOT NULL,  -- store the price at the time of purchase
+--     created_at TIMESTAMP DEFAULT NOW()
+-- );
 
 
 
