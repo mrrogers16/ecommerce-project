@@ -11,7 +11,6 @@ console.log('DEBUG ENV:', {
 
 const express = require('express');
 const app = express();
-
 const homePage = "http://ecommerce-static-0130.s3-website.us-east-2.amazonaws.com"
 
 app.get('/', (req, res) => {
@@ -25,6 +24,9 @@ app.use(express.json());
 
 const shoesRoutes = require('./backend/routes/shoesRoutes');
 app.use('/api', shoesRoutes);
+
+const customersRoutes = require('./backend/routes/customersRoutes');
+app.use('/api', customersRoutes);
 
 // Start Server
 
@@ -42,4 +44,3 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-//tt
