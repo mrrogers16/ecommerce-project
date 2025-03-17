@@ -6,9 +6,46 @@ const pool = require('../config/dbConfig');
 // GET /api/shoes - Return all shoes from DB
 router.get('/shoes', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM shoes');
-        // result.rows will be an array of shoe objects
+
+        const { brand, size, priceMin, priceMax } = req.query;
+
+        //Base query
+        let query = 'SELECT * FROM shoes';
+        const conditions = [];
+        const values = [];
+
+        if (brand) {
+            values.push(brand);
+            conditions.push(`brand ILIKE $$({values.length}`); // Case insensitive
+        }
+
+        if (size) {
+            values.push(size);
+            conditions.push(`$$({values.length} = ANY (sizes)`);
+        }
+
+        if (priceMin) {
+            values.push(priceMin);
+            conditions.push(`price >= $$({values.length}`); // Case insensitive
+        }
+
+        if (priceMax) {
+            values.push(priceMax);
+            conditions.push(`price <= $$({values.length}`); // Case insensitive
+        }
+
+        // Combine conditions
+        if (conditions.length > 0) {
+            query += ' WHERE ' + conditions.join(' AND ');
+        }
+
+        console.log('Executing query:', query, values);
+
+        // Run it
+        const result = await pool.query(query, values);
+
         res.json(result.rows);
+
     } catch (error) {
         console.error('Error fetching shoes:', error);
         res.status(500).json({ error: 'Internal server error - /shoes' });
