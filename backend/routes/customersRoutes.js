@@ -54,15 +54,14 @@ router.post('/customers/login', async (req, res) => {
             [email]
         );
 
-        if (user.rows.length === 0)
-        {
+        if (user.rows.length === 0) {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
 
         const customer = user.rows[0];
 
         const validPassword = await bcrypt.compare(password, customer.password_hash);
-        if(!validPassword) {
+        if (!validPassword) {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
 
