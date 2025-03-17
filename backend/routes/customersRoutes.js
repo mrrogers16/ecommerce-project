@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 //COME BACK HERE LATER
 //COME BACK HERE LATER
 // COME BACK HERE LATERRRRR
-const JWT_SECRET = process.eng.JWT_SECRET;
+const JWT_SECRET = 'supersecretkey';
 // COME BACK HERE LATERRRRR
 //COME BACK HERE LATER
 //COME BACK HERE LATER
