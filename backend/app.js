@@ -35,6 +35,9 @@ app.use('/api', shoesRoutes);
 const customersRoutes = require('./backend/routes/customersRoutes');
 app.use('/api', customersRoutes);
 
+const cartRoutes = require('./backend/routes/cartRoutes');
+app.use('/api', cartRoutes);
+
 // Start Server
 
 const port = process.env.PORT || 3000;
