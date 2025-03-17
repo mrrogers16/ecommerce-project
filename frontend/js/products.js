@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let selectedProduct = null;
 
     // Fetch products from the live API instead of using hardcoded data
-    fetch("https://fly-feet.com/api/shoes") /*fetch("http://localhost:3000/api/shoes")*/  //This sends a request which is your backend API.
+    fetch("https://fly-feet.com/api/shoes") /*fetch("http://localhost:3000/api/shoes") */ //This sends a request which is your backend API.
               // Convert response to JSON                                               //🔹 The backend returns a JSON response containing all the shoes from the database.
         .then(response => response.json())
         .then(shoes => {
