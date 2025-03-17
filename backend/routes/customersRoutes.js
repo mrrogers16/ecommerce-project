@@ -30,8 +30,8 @@ router.post('/customers', async (req, res) => {
         // Insert the new customer
         const result = await pool.query(
             `INSERT INTO customers (first_name, last_name, email, password_hash, phone, address)
-        VALUES ($1, $2, $3, $4, $5, 6$)
-        RETURNING id, first_name, last_name, email, phone, address`,
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING id, first_name, last_name, email, phone, address`,
             [first_name, last_name, email, hashedPassword, phone, address]
         );
 
