@@ -1,4 +1,6 @@
 require('dotenv').config();
+
+// Remove console.log when finished
 console.log('DEBUG ENV:', {
     DB_HOST: process.env.DB_HOST,
     DB_USER: process.env.DB_USER,
@@ -8,20 +10,24 @@ console.log('DEBUG ENV:', {
     JWT_SECRET: process.env.JWT_SECRET
 });
 
-//const { Pool } = require('pg');
-
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const homePage = "http://ecommerce-static-0130.s3-website.us-east-2.amazonaws.com"
 
-app.get('/', (req, res) => {
-    res.redirect(homePage);
-});
+// Middleware always goes first
+app.use(cors({
+    origin: ['https://fly-feet.com', 'https://www.fly-feet.com'], //Frontend Domains
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.use(express.json());
 
-// const authRoutes = require('./routes/authRoutes');
-// app.use('/auth', authRoutes);
+// Routes
+app.get('/', (req, res) => {
+    res.redirect(homePage);
+});
 
 const shoesRoutes = require('./backend/routes/shoesRoutes');
 app.use('/api', shoesRoutes);
@@ -37,11 +43,5 @@ app.listen(port, () => {
     console.log(`Server listening on http://localhost:${port}`);
 });
 
-const cors = require('cors');
 
-app.use(cors({
-    origin: ['https://fly-feet.com', 'https://www.fly-feet.com'], //Frontend Domains
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
 
