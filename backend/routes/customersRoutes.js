@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 //COME BACK HERE LATER
 //COME BACK HERE LATER
 // COME BACK HERE LATERRRRR
-const JWT_SECRET = 'supersecretkey'; // Replace this and put it in .env for production 
+const JWT_SECRET = process.eng.JWT_SECRET;
 // COME BACK HERE LATERRRRR
 //COME BACK HERE LATER
 //COME BACK HERE LATER
@@ -40,6 +40,10 @@ router.post('/customers', async (req, res) => {
         console.error('Error registering customers:', error);
         res.status(500).json({ error: 'Internal server error - register' });
     }
+});
+
+router.get('/test', (req, res) => {
+    res.json({ message: 'Customers route is working!' });
 });
 
 // Login customer
