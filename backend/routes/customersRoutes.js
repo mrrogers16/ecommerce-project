@@ -82,5 +82,36 @@ router.post('/customers/login', async (req, res) => {
         res.status(500).json({ error: 'Internal server error - login' });
     }
 });
-console.log('JWT_SECRET', JWT_SECRET);
+
+const authenticateToken = require('../middleware/authenticateToken');
+
+// Get customer profile by ID (protected route)
+router.get('/customers/:id', authenticateToken, async (req, res) => {
+    const customerId = req.params.id;
+
+    try {
+        // Ensure user can only acces their own profile
+        if (req.user.id !== customerId)
+        {
+            return res.status(403).json({ error: 'Access denied.' });
+        }
+
+        const result = await pool.query(
+            'SELECT id, first_name, last_name, email, phone, address FROM customers WHERE id = $1',
+            [customerId]
+        );
+
+        if (result.rows.length === 0)
+        {
+            return res.status(404).json({ error: 'Customer not found' });
+        }
+
+        res.json(result.rows[0]);
+
+    } catch (error) {
+        console.error('Error fetching customer profile:', error);
+        res.status(500).json({ error: 'Internal server error - profile' });
+    }
+});
+
 module.exports = router;
