@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 //COME BACK HERE LATER
 //COME BACK HERE LATER
 // COME BACK HERE LATERRRRR
-const JWT_SECRET = 'supersecretkey';
+const JWT_SECRET = process.env.JWT_SECRET || 'default-fallback-secret';
 // COME BACK HERE LATERRRRR
 //COME BACK HERE LATER
 //COME BACK HERE LATER
@@ -82,5 +82,5 @@ router.post('/customers/login', async (req, res) => {
         res.status(500).json({ error: 'Internal server error - login' });
     }
 });
-
+console.log('JWT_SECRET', JWT_SECRET);
 module.exports = router;
