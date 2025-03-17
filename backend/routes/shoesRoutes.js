@@ -16,22 +16,22 @@ router.get('/shoes', async (req, res) => {
 
         if (brand) {
             values.push(brand);
-            conditions.push(`brand ILIKE $$({values.length}`); // Case insensitive
+            conditions.push(`brand ILIKE $${values.length}`); // Case insensitive
         }
 
         if (size) {
             values.push(size);
-            conditions.push(`$$({values.length} = ANY (sizes)`);
+            conditions.push(`$${values.length} = ANY (sizes)`);
         }
 
         if (priceMin) {
             values.push(priceMin);
-            conditions.push(`price >= $$({values.length}`); // Case insensitive
+            conditions.push(`price >= $${values.length}`);
         }
 
         if (priceMax) {
             values.push(priceMax);
-            conditions.push(`price <= $$({values.length}`); // Case insensitive
+            conditions.push(`price <= $${values.length}`);
         }
 
         // Combine conditions
