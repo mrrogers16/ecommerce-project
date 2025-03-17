@@ -3,13 +3,9 @@ const router = express.Router();
 const pool = require('../config/dbConfig');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-//COME BACK HERE LATER
-//COME BACK HERE LATER
-// COME BACK HERE LATERRRRR
+
 const JWT_SECRET = process.env.JWT_SECRET || 'default-fallback-secret';
-// COME BACK HERE LATERRRRR
-//COME BACK HERE LATER
-//COME BACK HERE LATER
+
 
 // Register a new customer
 router.post('/customers', async (req, res) => {
@@ -154,15 +150,15 @@ router.delete('/customers/:id', authenticateToken, async (req, res) => {
         }
 
         const result = await pool.query(
-            'DELETEW FROM customers WHERE id = $1 RETURNING id, first_name, last_name, email',
+            'DELETE FROM customers WHERE id = $1 RETURNING id, first_name, last_name, email',
             [customerId]
         );
 
         if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Customer not found ' });
+            return res.status(404).json({ error: 'Customer not found' });
         }
 
-        res.json({ message: 'Accound successfully deleted', customer: result.rows[0] });
+        res.json({ message: 'Account successfully deleted', customer: result.rows[0] });
     } catch (error) {
         console.error('Error deleting customer:', error);
         res.status(500).json({ error: 'Internal server error - delete profile' });
