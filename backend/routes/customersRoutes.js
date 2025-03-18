@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'default-fallback-secret';
 
+const authenticateToken = require('../middleware/authenticateToken');
+
 
 // Register a new customer
 router.post('/customers', async (req, res) => {
@@ -42,8 +44,13 @@ router.get('/test', (req, res) => {
     res.json({ message: 'Customers route is working!' });
 });
 
-// Login customer
 
+
+
+
+
+
+// Login customer
 router.post('/customers/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -67,7 +74,7 @@ router.post('/customers/login', async (req, res) => {
 
         // Generate JWT
         const token = jwt.sign(
-            { id: customer.id, email: customer.email },
+            { id: customer.id, email: customer.email, role: customer.role },
             JWT_SECRET,
             { expiresIn: '1h' }
         );
@@ -79,7 +86,11 @@ router.post('/customers/login', async (req, res) => {
     }
 });
 
-const authenticateToken = require('../middleware/authenticateToken');
+
+
+
+
+
 
 // Get customer profile by ID (protected route)
 router.get('/customers/:id', authenticateToken, async (req, res) => {

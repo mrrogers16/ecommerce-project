@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../config/dbConfig');
 const authenticateToken = require('../middleware/authenticateToken');
-//const authenticateAdmin = require('../middleware/authenticateAdmin'); // For admin-only later
+const authenticateAdmin = require('../middleware/authorizeRole'); // For admin-only later
+const authorizeRole = require('../middleware/authorizeRole');
 
 
 
 // Get all active discount codes (For administrators) sorted by creation date
-router.get('/discount_codes', authenticateToken, async (req, res) => {
+router.get('/discount_codes', authenticateToken, authorizeRole('admin'), async (req, res) => {
     try {
         const discounts = await pool.query(
             `SELECT * FROM discount_codes
@@ -23,7 +24,7 @@ router.get('/discount_codes', authenticateToken, async (req, res) => {
 
 
 // Create a new discount code (admin only later)
-router.post('/discount_codes', authenticateToken, async (req, res) => {
+router.post('/discount_codes', authenticateToken, authorizeRole('admin'), async (req, res) => {
     const { code, discount_type, discount_value, min_order_total, expires_at, usage_limit } = req.body;
 
     if (!code || !discount_type || !discount_value) {
@@ -45,7 +46,7 @@ router.post('/discount_codes', authenticateToken, async (req, res) => {
 });
 
 // Update discount code
-router.put('/discount_codes/:id', authenticateToken, async (req, res) => {
+router.put('/discount_codes/:id', authenticateToken, authorizeRole('admin'), async (req, res) => {
     const discountId = req.params.id;
     const { code, discount_type, discount_value, min_order_total, expires_at, usage_limit, active } = req.body;
 
@@ -86,7 +87,7 @@ router.put('/discount_codes/:id', authenticateToken, async (req, res) => {
 });
 
 // Delete discount code
-router.delete('/discount_codes/:id', authenticateToken, async (req, res) => {
+router.delete('/discount_codes/:id', authenticateToken, authorizeRole('admin'), async (req, res) => {
     const discountId = req.params.id;
 
     try {
