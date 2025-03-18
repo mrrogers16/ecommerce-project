@@ -167,42 +167,6 @@ router.get('/orders', authenticateToken, async (req, res) => {
         res.status(500).json({ error: 'Internal server error - fetch orders' });
     }
 });
-
-// Get user order details - (Public)
-router.get('/orders/:order_id', authenticateToken, async (req, res) => {
-    const customerId = req.user.id;
-    const orderId = req.params.order_id;
-
-    try {
-        const order = await pool.query(
-            `SELECT * FROM orders
-             WHERE id = $1 AND customer_id = $2`,
-            [orderId, customerId]
-        );
-
-        if (order.rows.length === 0) {
-            return res.status(404).json({ error: 'Order not found.' });
-        }
-
-        const orderItems = await pool.query(
-            `SELECT oi.*, s.name, s.brand, s.image_url
-             FROM order_items oi
-             JOIN shoes s ON oi.shoe_id = s.id
-             WHERE oi.order_id = $1`,
-            [orderId]
-        );
-
-        res.json({
-            order: order.rows[0],
-            items: orderItems.rows
-        });
-
-    } catch (error) {
-        console.error('Error fetching order details:', error);
-        res.status(500).json({ error: 'Internal server error - order details' });
-    }
-});
-
 // Get all orders (Admin only)
 router.get('/orders/all', authenticateToken, authorizeRole('admin'), async (req, res) => {
     try {
@@ -257,6 +221,41 @@ router.get('/orders/all', authenticateToken, authorizeRole('admin'), async (req,
     } catch (error) {
         console.error('Error fetching sorted/filtered orders (admin):', error);
         res.status(500).json({ error: 'Internal server error - fetch sorted/filtered orders' });
+    }
+});
+
+// Get user order details - (Public)
+router.get('/orders/:order_id', authenticateToken, async (req, res) => {
+    const customerId = req.user.id;
+    const orderId = req.params.order_id;
+
+    try {
+        const order = await pool.query(
+            `SELECT * FROM orders
+             WHERE id = $1 AND customer_id = $2`,
+            [orderId, customerId]
+        );
+
+        if (order.rows.length === 0) {
+            return res.status(404).json({ error: 'Order not found.' });
+        }
+
+        const orderItems = await pool.query(
+            `SELECT oi.*, s.name, s.brand, s.image_url
+             FROM order_items oi
+             JOIN shoes s ON oi.shoe_id = s.id
+             WHERE oi.order_id = $1`,
+            [orderId]
+        );
+
+        res.json({
+            order: order.rows[0],
+            items: orderItems.rows
+        });
+
+    } catch (error) {
+        console.error('Error fetching order details:', error);
+        res.status(500).json({ error: 'Internal server error - order details' });
     }
 });
 
