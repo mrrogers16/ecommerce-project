@@ -17,7 +17,7 @@ const homePage = "http://ecommerce-static-0130.s3-website.us-east-2.amazonaws.co
 
 // Middleware always goes first
 app.use(cors({
-    origin: ['https://fly-feet.com', 'https://www.fly-feet.com', 'http://127.0.0.1:5500'], //Frontend Domains
+    origin: ['https://fly-feet.com', 'https://www.fly-feet.com', 'http://127.0.0.1:5500'], //Frontend Domains -- Remove 127.0.0.1 string later
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -37,6 +37,9 @@ app.use('/api', customersRoutes);
 
 const cartRoutes = require('./backend/routes/cartRoutes');
 app.use('/api', cartRoutes);
+
+const orderRoutes = require('./backend/routes/orderRoutes');
+app.use('/api', orderRoutes);
 
 // Start Server
 
