@@ -7,9 +7,11 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'default-fallback-secret';
 
 const authenticateToken = require('../middleware/authenticateToken');
+const authorizeRole = require('../middleware/authorizeRole');
 
 
-// Register a new customer
+
+// Register a new customer (Public)
 router.post('/customers', async (req, res) => {
     const { first_name, last_name, email, password, phone, address } = req.body;
 
@@ -44,13 +46,7 @@ router.get('/test', (req, res) => {
     res.json({ message: 'Customers route is working!' });
 });
 
-
-
-
-
-
-
-// Login customer
+// Login customer (Public)
 router.post('/customers/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -86,13 +82,7 @@ router.post('/customers/login', async (req, res) => {
     }
 });
 
-
-
-
-
-
-
-// Get customer profile by ID (protected route)
+// Get customer profile by ID (Authenticated user)
 router.get('/customers/:id', authenticateToken, async (req, res) => {
     const customerId = req.params.id;
 
@@ -119,6 +109,7 @@ router.get('/customers/:id', authenticateToken, async (req, res) => {
     }
 });
 
+// Update own profile - (Authenticated user)
 router.put('/customers/:id', authenticateToken, async (req, res) => {
     const customerId = req.params.id;
     const { first_name, last_name, phone, address } = req.body;
@@ -151,6 +142,7 @@ router.put('/customers/:id', authenticateToken, async (req, res) => {
     }
 });
 
+// Delete own profile - (Authenticated user)
 router.delete('/customers/:id', authenticateToken, async (req, res) => {
     const customerId = req.params.id;
 
@@ -173,6 +165,43 @@ router.delete('/customers/:id', authenticateToken, async (req, res) => {
     } catch (error) {
         console.error('Error deleting customer:', error);
         res.status(500).json({ error: 'Internal server error - delete profile' });
+    }
+});
+
+// Get all customers - (Admin only)
+router.get('/customers', authenticateToken, authorizeRole('admin'), async (req, res) => {
+    try {
+        const result = await pool.query(
+            'SELECT id, first_name, last_name, email, phone, address, role, created_at FROM customers ORDER BY created_at DESC'
+        );
+
+        res.json(result.rows);
+    }
+    catch (error) {
+        console.error('Error fetching customers:', error);
+        res.status(500).json({ error: 'Internal server error - get all customers' });
+    }
+});
+
+// Delete any customer
+router.delete('/admin/customers/:id', authenticateToken, authorizeRole('admin'), async (req, res) => {
+    const customerId = req.params.id;
+
+    try {
+        const result = await pool.query(
+            'DELETE FROM customers WHERE id = $1 RETURNING id, email',
+            [customerId]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Customer not found' });
+        }
+
+        res.json({ message: 'Customer deleted (admin)', customer: result.rows[0] });
+    }
+    catch (error) {
+        console.error('Error deleting customer (admin):', error);
+        res.status(500).json({ error: 'Internal server error - admin delete customer' });
     }
 });
 

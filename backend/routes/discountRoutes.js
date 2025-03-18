@@ -2,12 +2,9 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../config/dbConfig');
 const authenticateToken = require('../middleware/authenticateToken');
-const authenticateAdmin = require('../middleware/authorizeRole'); // For admin-only later
 const authorizeRole = require('../middleware/authorizeRole');
 
-
-
-// Get all active discount codes (For administrators) sorted by creation date
+// Get all active discount codes sorted by creation date - (Admin only)
 router.get('/discount_codes', authenticateToken, authorizeRole('admin'), async (req, res) => {
     try {
         const discounts = await pool.query(
@@ -23,7 +20,7 @@ router.get('/discount_codes', authenticateToken, authorizeRole('admin'), async (
 
 
 
-// Create a new discount code (admin only later)
+// Create a new discount code - (Admin only)
 router.post('/discount_codes', authenticateToken, authorizeRole('admin'), async (req, res) => {
     const { code, discount_type, discount_value, min_order_total, expires_at, usage_limit } = req.body;
 
@@ -45,7 +42,7 @@ router.post('/discount_codes', authenticateToken, authorizeRole('admin'), async 
     }
 });
 
-// Update discount code
+// Update discount code - (Admin only)
 router.put('/discount_codes/:id', authenticateToken, authorizeRole('admin'), async (req, res) => {
     const discountId = req.params.id;
     const { code, discount_type, discount_value, min_order_total, expires_at, usage_limit, active } = req.body;
@@ -86,7 +83,7 @@ router.put('/discount_codes/:id', authenticateToken, authorizeRole('admin'), asy
     }
 });
 
-// Delete discount code
+// Delete discount code - (Admin only)
 router.delete('/discount_codes/:id', authenticateToken, authorizeRole('admin'), async (req, res) => {
     const discountId = req.params.id;
 
@@ -109,7 +106,7 @@ router.delete('/discount_codes/:id', authenticateToken, authorizeRole('admin'), 
 });
 
 
-// Validate discount code for checkout
+// Validate discount code for checkout (Public)
 router.post('/discount_codes/validate', async (req, res) => {
     const { code, cartTotal } = req.body;
 
@@ -118,7 +115,8 @@ router.post('/discount_codes/validate', async (req, res) => {
             `SELECT * FROM discount_codes
              WHERE code = $1
              AND active = true
-             AND (expires_at IS NULL OR expires_at > NOW())`,
+             AND (expires_at IS NULL OR expires_at > NOW())
+             AND (usage_limit = 0 OR times_used < usage_limit)`,
             [code]
         );
 

@@ -3,10 +3,13 @@ const router = express.Router();
 const pool = require('../config/dbConfig');
 const authenticateToken = require('../middleware/authenticateToken');
 
+// Create order from cart - (Public)
 router.post('/orders', authenticateToken, async (req, res) => {
     const customerId = req.user.id;
+    const { discount_code } = req.body;
 
     try {
+        // Grab the customers cart
         const cart = await pool.query(
             'SELECT * FROM carts WHERE customer_id = $1',
             [customerId]
@@ -30,20 +33,67 @@ router.post('/orders', authenticateToken, async (req, res) => {
             return res.status(400).json({ error: 'Cart is empty.' });
         }
 
+        // Calculate totalPrice for order
         let totalPrice = 0;
         cartItems.rows.forEach(item => {
             totalPrice += item.price * item.quantity;
         });
 
+        let discount = null;
+
+        if (discount_code) {
+            const discountResult = await pool.query(
+                `SELECT * FROM discount_codes
+                WHERE code = $1
+                AND active = true
+                AND (expires_at IS NULL OR expires_at > NOW())
+                AND (usage_limit = 0 OR times_used < usage_limit)`,
+                [discount_code]
+            );
+
+            if (discountResult.rows.length === 0) {
+                return res.status(400).json({ error: 'Invalid or expired discount code' });
+            }
+
+            discount = discountResult.rows[0];
+
+            // Minimum order enforcment
+            if (totalPrice < discount.min_order_total) {
+                return res.status(400).json({ 
+                    error: `Minimum order total of $${discount.min_order_total} required to use this discount.`
+                });
+            }
+
+            // Apply discount to totalPrice
+            if (discount.discount_type === 'percent') {
+                const percentOff = (discount.discount_value / 100) * totalPrice;
+                totalPrice -= percentOff;
+            } else if (discount.discount_type === 'fixed') {
+                totalPrice -= discount.discount_value;
+            }
+
+            if (totalPrice < 0) {
+                totalPrice = 0;
+            }
+            // Increment times_used for the discount code
+            await pool.query(
+                `UPDATE discount_codes
+                SET times_used = times_used + 1
+                WHERE id = $1`,
+                [discount.id]
+            );
+        }
+        // Create the order
         const orderResult = await pool.query(
-            `INSERT INTO orders (customer_id, total_price, status)
-             VALUES ($1, $2, 'pending')
+            `INSERT INTO orders (customer_id, total_price, status, discount_code_id)
+             VALUES ($1, $2, 'pending', $3)
              RETURNING *`,
-            [customerId, totalPrice]
+            [customerId, totalPrice, discount ? discount.id : null]
         );
 
         const orderId = orderResult.rows[0].id;
 
+        // Insert order items
         const orderItemsPromises = cartItems.rows.map(item => {
             return pool.query(
                 `INSERT INTO order_items (order_id, shoe_id, quantity, price)
@@ -54,6 +104,7 @@ router.post('/orders', authenticateToken, async (req, res) => {
 
         await Promise.all(orderItemsPromises);
 
+        // Update shoe stock
         const updateStockPromises = cartItems.rows.map(item => {
             return pool.query(
                 `UPDATE shoes
@@ -64,7 +115,7 @@ router.post('/orders', authenticateToken, async (req, res) => {
         });
 
         await Promise.all(updateStockPromises);
-
+        // Clear user's cart
         await pool.query(
             'DELETE FROM cart_items WHERE cart_id = $1',
             [cartId]
@@ -81,6 +132,7 @@ router.post('/orders', authenticateToken, async (req, res) => {
     }
 });
 
+// Get users orders - (Public)
 router.get('/orders', authenticateToken, async (req, res) => {
     const customerId = req.user.id;
 
@@ -99,6 +151,7 @@ router.get('/orders', authenticateToken, async (req, res) => {
     }
 });
 
+// Get user order details - (Public)
 router.get('/orders/:order_id', authenticateToken, async (req, res) => {
     const customerId = req.user.id;
     const orderId = req.params.order_id;
@@ -130,6 +183,90 @@ router.get('/orders/:order_id', authenticateToken, async (req, res) => {
     } catch (error) {
         console.error('Error fetching order details:', error);
         res.status(500).json({ error: 'Internal server error - order details' });
+    }
+});
+
+// Get all orders (Admin only)
+router.get('/orders/all', authenticateToken, authorizeRole('admin'), async (req, res) => {
+    try {
+        const orders = await pool.query(
+            `SELECT * FROM orders
+             ORDER BY created_at DESC`
+        );
+
+        res.json(orders.rows);
+    } catch (error) {
+        console.error('Error fetching all orders (admin):', error);
+        res.status(500).json({ error: 'Internal server error - fetch all orders' });
+    }
+});
+
+// Get any order by id - (Admin only)
+router.get('/orders/manage/:order_id', authenticateToken, authorizeRole('admin'), async (req, res) => {
+    const orderId = req.params.order_id;
+
+    try {
+        const order = await pool.query(
+            `SELECT * FROM orders
+             WHERE id = $1`,
+            [orderId]
+        );
+
+        if (order.rows.length === 0) {
+            return res.status(404).json({ error: 'Order not found.' });
+        }
+
+        const orderItems = await pool.query(
+            `SELECT oi.*, s.name, s.brand, s.image_url
+             FROM order_items oi
+             JOIN shoes s ON oi.shoe_id = s.id
+             WHERE oi.order_id = $1`,
+            [orderId]
+        );
+
+        res.json({
+            order: order.rows[0],
+            items: orderItems.rows
+        });
+
+    } catch (error) {
+        console.error('Error fetching order (admin):', error);
+        res.status(500).json({ error: 'Internal server error - admin get order' });
+    }
+});
+
+// Update any order status - (Admin only)
+router.put('/orders/manage/:order_id/status', authenticateToken, authorizeRole('admin'), async (req, res) => {
+    const orderId = req.params.order_id;
+    const { status } = req.body;
+
+    const validStatuses = ['pending', 'processing', 'shipped', 'delivered', 'canceled'];
+
+    if (!validStatuses.includes(status)) {
+        return res.status(400).json({ error: `Status must be one of: ${validStatuses.join(', ')}` });
+    }
+
+    try {
+        const result = await pool.query(
+            `UPDATE orders
+             SET status = $1
+             WHERE id = $2
+             RETURNING *`,
+            [status, orderId]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Order not found.' });
+        }
+
+        res.json({
+            message: 'Order status updated successfully!',
+            order: result.rows[0]
+        });
+
+    } catch (error) {
+        console.error('Error updating order status (admin):', error);
+        res.status(500).json({ error: 'Internal server error - update order status' });
     }
 });
 

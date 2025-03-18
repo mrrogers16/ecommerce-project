@@ -3,7 +3,7 @@ const router = express.Router();
 const pool = require('../config/dbConfig');
 const authenticateToken = require('../middleware/authenticateToken');
 
-// Get current user's cart
+// Get current user's cart (Authenticated user)
 router.get('/cart', authenticateToken, async (req, res) => {
     const customerId = req.user.id;
 
@@ -42,7 +42,7 @@ router.get('/cart', authenticateToken, async (req, res) => {
     }
 });
 
-// Add shoe to cart
+// Add shoe to cart - (Authenticated user)
 router.post('/cart', authenticateToken, async (req, res) => {
     const customerId = req.user.id;
     const { shoe_id, quantity } = req.body;
@@ -96,7 +96,7 @@ router.post('/cart', authenticateToken, async (req, res) => {
     }
 });
 
-// Delete item from cart
+// Delete item from cart - (Authenticated user)
 router.delete('/cart/:item_id', authenticateToken, async (req, res) => {
     const customerId = req.user.id;
     const cartItemId = req.params.item_id;

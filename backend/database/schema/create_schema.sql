@@ -10,7 +10,6 @@
 --     address TEXT,
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
-
 -- -- Create shoes table
 -- CREATE TABLE shoes(
 --     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -22,7 +21,6 @@
 --     image_url TEXT,
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
-
 -- --Create discount table
 --CREATE TABLE discounts(
 --   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -31,7 +29,6 @@
 --   expiration_date TIMESTAMP NOT NULL,
 --   is_active BOOLEAN DEFAULT TRUE
 -- );
-
 -- Create carts table
 -- CREATE TABLE carts ( 
 --     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -39,7 +36,7 @@
 --     created_at TIMESTAMP DEFAULT NOW(),
 --     updated_at TIMESTAMP DECIMAL NOW()
 -- );
-
+-- Create cart items table
 -- CREATE TABLE cart_items (
 --     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 --     cart_id UUID REFERENCES carts(id) ON DELETE CASCADE,
@@ -47,7 +44,7 @@
 --     quantity INT CHECK (quantity > 0),
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
-
+-- Create orders table
 -- CREATE TABLE orders (
 --     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 --     customer_id UUID REFERENCES customers(id) ON DELETE CASCADE,
@@ -55,7 +52,7 @@
 --     status VARCHAR(20) DEFAULT 'pending',
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
-
+-- Create order_items table
 -- CREATE TABLE order_items (
 --     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 --     order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
@@ -64,20 +61,26 @@
 --     price DECIMAL(10,2) NOT NULL,  -- store the price at the time of purchase
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
-
+-- Create discount_codes table
 -- CREATE TABLE discount_codes (
 --     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
---     code VARCHAR(50) UNIQUE NOT NULL,
+--     code VARCHAR(50) UNIQUE NOT NULL,  -- Example SAVE10, WELCOME20
 --     discount_type VARCHAR(20) NOT NULL CHECK (discount_type IN ('percent', 'fixed')),
 --     discount_value DECIMAL(10,2) NOT NULL,
 --     min_order_total DECIMAL(10,2) DEFAULT 0,
 --     active BOOLEAN DEFAULT true,
 --     expires_at TIMESTAMP,
---     usage_limit INT DEFAULT 0, 
+--     usage_limit INT DEFAULT 0,
+--     times_used INT DEFAULT 0, -- Max times code can be used overall, 0 means infinite
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
-
-
--- Max times code can be used overall, 0 means infinite
-
- -- Example SAVE10, WELCOME20
+-- Create audit_logs table
+-- CREATE TABLE audit_logs (
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     user_id UUID REFERENCES customers(id) ON DELETE SET NULL,
+--     action VARCHAR(50) NOT NULL,
+--     target_table VARCHAR(50),
+--     target_id UUID,
+--     details JSONB,
+--     created_at TIMESTAMP DEFAULT NOW()
+-- );

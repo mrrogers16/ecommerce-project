@@ -132,7 +132,6 @@ router.put('/shoes/:id', authenticateToken, authorizeRole('admin'), async (req, 
 });
 
 // DELETE /api/shoes/:id - Delete an existing shoe (Admin only)
-
 router.delete('/shoes/:id', authenticateToken, authorizeRole('admin'), async (req, res) => {
     const { id } = req.params;
 
