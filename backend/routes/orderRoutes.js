@@ -59,7 +59,7 @@ router.post('/orders', authenticateToken, async (req, res) => {
 
             // Minimum order enforcment
             if (totalPrice < discount.min_order_total) {
-                return res.status(400).json({ 
+                return res.status(400).json({
                     error: `Minimum order total of $${discount.min_order_total} required to use this discount.`
                 });
             }
@@ -92,6 +92,22 @@ router.post('/orders', authenticateToken, async (req, res) => {
         );
 
         const orderId = orderResult.rows[0].id;
+
+        // Log order creation in audit_logs table
+        await pool.query(
+            `INSERT INTO audit_logs (user_id, action, target_table, target_id, details)
+            VALUES ($1, $2, $3, $4, $5)`,
+            [
+                customerId,
+                'order_created',
+                'orders',
+                orderId,
+                JSON.stringify({
+                    total_price: totalPrice,
+                    discount_code: discount ? discount.code : null
+                })
+            ]
+        );
 
         // Insert order items
         const orderItemsPromises = cartItems.rows.map(item => {
@@ -254,10 +270,22 @@ router.put('/orders/manage/:order_id/status', authenticateToken, authorizeRole('
              RETURNING *`,
             [status, orderId]
         );
-
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Order not found.' });
         }
+        
+        // Log admin status update in audit_logs
+        await pool.query(
+            `INSERT INTO audit_logs (user_id, action, target_table, target_id, details)
+            VALUES($1, $2, $3, $4, $5)`,
+            [
+                req.user.id,
+                'order_status_updated',
+                'orders',
+                orderId,
+                JSON.stringify({ new_status: status })
+            ]
+        );
 
         res.json({
             message: 'Order status updated successfully!',
