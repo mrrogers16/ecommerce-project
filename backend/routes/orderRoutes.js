@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../config/dbConfig');
 const authenticateToken = require('../middleware/authenticateToken');
+const authorizeRole = require('../middleware/authorizeRole');
 
 // Create order from cart - (Public)
 router.post('/orders', authenticateToken, async (req, res) => {
@@ -273,7 +274,7 @@ router.put('/orders/manage/:order_id/status', authenticateToken, authorizeRole('
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Order not found.' });
         }
-        
+
         // Log admin status update in audit_logs
         await pool.query(
             `INSERT INTO audit_logs (user_id, action, target_table, target_id, details)
