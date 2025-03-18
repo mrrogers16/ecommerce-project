@@ -206,15 +206,45 @@ router.get('/orders/:order_id', authenticateToken, async (req, res) => {
 // Get all orders (Admin only)
 router.get('/orders/all', authenticateToken, authorizeRole('admin'), async (req, res) => {
     try {
-        const orders = await pool.query(
-            `SELECT * FROM orders
-             ORDER BY created_at DESC`
-        );
+        const { sort, order, status, customer_id } = req.query;
+
+        // Validate sort columns
+        const sortableFields = ['created_at', 'total_price'];
+        const sortBy = sortableFields.includes(sort) ? sort : 'created_at';
+
+        // Validate order direction
+        const orderBy = order === 'asc' ? 'ASC' : 'DESC';
+
+        // Build WHERE conditions dynamically
+        const conditions = [];
+        const values = [];
+
+        if (status) {
+            values.push(status);
+            conditions.push(`status = $${values.length}`);
+        }
+
+        if (customer_id) {
+            values.push(customer_id);
+            conditions.push(`customer_id = $${values.length}`);
+        }
+
+        // Assemble query
+        let query = `SELECT * FROM orders`;
+
+        if (conditions.length > 0) {
+            query += ` WHERE ${conditions.join(' AND ')}`;
+        }
+
+        query += ` ORDER BY ${sortBy} ${orderBy}`;
+
+        console.log('Executing query:', query, values);
 
         res.json(orders.rows);
+
     } catch (error) {
-        console.error('Error fetching all orders (admin):', error);
-        res.status(500).json({ error: 'Internal server error - fetch all orders' });
+        console.error('Error fetching sorted/flitered orders (admin):', error);
+        res.status(500).json({ error: 'Internal server error - fetch sorted/filtered orders' });
     }
 });
 
