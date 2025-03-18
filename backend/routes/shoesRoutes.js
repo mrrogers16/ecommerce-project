@@ -9,10 +9,20 @@ const authorizeRole = require('../middleware/authorizeRole');
 router.get('/shoes', async (req, res) => {
     try {
 
-        const { brand, size, priceMin, priceMax } = req.query;
+        const { brand, size, priceMin, priceMax, page = 1, limit = 10, sort = 'created_at', order = 'desc' } = req.query;
 
-        //Base query
-        let query = 'SELECT * FROM shoes';
+        // Validate sort columns
+        const sortableFields = ['created_at', 'price', 'name'];
+        const sortBy = sortableFields.includes(sort) ? sort : 'created_at';
+
+        // Validate order direction
+        const orderBy = order.toLowerCase() === 'asc' ? 'ASC' : 'DESC';
+
+        const pageNumber = Math.max(parseInt(page) || 1, 1);
+        const pageSize = Math.max(parseInt(limit) || 10, 1);
+        const offset = (pageNumber - 1) * pageSize;
+
+        // Build filters
         const conditions = [];
         const values = [];
 
@@ -36,17 +46,24 @@ router.get('/shoes', async (req, res) => {
             conditions.push(`price <= $${values.length}`);
         }
 
-        // Combine conditions
+        // Base query
+        let query = `SELECT * FROM shoes`;
+
+        // Add WHERE clause
         if (conditions.length > 0) {
-            query += ' WHERE ' + conditions.join(' AND ');
+            query += ` WHERE ${conditions.join(' AND ')}`;
         }
+
+        // Add ORDER BY, LIMIT, OFFSET
+        query += ` ORDER BY ${sortBy} ${orderBy} LIMIT ${pageSize} OFFSET ${offset}`;
 
         console.log('Executing query:', query, values);
 
-        // Run it
-        const result = await pool.query(query, values);
-
-        res.json(result.rows);
+        res.json({
+            page: pageNumber,
+            limit: pageSize,
+            results: shoes.rows
+        });
 
     } catch (error) {
         console.error('Error fetching shoes:', error);
