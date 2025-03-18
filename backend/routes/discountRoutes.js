@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../config/dbConfig');
-// const authenticateAdmin = require('../middleware/authenticateAdmin'); // For admin-only later
+const authenticateToken = require('../middleware/authenticateToken');
+//const authenticateAdmin = require('../middleware/authenticateAdmin'); // For admin-only later
+
+
 
 // Get all active discount codes (For administrators) sorted by creation date
-router.get('/discount-codes', async (req, res) => {
+router.get('/discount_codes', authenticateToken, async (req, res) => {
     try {
         const discounts = await pool.query(
             `SELECT * FROM discount_codes
@@ -17,8 +20,10 @@ router.get('/discount-codes', async (req, res) => {
     }
 });
 
+
+
 // Create a new discount code (admin only later)
-router.post('/discount-codes', async (req, res) => {
+router.post('/discount_codes', authenticateToken, async (req, res) => {
     const { code, discount_type, discount_value, min_order_total, expires_at, usage_limit } = req.body;
 
     if (!code || !discount_type || !discount_value) {
@@ -39,8 +44,72 @@ router.post('/discount-codes', async (req, res) => {
     }
 });
 
+// Update discount code
+router.put('/discount_codes/:id', authenticateToken, async (req, res) => {
+    const discountId = req.params.id;
+    const { code, discount_type, discount_value, min_order_total, expires_at, usage_limit, active } = req.body;
+
+    try {
+        const result = await pool.query(
+            `UPDATE discount_codes
+                 SET code = $1,
+                     discount_type = $2,
+                     discount_value = $3,
+                     min_order_total = $4,
+                     expires_at = $5,
+                     usage_limit = $6,
+                     active = $7
+                 WHERE id = $8
+                 RETURNING *`,
+            [
+                code,
+                discount_type,
+                discount_value,
+                min_order_total || 0,
+                expires_at || null,
+                usage_limit || 0,
+                active !== undefined ? active : true,
+                discountId
+            ]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Discount code not found' });
+        }
+
+        res.json(result.rows[0]);
+    }
+    catch (error) {
+        console.error('Error updating discount code:', error);
+        res.status(500).json({ error: 'Internal server error - update discount code' });
+    }
+});
+
+// Delete discount code
+router.delete('/discount_codes/:id', authenticateToken, async (req, res) => {
+    const discountId = req.params.id;
+
+    try {
+        const result = await pool.query(
+            `DELETE FROM discount_codes WHERE id = $1 RETURNING *`,
+            [discountId]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Discount code not found' });
+        }
+
+        res.json({ message: 'Discount code deleted', discount: result.rows[0] });
+    }
+    catch (error) {
+        console.error('Error deleting discount code:', error);
+        res.status(500).json({ error: 'Internal server error - delete discount code' });
+    }
+});
+
+
 // Validate discount code for checkout
-router.post('/discount-codes/validate', async (req, res) => {
+router.post('/discount_codes/validate', async (req, res) => {
     const { code, cartTotal } = req.body;
 
     try {
