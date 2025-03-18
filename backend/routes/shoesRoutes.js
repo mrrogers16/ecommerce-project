@@ -58,6 +58,7 @@ router.get('/shoes', async (req, res) => {
         query += ` ORDER BY ${sortBy} ${orderBy} LIMIT ${pageSize} OFFSET ${offset}`;
 
         console.log('Executing query:', query, values);
+        const shoes = await pool.query(query, values);
 
         res.json({
             page: pageNumber,
