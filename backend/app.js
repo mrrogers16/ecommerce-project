@@ -41,6 +41,9 @@ app.use('/api', cartRoutes);
 const orderRoutes = require('./backend/routes/orderRoutes');
 app.use('/api', orderRoutes);
 
+const discountRoutes = require('./backend/routes/discountRoutes.js');
+app.use('/api', discountRoutes);
+
 // Start Server
 
 const port = process.env.PORT || 3000;

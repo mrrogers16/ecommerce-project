@@ -65,7 +65,19 @@
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
 
+-- CREATE TABLE discount_codes (
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     code VARCHAR(50) UNIQUE NOT NULL,
+--     discount_type VARCHAR(20) NOT NULL CHECK (discount_type IN ('percent', 'fixed')),
+--     discount_value DECIMAL(10,2) NOT NULL,
+--     min_order_total DECIMAL(10,2) DEFAULT 0,
+--     active BOOLEAN DEFAULT true,
+--     expires_at TIMESTAMP,
+--     usage_limit INT DEFAULT 0, 
+--     created_at TIMESTAMP DEFAULT NOW()
+-- );
 
 
+-- Max times code can be used overall, 0 means infinite
 
-
+ -- Example SAVE10, WELCOME20
