@@ -242,9 +242,7 @@ router.get('/orders/all', authenticateToken, authorizeRole('admin'), async (req,
         }
 
         query += ` ORDER BY ${sortBy} ${orderBy}`;
-        query += ` LIMIT $${values.length + 1} OFFSET $${values.length + 2}`;
-
-        values.push(pageSize, offset);
+        query += ` LIMIT ${pageSize} OFFSET ${offset}`;
 
         console.log('Executing query:', query, values);
 
