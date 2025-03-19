@@ -50,6 +50,7 @@
 --     customer_id UUID REFERENCES customers(id) ON DELETE CASCADE,
 --     total_price DECIMAL(10,2) NOT NULL,
 --     status VARCHAR(20) DEFAULT 'pending',
+--     tax DECIMAL(10, 2) DEFAULT 0;
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
 -- Create order_items table

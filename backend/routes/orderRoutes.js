@@ -34,10 +34,11 @@ router.post('/orders', authenticateToken, async (req, res) => {
             return res.status(400).json({ error: 'Cart is empty.' });
         }
 
-        // Calculate totalPrice for order
-        let totalPrice = 0;
+        // Calculate subtotal for order
+        let subtotal = 0;
+        
         cartItems.rows.forEach(item => {
-            totalPrice += item.price * item.quantity;
+            subtotal += item.price * item.quantity;
         });
 
         let discount = null;
@@ -59,22 +60,22 @@ router.post('/orders', authenticateToken, async (req, res) => {
             discount = discountResult.rows[0];
 
             // Minimum order enforcment
-            if (totalPrice < discount.min_order_total) {
+            if (subtotal < discount.min_order_total) {
                 return res.status(400).json({
                     error: `Minimum order total of $${discount.min_order_total} required to use this discount.`
                 });
             }
 
-            // Apply discount to totalPrice
+            // Apply discount to subtotal
             if (discount.discount_type === 'percent') {
-                const percentOff = (discount.discount_value / 100) * totalPrice;
-                totalPrice -= percentOff;
+                const percentOff = (discount.discount_value / 100) * subtotal;
+                subtotal -= percentOff;
             } else if (discount.discount_type === 'fixed') {
-                totalPrice -= discount.discount_value;
+                subtotal -= discount.discount_value;
             }
 
-            if (totalPrice < 0) {
-                totalPrice = 0;
+            if (subtotal < 0) {
+                subtotal = 0;
             }
             // Increment times_used for the discount code
             await pool.query(
@@ -84,12 +85,20 @@ router.post('/orders', authenticateToken, async (req, res) => {
                 [discount.id]
             );
         }
+
+        // Calculate tax
+        const taxRate = 0.0825;
+        const tax = parseFloat((subtotal * taxRate).toFixed(2));
+
+        // Final total
+        let totalPrice = subtotal + tax;
+
         // Create the order
         const orderResult = await pool.query(
-            `INSERT INTO orders (customer_id, total_price, status, discount_code_id)
-             VALUES ($1, $2, 'pending', $3)
+            `INSERT INTO orders (customer_id, total_price, tax, status, discount_code_id)
+             VALUES ($1, $2, $3, 'pending', $4)
              RETURNING *`,
-            [customerId, totalPrice, discount ? discount.id : null]
+            [customerId, totalPrice, tax, discount ? discount.id : null]
         );
 
         const orderId = orderResult.rows[0].id;
@@ -104,6 +113,8 @@ router.post('/orders', authenticateToken, async (req, res) => {
                 'orders',
                 orderId,
                 JSON.stringify({
+                    subtotal: subtotal,
+                    tax: tax,
                     total_price: totalPrice,
                     discount_code: discount ? discount.code : null
                 })
@@ -137,10 +148,15 @@ router.post('/orders', authenticateToken, async (req, res) => {
             'DELETE FROM cart_items WHERE cart_id = $1',
             [cartId]
         );
-
+        // Return order confirmation + summary
         res.status(201).json({
             message: 'Order created successfully!',
-            order: orderResult.rows[0]
+            order: orderResult.rows[0],
+            summary: {
+                subtotal: subtotal,
+                tax: tax,
+                total: totalPrice
+            }
         });
 
     } catch (error) {
@@ -291,6 +307,18 @@ router.get('/orders/manage/:order_id', authenticateToken, authorizeRole('admin')
         console.error('Error fetching order (admin):', error);
         res.status(500).json({ error: 'Internal server error - admin get order' });
     }
+
+    await pool.query(
+        `INSERT INTO audit_logs (user_id, action, target_table, target_id, details)
+         VALUES($1, $2, $3, $4, $5)`,
+        [
+            req.user.id,
+            'admin_view_order',
+            'orders',
+            orderId,
+            JSON.stringify({ message: 'Admin viewed order details' })
+        ]
+    );
 });
 
 // Update any order status - (Admin only)
