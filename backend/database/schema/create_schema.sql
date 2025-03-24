@@ -10,7 +10,6 @@
 --     address TEXT,
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
-
 -- -- Create shoes table
 -- CREATE TABLE shoes(
 --     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -22,8 +21,7 @@
 --     image_url TEXT,
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
-
--- --Create discount tabble
+-- --Create discount table
 --CREATE TABLE discounts(
 --   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 --   code VARCHAR(50) UNIQUE NOT NULL,
@@ -31,18 +29,59 @@
 --   expiration_date TIMESTAMP NOT NULL,
 --   is_active BOOLEAN DEFAULT TRUE
 -- );
-
-
-
--- Insert Sample Data Example (Moved to external files)
--- 
--- INSERT INTO customers (first_name, last_name, email, password_hash, phone, address)
--- VALUES ('John', 'Doe', 'john@example.com', 'hashed_password_here', '123-456-7890', '123 Main St, NY');
-
--- INSERT INTO shoes (name, brand, price, stock, sizes, image_url)
--- VALUES ('Air Jordan 1', 'Nike', 199.99, 50, ARRAY[7,8,9,10,11], 'https://example.com/airjordan1.jpg');
-
-
-
-
-
+-- Create carts table
+-- CREATE TABLE carts ( 
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     customer_id UUID REFERENCES customers(id) ON DELETE CASCADE,
+--     created_at TIMESTAMP DEFAULT NOW(),
+--     updated_at TIMESTAMP DECIMAL NOW()
+-- );
+-- Create cart items table
+-- CREATE TABLE cart_items (
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     cart_id UUID REFERENCES carts(id) ON DELETE CASCADE,
+--     shoe_id UUID REFERENCES shoes(id),
+--     quantity INT CHECK (quantity > 0),
+--     created_at TIMESTAMP DEFAULT NOW()
+-- );
+-- Create orders table
+-- CREATE TABLE orders (
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     customer_id UUID REFERENCES customers(id) ON DELETE CASCADE,
+--     total_price DECIMAL(10,2) NOT NULL,
+--     status VARCHAR(20) DEFAULT 'pending',
+--     tax DECIMAL(10, 2) DEFAULT 0;
+--     created_at TIMESTAMP DEFAULT NOW()
+-- );
+-- Create order_items table
+-- CREATE TABLE order_items (
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
+--     shoe_id UUID REFERENCES shoes(id),
+--     quantity INT CHECK (quantity > 0),
+--     price DECIMAL(10,2) NOT NULL,  -- store the price at the time of purchase
+--     created_at TIMESTAMP DEFAULT NOW()
+-- );
+-- Create discount_codes table
+-- CREATE TABLE discount_codes (
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     code VARCHAR(50) UNIQUE NOT NULL,  -- Example SAVE10, WELCOME20
+--     discount_type VARCHAR(20) NOT NULL CHECK (discount_type IN ('percent', 'fixed')),
+--     discount_value DECIMAL(10,2) NOT NULL,
+--     min_order_total DECIMAL(10,2) DEFAULT 0,
+--     active BOOLEAN DEFAULT true,
+--     expires_at TIMESTAMP,
+--     usage_limit INT DEFAULT 0,
+--     times_used INT DEFAULT 0, -- Max times code can be used overall, 0 means infinite
+--     created_at TIMESTAMP DEFAULT NOW()
+-- );
+-- Create audit_logs table
+-- CREATE TABLE audit_logs (
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     user_id UUID REFERENCES customers(id) ON DELETE SET NULL,
+--     action VARCHAR(50) NOT NULL,
+--     target_table VARCHAR(50),
+--     target_id UUID,
+--     details JSONB,
+--     created_at TIMESTAMP DEFAULT NOW()
+-- );

@@ -1,10 +1,3 @@
-    
-DO $$
-BEGIN
-    -- Insert shoes if they don't already exist
-    ALTER TABLE shoes ADD CONSTRAINT unique_shoe UNIQUE (name, brand);
-
-    -- insert
  INSERT INTO shoes (name, brand, price, stock, sizes, image_url)
     VALUES 
         ('Chuck Taylor All Star', 'Converse', 65, 20, ARRAY[2,3,4,5,6,7,8,9], 
@@ -97,5 +90,4 @@ BEGIN
         'https://www.converse.com/dw/image/v2/BCZC_PRD/on/demandware.static/-/Sites-cnv-master-catalog/default/dw77c57713/images/d_08/A13377C_D_08X1.jpg?sw=406')
 
     ON CONFLICT (name, brand) DO NOTHING;
-    
-END $$;
+

@@ -121,4 +121,8 @@ document.addEventListener("DOMContentLoaded", () => {
             sizeModal.style.display = "none";
         }
     });
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> ff850fad3e3eb7bd6e0c3a382843e2c10b47af26
