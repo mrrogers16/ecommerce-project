@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cartContainer.innerHTML = "";
         let total = 0;
 
-        if (cart.length === 0) {
+        if (cart.length == 0) {
             cartContainer.innerHTML = `
                 <div class="text-center">
                     <p>Your cart is empty! Start shopping now.</p>
@@ -46,7 +46,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         cartTotal.textContent = total.toFixed(2);
     }
-
+    document.getElementById('clearCart').addEventListener('click', () => {
+    localStorage.removeItem('cart');  // Remove cart from localStorage
+    renderCart();  // Re-render the cart (it should now be empty)
+});
     document.addEventListener("click", (event) => {
         if (event.target.classList.contains("remove-from-cart")) {
             const index = event.target.getAttribute("data-index");

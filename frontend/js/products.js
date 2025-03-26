@@ -20,16 +20,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // Fetch products from the live API instead of using hardcoded data
     fetch("https://fly-feet.com/api/shoes") /*fetch("http://localhost:3000/api/shoes") */ //This sends a request which is your backend API.
               // Convert response to JSON                                               //🔹 The backend returns a JSON response containing all the shoes from the database.
-        .then(response => response.json())
-        .then(shoes => {
-            //This logs the shoe data in the console for debugging.
-            console.log("✅ API Response:", shoes);
-
-            if (!Array.isArray(shoes) || shoes.length === 0) {
-                console.warn("⚠ No products found."); //Checks if shoes is an array Checks if there are no products (shoes.length === 0)
-                productList.innerHTML = `<p class="text-center">No products available.</p>`;  //If empty, it shows a message instead of breaking the page
-                return;
-            }
+              .then(response => response.json())
+              .then(data => {
+                  console.log("✅ API Response:", data);
+      
+                  // Check if the response is an object and contains a "shoes" property
+                  const shoes = Array.isArray(data.shoes) ? data.shoes : [];
+      
+                  if (shoes.length === 0) {
+                      console.warn("⚠ No products found.");
+                      productList.innerHTML = `<p class="text-center">No products available.</p>`;
+                      return;
+                  }
 // Insert dynamically generated product cards
             productList.innerHTML = `<div class="row g-4">${shoes.map(generateProductCard).join("")}</div>`;
         })
@@ -121,8 +123,4 @@ document.addEventListener("DOMContentLoaded", () => {
             sizeModal.style.display = "none";
         }
     });
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> ff850fad3e3eb7bd6e0c3a382843e2c10b47af26
