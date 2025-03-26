@@ -1,18 +1,25 @@
-document.getElementById('contactForm').addEventListener('submit', function(event) {
-    event.preventDefault(); //prevents form from submitting normally
+    document.getElementById('contact-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-    const formData = new formData(this);
+    const payload = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        message: document.getElementById('message').value
+    };
 
-    fetch('/api/contact', { //sends form to backend
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())  // using JSON
-    .then(data => {
-        alert('Message sent successfully!');  // sent to backend
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('There was an error sending your message.');
+    try {
+        const res = await fetch('../api/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        document.getElementById('status').innerText = data.message || 'Message sent!';
+    } catch (err) {
+        document.getElementById('status').innerText = 'Something went wrong.';
+        console.error(err);
+    }
     });
-});
