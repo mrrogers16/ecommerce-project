@@ -85,3 +85,12 @@
 --     details JSONB,
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
+
+-- CREATE TABLE contact_messages (
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     name VARCHAR(100) NOT NULL,
+--     email VARCHAR(100) NOT NULL,
+--     message TEXT NOT NULL,
+--     created_at TIMESTAMP DEFAULT NOW()
+-- );
+
