@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("✅ Fetching products from API...");
 
     const productList = document.getElementById("product-list");
-    const sizeModal = document.getElementById("sizeModal"); // Ensure modal exists
+    const sizeModal = document.getElementById("sizeModal");
     const sizeOptions = document.getElementById("sizeOptions");
     const confirmSizeButton = document.getElementById("confirmSize");
     const closeModalButton = document.querySelector(".close");
@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let selectedProduct = null;
 
+<<<<<<< HEAD
     // Fetch products from the live API instead of using hardcoded data
     fetch("https://fly-feet.com/api/shoes") /*fetch("http://localhost:3000/api/shoes") */ //This sends a request which is your backend API.
               // Convert response to JSON                                               //🔹 The backend returns a JSON response containing all the shoes from the database.
@@ -33,29 +34,67 @@ document.addEventListener("DOMContentLoaded", () => {
                       return;
                   }
 // Insert dynamically generated product cards
+=======
+    // Fetch products from the live API
+    fetch("https://fly-feet.com/api/shoes")
+        .then(response => response.json())
+        .then(data => {
+            console.log("✅ API Response:", data);
+            
+            // Extract the shoes array from the results property
+            const shoes = data.results;
+
+            if (!Array.isArray(shoes) || shoes.length === 0) {
+                console.warn("⚠ No products found.");
+                productList.innerHTML = `<p class="text-center">No products available.</p>`;
+                return;
+            }
+
+            // Insert dynamically generated product cards
+>>>>>>> c8514ee781bc9e84c42975ae51448e535c2b8c0e
             productList.innerHTML = `<div class="row g-4">${shoes.map(generateProductCard).join("")}</div>`;
         })
         .catch(error => {
             console.error("❌ Error fetching shoes:", error);
             productList.innerHTML = `<p class="text-center text-danger">Failed to load products. Please try again later.</p>`;
         });
-  // Function to generate HTML for each product
+
+    // Function to generate HTML for each product
     function generateProductCard(product) {
+        // Sanitize data before insertion
+        const sanitize = str => String(str).replace(/[&<>"']/g, char => {
+            const entities = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            };
+            return entities[char];
+        });
+
+        // Format price safely
+        const formatPrice = (price) => {
+            const numPrice = parseFloat(price);
+            return !isNaN(numPrice) ? numPrice.toFixed(2) : 'N/A';
+        };
+
         return `
             <div class="col-md-4">
                 <div class="card shadow-sm">
-                    <img src="${product.image_url}" class="card-img-top" alt="${product.name}">
+                    <img src="${sanitize(product.image_url || '')}" class="card-img-top" alt="${sanitize(product.name || '')}">
                     <div class="card-body text-center">
-                        <h5 class="card-title">${product.name}</h5>
-                        <p class="card-text"><strong>Brand:</strong> ${product.brand}</p>
-                        <p class="card-text"><strong>Price:</strong> $${product.price ? product.price.toFixed(2) : 'N/A'}</p>
-                        <p class="card-text"><strong>Sizes:</strong> ${product.sizes ? product.sizes.join(", ") : "N/A"}</p>
-                        <button class="btn btn-success add-to-cart" data-id="${product.id}" 
-                            data-name="${product.name}" 
-                            data-brand="${product.brand}" 
-                            data-price="${product.price}" 
-                            data-image="${product.image_url}" 
-                            data-sizes='${JSON.stringify(product.sizes)}'>Add to Cart</button>
+                        <h5 class="card-title">${sanitize(product.name || '')}</h5>
+                        <p class="card-text"><strong>Brand:</strong> ${sanitize(product.brand || '')}</p>
+                        <p class="card-text"><strong>Price:</strong> ${product.price ? '$' + formatPrice(product.price) : 'N/A'}</p>
+                        <p class="card-text"><strong>Sizes:</strong> ${product.sizes ? sanitize(product.sizes.join(", ")) : "N/A"}</p>
+                        <button class="btn btn-success add-to-cart" 
+                            data-id="${sanitize(product.id || '')}" 
+                            data-name="${sanitize(product.name || '')}" 
+                            data-brand="${sanitize(product.brand || '')}" 
+                            data-price="${product.price ? sanitize(String(product.price)) : ''}" 
+                            data-image="${sanitize(product.image_url || '')}" 
+                            data-sizes='${sanitize(JSON.stringify(product.sizes || []))}'>Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -81,13 +120,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function showSizeModal() {
-        if (!selectedProduct) return;
+        if (!selectedProduct || !sizeOptions) return;
+        
+        // Clear previous event listeners by replacing the element
+        const newSizeOptions = sizeOptions.cloneNode(false);
+        sizeOptions.parentNode.replaceChild(newSizeOptions, sizeOptions);
+        sizeOptions = newSizeOptions;
+
         sizeOptions.innerHTML = selectedProduct.sizes.map(size => `
             <button class="size-btn" data-size="${size}">${size}</button>
         `).join("");
 
-        sizeModal.style.display = "flex"; // Show modal only when an item is added
+        sizeModal.style.display = "flex";
 
+        // Add event listeners to new buttons
         document.querySelectorAll(".size-btn").forEach(btn => {
             btn.addEventListener("click", () => {
                 document.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
@@ -95,6 +141,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 selectedProduct.selectedSize = btn.getAttribute("data-size");
             });
         });
+    }
+
+    // Add null checks for DOM elements
+    if (!sizeOptions || !confirmSizeButton || !closeModalButton) {
+        console.error("❌ Error: Required modal elements not found!");
+        return;
     }
 
     // Confirm size selection
