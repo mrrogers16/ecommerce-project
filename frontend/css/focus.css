@@ -1,0 +1,48 @@
+.focus-container {
+    position: relative;
+    display: block; /* Changed from inline-block to allow full width positioning */
+    width: 100%;
+  }
+  
+  .focus-word {
+    font-size: 4.5rem;
+    font-weight: bold;
+    filter: blur(5px);
+    transition: filter 0.3s ease-in-out;
+    /* Keep position: absolute in landing.css instead */
+    display: inline-block; /* Ensure words take only their needed space */
+  }
+  
+  .focus-word:hover {
+    filter: blur(0);
+  }
+  
+  .focus-frame {
+    position: absolute;
+    pointer-events: none;
+    /* Size and position handled by JS */
+    z-index: 5;
+  }
+  
+  /* 🔹 Frame Corners */
+  .corner {
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    border: 3px solid var(--border-color, #000000);
+    filter: drop-shadow(0px 0px 4px var(--border-color, #000000));
+    border-radius: 3px;
+    transition: none;
+  }
+  
+  /* 🔹 Positioning the Corners */
+  .top-left { top: -10px; left: -10px; border-right: none; border-bottom: none; }
+  .top-right { top: -10px; right: -10px; border-left: none; border-bottom: none; }
+  .bottom-left { bottom: -10px; left: -10px; border-right: none; border-top: none; }
+  .bottom-right { bottom: -10px; right: -10px; border-left: none; border-top: none; }
+  
+  /* 🔹 Frame Animation */
+  @keyframes fadeFrame {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+  }
