@@ -1,11 +1,33 @@
-/* General Styles */
-body {
-    background-color: #f8f9fa; 
-    font-family: Arial, Helvetica, sans-serif; 
+/* Urbanist applied globally */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Urbanist', sans-serif;
+    background-color: #5da1e6;
+    color: #333;
     text-align: center;
-    color: #333; 
-}
+  }
+  
+  /* Antipol for the Fly Feet brand */
+  .flyfeet-brand {
+    font-family: "antipol-variable",sans-serif;
+    font-variation-settings: 'wdth' 100, 'wght' 400, 'STCH' 1;
+    font-weight: bold;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    color: white;
+    text-decoration: none;
+  }
 
+  .bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
 
 /* Header */
 header {
@@ -396,4 +418,107 @@ nav ul li a:hover {
 /* Show dropdown on hover */
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+/* 🔹 Header Layout */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: white;
+  padding: 15px 20px;
+}
+
+.site-title a {
+  color: white;
+  text-decoration: none;
+  font-size: 28px;
+}
+
+.hamburger {
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* 🔹 Side Drawer Styles */
+.side-drawer {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: #222;
+  color: white;
+  padding-top: 60px;
+  transition: left 0.3s ease-in-out;
+  z-index: 999;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+}
+
+.side-drawer.open {
+  left: 0;
+}
+
+.side-drawer .close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.drawer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.drawer-links li {
+  padding: 15px 20px;
+  border-bottom: 1px solid #444;
+}
+
+.drawer-links li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.drawer-links li a:hover {
+  background-color: #ff5733;
+  display: block;
+}
+.has-submenu {
+  position: relative;
+}
+
+.submenu {
+  display: none;
+  list-style: none;
+  padding-left: 15px;
+}
+
+.submenu li a {
+  font-size: 0.95rem;
+}
+
+.has-submenu.open .submenu {
+  display: block;
+}
+
+.drawer-links a {
+  display: block;
+  padding: 8px 15px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.drawer-links a:hover {
+  background-color: #444;
 }

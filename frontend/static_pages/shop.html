@@ -4,35 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Fly Feet</title>
-    
+
+    <!-- Adobe Fonts: Antipol -->
+    <link rel="stylesheet" href="https://use.typekit.net/dro4ebr.css">
+
+    <!-- Google Fonts: Urbanist -->
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    
-    <!-- Custom Styles -->
+
+    <!-- Custom Styles -->  
     <link rel="stylesheet" href="../css/styles.css">   
 </head>
 <body>
     <!-- Add cart container at the top -->
     <div id="cart-container"></div>
 
-    <header>
-        <h1><a href="index.html">Welcome to Fly Feet!</a></h1>
-        <nav id="navbar">
-            <ul>
-                <li class="dropdown">
-                    <a href="shop.html" class="dropbtn">Shop ▼</a>
-                    <div class="dropdown-content">
-                        <a href="shop.html?category=mens">Men's Shoes</a>
-                        <a href="shop.html?category=womens">Women's Shoes</a>
-                        <a href="shop.html?category=kids">Kids' Shoes</a>
-                    </div>
-                </li>
-                <li><a href="#">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="cart.html">Cart</a></li>
-            </ul>
-        </nav>
+    <!-- Header with hamburger and logo -->
+    <header class="header d-flex justify-content-between align-items-center px-3 py-2 bg-dark text-white">
+        <button id="menu-toggle" class="hamburger btn btn-outline-light">&#9776;</button>
+        <h1 class="site-title m-0">
+            <a href="index.html" class="flyfeet-brand">Fly Feet</a>
+        </h1>
+        <div></div> <!-- spacer -->
     </header>
+
+    <!-- Side Navigation Drawer -->
+    <aside id="side-drawer" class="side-drawer">
+        <button class="close-btn" id="close-drawer">&times;</button>
+        <ul class="drawer-links">
+            <li class="has-submenu">
+                <a href="#" id="shop-toggle">Shop ▾</a>
+                <ul class="submenu" id="shop-submenu">
+                    <li><a href="shop.html?category=mens">Men's Shoes</a></li>
+                    <li><a href="shop.html?category=womens">Women's Shoes</a></li>
+                    <li><a href="shop.html?category=kids">Kids' Shoes</a></li>
+                </ul>
+            </li>
+            <li><a href="#">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="cart.html">Cart</a></li>
+        </ul>
+    </aside>
 
     <!-- Products Section -->
     <section class="products py-5">
@@ -44,33 +58,13 @@
                     <span></span>
                     <span></span>
                 </div>
-<<<<<<< HEAD
-            </li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="cart.html">Cart</a></li>
-        </ul>
-    </nav>
-</header>
-
-<!-- Products Section -->
-<section class="products py-5">
-    <div class="container">
-        <h2 class="text-center mb-4">Featured Shoes</h2>
-        <div id="product-list" class="row">
-            <div class="scroll-arrows">
-                <span></span>
-                <span></span>
-                <span></span>
-=======
                 <!-- JavaScript will dynamically load products here -->
->>>>>>> c8514ee781bc9e84c42975ae51448e535c2b8c0e
             </div>
         </div>
     </section>
 
     <!-- Size Selection Modal for size pop up -->
-    <div id="sizeModal" class="modal">
+    <div id="sizeModal" class="modal hidden">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Select Size</h2>
@@ -79,14 +73,11 @@
         </div>
     </div>
 
-
-    <!-- Bootstrap JS -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
     <script src="../js/navbar.js"></script> <!-- Navbar -->
     <script src="../js/products.js"></script> <!-- Fetches Products -->
     <script src="../js/cart.js"></script> <!-- Manages Add to Cart -->
     <script src="../js/script.js"></script>  
-
 </body>
 </html>
