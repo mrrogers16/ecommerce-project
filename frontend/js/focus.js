@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const adjustments = {
         // For the "Fly" word (index 0)
         0: {
-            offsetX: -110,  // Negative values move left, positive values move right
+            offsetX: -70,  // Negative values move left, positive values move right
             offsetY: 0,    // Negative values move up, positive values move down
             extraWidth: 10, // Make frame wider
             extraHeight: 10 // Make frame taller

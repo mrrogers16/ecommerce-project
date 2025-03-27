@@ -22,7 +22,7 @@
     margin-bottom: 0.3rem;
     animation: fadeInDown 1s ease-in-out;
     position: relative;
-    top: -270px; /* Move just this text up */
+    top: -285px; /* Move just this text up */
   }
   
   /* 🔹 Subheading ("With") - MOVE JUST THIS ELEMENT */
@@ -54,7 +54,7 @@
   .focus-word:nth-child(1) {
     position: absolute;
     left: 0;
-    transform: translateX(-100%); /* Move it left of the container */
+    transform: translateX(-60%); /* Move it left of the container */
     top: -50px; /* Vertical position: negative = higher up, positive = lower down */
     z-index: 10;
   }
