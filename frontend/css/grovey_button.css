@@ -1,0 +1,89 @@
+.gooey-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  filter: url(#goo);
+  margin-top: 2rem;
+}
+
+.gooey-btn {
+  background: #ffc107;
+  color: #000;
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 12px 28px;
+  border-radius: 50px;
+  text-decoration: none;
+  z-index: 2;
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+.gooey-btn:hover {
+  background: #ffb300;
+}
+
+/* 🔹 Morphing blobs */
+.gooey-bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.blob {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: #ffc107;
+  border-radius: 50%;
+  animation: morph 4s infinite ease-in-out;
+}
+
+.blob:nth-child(2) {
+  left: -40px;
+  animation-delay: 0.3s;
+}
+
+.blob:nth-child(3) {
+  right: -40px;
+  animation-delay: 0.6s;
+}
+
+@keyframes morph {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(10px, -10px) scale(1.1);
+  }
+  66% {
+    transform: translate(-10px, 10px) scale(0.9);
+  }
+}
+/*html for this
+       <!-- 🔹 Gooey Button Wrapper -->
+x<div class="gooey-container">
+    <div class="gooey-bg">
+      <span class="blob"></span>
+      <span class="blob"></span>
+      <span class="blob"></span>
+    </div>
+    <a href="../static_pages/shop.html" class="gooey-btn">Shop Now</a>
+  
+    <!-- SVG Filter -->
+    <svg>
+      <filter id="goo">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  
+                                                         0 1 0 0 0  
+                                                         0 0 1 0 0  
+                                                         0 0 0 20 -10" result="gooey" />
+        <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
+      </filter>
+    </svg>
+  </div>
+  */
