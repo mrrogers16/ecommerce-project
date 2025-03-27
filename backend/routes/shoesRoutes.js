@@ -149,6 +149,67 @@ router.put('/shoes/:id', authenticateToken, authorizeRole('admin'), async (req, 
     }
 });
 
+//PUT /api/shoes - Update multiple shoes at once(Admin Only)
+router.put('/shoes', authenticateToken, authorizeRole('admin'), async (req, res) => {
+    const {shoes} = req.body;
+
+    if(!Array.isArray(shoes) || shoes.length === 0){
+        return res.status(400).json({error: 'Invalid input: Provide an array of shoes to update'});
+    }
+
+    try{
+        const ids = [];
+        const names = [];
+        const brands = [];
+        const prices = [];
+        const stocks = [];
+        const sizes = [];
+        const imageUrls = [];
+
+        shoes.forEach(shoe =>{
+            ids.push(shoe.id);
+            names.push(shoe.name);
+            brands.push(shoe.brand);
+            prices.push(shoe.price);
+            stocks.push(shoe.stock);
+            sizes.push(shoe.sizes);
+            imageUrls.push(shoe.image_url);
+        });
+
+        const query = `
+            UPDATE shoes 
+            SET name = data.name, 
+                brand = data.brand, 
+                price = data.price, 
+                stock = data.stock, 
+                sizes = data.sizes, 
+                image_url = data.image_url
+            FROM (SELECT
+                    UNNEST($1::int[]) AS id,
+                    UNNEST($2::text[]) AS name, 
+                    UNNEST($3::text[]) AS brand, 
+                    UNNEST($4::numeric[]) AS price, 
+                    UNNEST($5::int[]) AS stock, 
+                    UNNEST($6::integer[][]) AS sizes, 
+                    UNNEST($7::text[]) AS image_url
+                  ) AS data
+            WHERE shoes.id = data.id
+            RETURNING shoes.*;
+        `;
+
+        const result = await pool.query(query,[ids,names,brands,prices,stocks,sizes,imageUrls]);
+
+        res.json({
+            message: `Shoes updated successfully`,
+            updatedShoes: result.rows
+        });
+
+    } catch (error){
+        console.error(`Error updating multile shoes:`,error);
+        res.status(500).json({ error: `Internal error - PUT /shoes (bulk update)` });
+        }
+    });
+
 // DELETE /api/shoes/:id - Delete an existing shoe (Admin only)
 router.delete('/shoes/:id', authenticateToken, authorizeRole('admin'), async (req, res) => {
     const { id } = req.params;
