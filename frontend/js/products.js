@@ -53,42 +53,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Function to generate HTML for each product
     function generateProductCard(product) {
-        // Sanitize data before insertion
-        const sanitize = str => String(str).replace(/[&<>"']/g, char => {
-            const entities = {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#39;'
-            };
-            return entities[char];
-        });
-
-        // Format price safely
-        const formatPrice = (price) => {
-            const numPrice = parseFloat(price);
-            return !isNaN(numPrice) ? numPrice.toFixed(2) : 'N/A';
-        };
-
         return `
-    <div class="col-md-4 d-flex">
-        <div class="card shadow-sm w-100">
-                    <img src="${sanitize(product.image_url || '')}" class="card-img-top" alt="${sanitize(product.name || '')}">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">${sanitize(product.name || '')}</h5>
-                        <p class="card-text"><strong>Brand:</strong> ${sanitize(product.brand || '')}</p>
-                        <p class="card-text"><strong>Price:</strong> ${product.price ? '$' + formatPrice(product.price) : 'N/A'}</p>
-                        <p class="card-text"><strong>Sizes:</strong> ${product.sizes ? sanitize(product.sizes.join(", ")) : "N/A"}</p>
-                        <button class="btn btn-success add-to-cart" 
-                            data-id="${sanitize(product.id || '')}" 
-                            data-name="${sanitize(product.name || '')}" 
-                            data-brand="${sanitize(product.brand || '')}" 
-                            data-price="${product.price ? sanitize(String(product.price)) : ''}" 
-                            data-image="${sanitize(product.image_url || '')}" 
-                            data-sizes='${sanitize(JSON.stringify(product.sizes || []))}'>Add to Cart</button>
+            <div class="col-md-4">
+                <a href="product-details.html?id=${product.id}">
+                    <div class="card">
+                        <img src="${product.image_url}" class="card-img-top" alt="${product.name}">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text">$${product.price}</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         `;
     }
