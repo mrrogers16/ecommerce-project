@@ -315,6 +315,7 @@ nav ul li a:hover {
     border: 2px solid #ff5733 !important;
     transform: scale(1.1);
 }
+
 /* 🔹 Dropdown Menu */
 .dropdown {
     position: relative;
@@ -460,6 +461,7 @@ nav ul li a:hover {
 .drawer-links a:hover {
   background-color: #444;
 }
+
 /* Standardized Product Card Layout */
 .card {
     height: 100%;

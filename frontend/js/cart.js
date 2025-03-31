@@ -58,3 +58,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderCart();
 });
+// This function will update the cart count
+function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartCount = cart.length;
+    document.getElementById('cart-count').textContent = cartCount;
+}
+
+// Call this function when the page loads or after adding/removing items from the cart
+updateCartCount();
