@@ -56,11 +56,48 @@
           <!-- <li><a href="cart.html">Cart</a></li>  -->
         </ul>
     </aside>
-    <main class="container">
-        <div id="product-detail" class="row">
-            <!-- Product details will be dynamically loaded here -->
+
+
+    <!-- Main Product Details Section -->
+    <main class="container mt-5">
+        <div class="row">
+            <!-- Left Column: Product Image -->
+            <div class="col-md-6">
+                <div class="main-image">
+                    <img id="product-image" src="" alt="Product Image" class="img-fluid" />
+                </div>
+            </div>
+
+            <!-- Right Column: Product Information -->
+            <div class="col-md-6">
+                <h2 id="product-name">Product Name</h2>
+                <p id="product-description">Product Description</p>
+                <p id="product-price" class="h4">Price: $</p>
+
+                <!-- Size Selection -->
+                <div id="size-options">
+                    <label for="size-select">Select Size</label>
+                    <select id="size-select" class="form-control">
+                        <!-- Size options will be dynamically inserted here -->
+                    </select>
+                </div>
+
+                <!-- Add to Cart Button -->
+                <button id="add-to-cart-btn" class="btn btn-primary mt-3 w-100">Add to Cart</button>
+            </div>
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <p>© 2025 Fly Feet. All Rights Reserved.</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#" class="text-white">Terms of Service</a></li>
+            <li class="list-inline-item"><a href="#" class="text-white">Privacy Policy</a></li>
+            <li class="list-inline-item"><a href="#" class="text-white">Follow Us</a></li>
+        </ul>
+    </footer>
+
 
     <script src="../js/product-details.js"></script>
     <script src="../js/navbar.js"></script>

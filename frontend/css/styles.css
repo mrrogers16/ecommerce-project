@@ -412,3 +412,129 @@ nav ul li a:hover {
     padding: 1rem;
     text-align: center;
   }
+
+/* Size Selection */
+#size-select button {
+  margin: 5px;
+  padding: 5px 15px; /* Adjust padding to make the button more compact */
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s ease-in-out;
+  width: auto; /* Ensure the width is just enough to fit the content */
+}
+
+#size-select button:hover {
+  background-color: #000000;
+  color: rgb(154, 0, 0);
+  transform: scale(1.05);
+}
+
+#size-select button.active {
+  background-color: #28a745;
+  color: rgb(180, 54, 54);
+}
+/* Add to Cart Button */
+#add-to-cart-btn {
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  width: 100%;
+  border-radius: 5px;
+  background-color: #ff5733; /* Red color for the button */
+  transition: background-color 0.3s ease;
+}
+
+#add-to-cart-btn:hover {
+  background-color: #c44127; /* Darker red on hover */
+}
+/* Footer */
+footer {
+    background-color: #343a40;
+    color: white;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: #007bff;
+}
+
+footer .list-inline-item {
+    margin: 0 10px;
+}
+
+/* Custom CSS for the product details page */
+#product-name {
+  font-size: 2.5rem; /* Larger font for product name */
+  font-weight: bold; /* Bold to make it stand out */
+  color: #333; /* Dark color for readability */
+  margin-bottom: 15px;
+}
+
+#product-price {
+  font-size: 1.8rem;
+  font-weight: 600; /* Semi-bold for emphasis */
+  color: #ff5733; /* Price color to stand out */
+  margin-bottom: 20px; /* Space between price and size selector */
+}
+#size-select {
+  font-size: 1.2rem; /* Slightly larger text */
+  font-weight: bold;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+
+#size-select select {
+  font-size: 1rem; /* Size of the dropdown text */
+  padding: 5px 10px; /* Padding for better clickability */
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 200px; /* Custom width for the select box */
+  margin-top: 10px;
+}
+
+#size-select select:focus {
+  outline: none;
+  box-shadow: 0 0 5px #ff5733; /* Highlight the select box on focus */
+}
+#product-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 40px;
+  align-items: center;
+}
+
+#product-details img {
+  width: 45%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+#product-name, #product-price, #size-select {
+  text-align: left; /* Align text to the left */
+  margin: 10px 0;
+}
+@media (max-width: 768px) {
+  #product-name {
+    font-size: 2rem; /* Slightly smaller font on smaller screens */
+  }
+
+  #product-price {
+    font-size: 1.5rem;
+  }
+
+  #size-select select {
+    width: 100%; /* Make the size selector full width on smaller screens */
+  }
+}
+#add-to-cart-btn:hover {
+  background-color: #c44127; /* Darker red when hovered */
+  color: white;
+  transform: scale(1.05); /* Slight scale-up effect */
+}
