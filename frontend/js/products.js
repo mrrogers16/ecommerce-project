@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const category = urlParams.get("category");
 
             let filteredShoes = shoes;
-            if (category) {
+            if (category && category !== "All Shoes") {
                 filteredShoes = shoes.filter(shoe =>
                     shoe.gender && shoe.gender.toLowerCase() === category.toLowerCase()
                 );
