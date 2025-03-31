@@ -1,128 +1,244 @@
-/* 🔹 Hero Section Layout - CONSOLIDATED VERSION */
+/* 🔹 Hero Section Layout with Image and Gradient Animation */
+/* 🔹 Hero Section with Zoom Effect */
 .hero {
-    position: relative;
-    height: 100vh;
-    background: url('../assets/images/icon.png') center/cover no-repeat;
-    display: flex;
-    align-items: center; /* This centers content vertically */
-    justify-content: center;
-    text-align: center;
-  }
-  
-  .hero .container {
-    max-width: 800px;
-    width: 100%;
-  }
-  
-  /* 🔹 Main Heading - MOVE JUST THIS ELEMENT */
-  .hero-heading {
-    font-size: 3.5rem;
-    font-weight: bold;
-    color: #162eb1;
-    margin-bottom: 0.3rem;
-    animation: fadeInDown 1s ease-in-out;
-    position: relative;
-    top: -285px; /* Move just this text up */
-  }
-  
-  /* 🔹 Subheading ("With") - MOVE JUST THIS ELEMENT */
-  .hero-subtitle {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #162eb1;
-    margin-bottom: 1.5rem;
-    animation: fadeInUp 1s ease-in-out;
-    position: relative;
-    top: -250px; /* Move just this text up */
-  }
-  
-  /* Move the focus container to position it better with the image */
-  .focus-wrapper {
-    position: relative;
-    width: 100%;
-    margin-top: 20px; /* Adjust this value as needed */
-  }
-  
-  /* Make the container take up full width to allow for positioning */
-  .focus-container {
-    width: 100% !important;
-    position: relative;
-    display: block !important; /* Override bootstrap's display */
-  }
-  
-  /* Position "Fly" on the left side */
-  .focus-word:nth-child(1) {
-    position: absolute;
-    left: 0;
-    transform: translateX(-60%); /* Move it left of the container */
-    top: -50px; /* Vertical position: negative = higher up, positive = lower down */
-    z-index: 10;
-  }
-  
-  /* Position "Feet!" on the right side */
-  .focus-word:nth-child(2) {
-    position: absolute;
-    right: 0;
-    transform: translateX(100%); /* Move it right of the container */
-    top: -50px; /* Vertical position: negative = higher up, positive = lower down */
-    z-index: 10;
-  }
-  
-  /* Adjust the Shop Now button positioning */
-.button-container {
   position: relative;
-  clear: both;
-  /* Vertical positioning */
-  margin-top: 20px; /* Adjust to move button down */
-  /* OR use this to have more direct control */
-  top: 180px; /* Positive = move down, negative = move up */
-  
-  /* Horizontal positioning if needed */
-  left: 0px; /* Positive = move right, negative = move left */
-  
-  /* Keep this to ensure button appears above other elements */
-  z-index: 20;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: url('../assets/images/icon.png') center/cover no-repeat;
+  background-size: 120%; /* Initial zoom in */
+  animation: zoomEffect 5s ease-in-out infinite;
 }
 
-/* You can also adjust the button size if desired */
-.button-container a.btn {
-  font-size: 1.4rem; /* Larger text */
-  padding: 15px 35px; /* Wider/taller button */
+/* 🔹 Keyframes for Zoom Effect */
+@keyframes zoomEffect {
+  0% {
+    background-size: 120%; /* Start zoomed in */
+  }
+  50% {
+    background-size: 100%; /* Zoom out to original size */
+  }
+  100% {
+    background-size: 120%; /* Zoom back in */
+  }
+}
+
+.hero .container {
+  max-width: 800px;
+  width: 100%;
+}
+
+/* 🔹 Main Heading */
+.hero-heading {
+  font-size: 3.5rem;
   font-weight: bold;
+  color: #0c1c7a; /* Text color */
+  margin-bottom: 0.3rem;
+  animation: fadeInDown 1s ease-in-out;
+  position: relative;
+  top: -285px;
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5); /* Keeping the text shadow */
+  padding: 10px; /* Optional padding to ensure spacing around the text */
+  z-index: 10; /* Ensure the heading stays above other elements */
 }
 
-/* For mobile responsiveness */
-@media (max-width: 768px) {
-  .button-container {
-    top: 20px; /* Different position on mobile */
-  }
-  
-  .button-container a.btn {
-    font-size: 1.2rem; /* Smaller text on mobile */
-    padding: 12px 25px; /* Smaller button on mobile */
+/* 🔹 Subheading */
+.hero-subtitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #0c1c7a; /* Text color */
+  margin-bottom: 1.5rem;
+  animation: fadeInUp 1s ease-in-out;
+  position: relative;
+  top: -250px;
+  text-shadow: 2px 2px 4px  rgba(255, 255, 255, 0.5); /* Keeping the text shadow */
+  padding: 5px; /* Optional padding */
+  z-index: 10; /* Ensure the subtitle stays above other elements */
+}
+
+/* Move the focus container to position it better with the image */
+.focus-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 20px; /* Adjust this value as needed */
+}
+
+/* Make the container take up full width to allow for positioning */
+.focus-container {
+  width: 100% !important;
+  position: relative;
+  display: block !important; /* Override bootstrap's display */
+}
+
+/* Position "Fly" on the left side */
+.focus-word:nth-child(1) {
+  position: absolute;
+  left: 0;
+  transform: translateX(-40%); /* Move it left of the container */
+  top: -50px; /* Vertical position: negative = higher up, positive = lower down */
+  z-index: 10;
+}
+
+/* Position "Feet!" on the right side */
+.focus-word:nth-child(2) {
+  position: absolute;
+  right: 0;
+  transform: translateX(100%); /* Move it right of the container */
+  top: -50px; /* Vertical position: negative = higher up, positive = lower down */
+  z-index: 10;
+}
+/* General Button Styling */
+.button-container a.btn {
+  position: relative;
+  background-color: #07395f; /* Base color for the button */
+  color: white; /* Text color */
+  border: none;
+  padding: 15px 30px; /* Button padding */
+  font-size: 1.4rem; /* Font size */
+  font-weight: bold; /* Font weight */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s, transform 0.3s ease-in-out, box-shadow 0.2s ease-in-out;
+  display: inline-block; /* Ensures the button is an inline block for positioning */
+  position: relative;
+  top: 150px; /* Moves the button down along the Y-axis */
+  z-index: 10; /* Keeps button above other elements */
+  overflow: hidden; /* Ensure that the ripple stays within the button */
+}
+
+/* Ripple Effect - when clicked */
+.button-container a.btn::after {
+  content: '';
+  position: absolute;
+  width: 300%;
+  height: 300%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3); /* Light effect for the ripple */
+  animation: ripple 0.6s linear;
+  pointer-events: none; /* Prevent interaction with the ripple */
+  transform: scale(0);
+  transition: all 0.4s;
+}
+
+/* Active state for the ripple effect */
+.button-container a.btn:active::after {
+  transform: scale(1);
+  animation: ripple 0.6s linear;
+}
+
+/* Keyframes for Ripple Effect */
+@keyframes ripple {
+  to {
+    transform: scale(4); /* Expands the ripple */
+    opacity: 0; /* Fades out the ripple */
   }
 }
-  
-  /* 🔹 Responsive Text Sizing */
-  @media (max-width: 768px) {
-    .hero-heading {
+
+/* Hover Effect for the Button */
+.button-container a.btn:hover {
+  background-color: #5a1d10; /* Darker color when hovered */
+  transform: scale(1.05); /* Slightly grow the button */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for emphasis */
+}
+
+/* Active State (When clicked) */
+.button-container a.btn:active {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Slightly larger shadow when clicked */
+  transform: scale(1.03); /* Slightly shrink the button on click */
+}
+
+/* Focus Effect for Accessibility */
+.button-container a.btn:focus {
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 0 3px rgba(255, 87, 51, 0.5); /* Custom focus outline */
+}
+
+/* 🔹 Responsive Text Sizing */
+@media (max-width: 768px) {
+  .hero-heading {
       font-size: 2.5rem;
-    }
-  
-    .focus-word {
-      font-size: 2.2rem;
-    }
-  
-    .hero-subtitle {
-      font-size: 1.2rem;
-    }
-    
-    /* Adjust positions on smaller screens */
-    .focus-word:nth-child(1) {
-      transform: translateX(-60%); /* Less distance on mobile */
-    }
-    
-    .focus-word:nth-child(2) {
-      transform: translateX(60%); /* Less distance on mobile */
-    }
   }
+
+  .focus-word {
+      font-size: 2.2rem;
+  }
+
+  .hero-subtitle {
+      font-size: 1.2rem;
+  }
+  
+  /* Adjust positions on smaller screens */
+  .focus-word:nth-child(1) {
+      transform: translateX(-60%); /* Less distance on mobile */
+  }
+  
+  .focus-word:nth-child(2) {
+      transform: translateX(60%); /* Less distance on mobile */
+  }
+}
+
+/* 🔹 Expanding Arrows */
+.scroll-arrows {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scroll-arrows span {
+  width: 15px;
+  height: 15px;
+  border-right: 3px solid #5a1d10;
+  border-bottom: 3px solid rgb(107, 39, 39);
+  transform: rotate(45deg);
+  margin: 5px;
+  animation: expand 1.5s infinite;
+}
+
+/* 🔹 Delay Each Arrow */
+.scroll-arrows span:nth-child(1) { animation-delay: 0s; }
+.scroll-arrows span:nth-child(2) { animation-delay: 0.3s; }
+.scroll-arrows span:nth-child(3) { animation-delay: 0.6s; }
+
+/* 🔹 Expanding Effect */
+@keyframes expand {
+  0% { opacity: 0; transform: translateY(-10px) rotate(45deg); }
+  50% { opacity: 1; transform: translateY(0) rotate(45deg); }
+  100% { opacity: 0; transform: translateY(10px) rotate(45deg); }
+}
+
+.shoe-carousel {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+  background: #f8f9fa;
+  padding: 20px 0;
+}
+
+.shoe-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  animation: scroll 8s linear infinite;
+}
+
+.shoe-track img {
+  width: 150px;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Scrolling Animation */
+@keyframes scroll {
+  from {
+      transform: translateX(100%);
+  }
+  to {
+      transform: translateX(-100%);
+  }
+}

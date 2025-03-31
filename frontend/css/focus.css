@@ -5,13 +5,17 @@
   }
   
   .focus-word {
-    font-size: 4.5rem;
-    font-weight: bold;
-    filter: blur(5px);
-    transition: filter 0.3s ease-in-out;
-    /* Keep position: absolute in landing.css instead */
+    font-family: "antipol-variable", sans-serif; /* Your custom font */
+    font-size: 4.5rem; /* Adjust text size */
+    font-weight: bold; /* Corrected to use only 'bold' */
+    font-style: italic; /* Apply italics separately */
+    filter: blur(2px); /* Apply blur effect */
+    transition: filter 0.3s ease-in-out; /* Smooth transition for the blur effect */
     display: inline-block; /* Ensure words take only their needed space */
-  }
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5); /* Keeping the text shadow */
+    padding: 10px; /* Optional padding to ensure spacing around the text */
+    z-index: 10; /* Ensure the heading stays above other elements */
+}
   
   .focus-word:hover {
     filter: blur(0);

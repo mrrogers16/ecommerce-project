@@ -1,91 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fly Feet - The Best Shoe Store</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fly Feet - The Best Shoe Store</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <!-- Fonts and CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <!-- Adobe Fonts: Antipol -->
+    <link rel="stylesheet" href="https://use.typekit.net/dro4ebr.css">
     
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="../css/styles.css">
-
-    <!--button style-->
-    <link rel="stylesheet" href="../css/grovey_button.css">
-
-    <!-- Focus styling -->
-<link rel="stylesheet" href="../css/focus.css">
-
-</head><head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/landing.css" />
+  <link rel="stylesheet" href="../css/focus.css">
+  <link rel="stylesheet" href="../css/carousel.css">
 </head>
-
 <body>
 
-    <!-- Hero Section -->
+  
+       <!-- Hero Section -->
     <section class="hero text-center  d-flex align-items-center justify-content-center" 
     style="height: 100vh; background: url('../assets/images/icon.png') center/cover no-repeat;">
     <div class="container">
-        <!-- Main Heading -->
-        <h1 class="display-3 fw-bold animate__animated animate__fadeInDown" style="color: #0b2f98;">
-            Step into Style
-        </h1>
+      <!-- Headline -->
+      <h1 class="hero-heading">Step into Style</h1>
+      <p class="hero-subtitle">With</p>
 
-        <!-- Subtitle -->
-        <p class="lead animate__animated animate__fadeInUp" style="color: #0b2f98;">Discover the latest trends in footwear</p>
-        <p class="lead animate__animated animate__fadeInUp" style="color: #0b2f98; font-weight: 900;">With</p>
-
-        <!-- 🔥 Fly Feet! Focus Effect 🔥 -->
+      <!-- 🔥 Fly Feet! Focus Effect -->
+      <div class="focus-wrapper">
         <h2 class="display-2 fw-bold animate__animated animate__fadeInUp focus-container" style="color: #0b2f98;">
-            <span class="focus-word" style="color: #0b2f98;">Fly</span>
-            <span class="focus-word" style="color: #0b2f98;">Feet!</span>
-            <div class="focus-frame">
-                <div class="corner top-left"></div>
-                <div class="corner top-right"></div>
-                <div class="corner bottom-left"></div>
-                <div class="corner bottom-right"></div>
-            </div>
+          <span class="focus-word">Fly</span>
+          <span class="focus-word">Feet!</span>
+          <div class="focus-frame">
+            <div class="corner top-left"></div>
+            <div class="corner top-right"></div>
+            <div class="corner bottom-left"></div>
+            <div class="corner bottom-right"></div>
+          </div>
         </h2>
+      </div>
 
-           <!-- 🔹 Fixed Shop Now Button Placement -->
-           <div class="button-container">
-            <a href="../static_pages/shop.html" class="btn btn-warning btn-lg mt-4 animate__animated animate__zoomIn">Shop Now</a>
-
+      <!-- 🔹 Shop Button -->
+      <div class="button-container mt-4">
+        <a href="../static_pages/shop.html" class="btn btn-warning btn-lg animate__animated animate__zoomIn">Shop Now</a>
+      </div>
     </div>
-</section>
-<!-- working on button, html is stored in grovey css -->
+  </section>
 
-
-
-    <!-- Shoe Carousel -->
-    <div class="shoe-scroll">
-        <div class="shoe-track">
-            <img src="https://m.media-amazon.com/images/I/514DUfoH7mL._AC_SX575_.jpg" alt="Shoe 1">
-            <img src="https://m.media-amazon.com/images/I/51yUmzHLKBL._AC_SY695_.jpg" alt="Shoe 2">
-            <img src="https://source.unsplash.com/200x200/?shoes" alt="Shoe 3">
-        </div>
+  <!-- 🔹 Shoe Carousel -->
+  <section class="shoe-carousel">
+    <div class="shoe-track">
+      <!-- Dynamic images will be injected here -->
     </div>
-    
-    
-        <!-- Scroll Indicator -->
-        
-            <div class="scroll-arrows"">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            
-        
-    </section>
+  </section>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- 🔹 Scroll Arrows -->
+  <div class="scroll-arrows">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 
-    <!-- Custom JS for focus animation-->
-    <script src="../js/focus.js"></script>
-    
-
-
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/focus.js"></script>
+  <script src="../js/carousel.js"></script>
 </body>
 </html>

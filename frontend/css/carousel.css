@@ -1,0 +1,23 @@
+/* Carousel container */
+.shoe-carousel {
+    display: flex;
+    gap: 20px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  /* Each image in the carousel */
+  .shoe-carousel img {
+    width: 200px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Hover effect for images */
+  .shoe-carousel img:hover {
+    transform: scale(1.1); /* Slight zoom on hover */
+  }
