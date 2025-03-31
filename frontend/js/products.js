@@ -61,8 +61,8 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         return `
-            <div class="col-md-4">
-                <div class="card shadow-sm">
+    <div class="col-md-4 d-flex">
+        <div class="card shadow-sm w-100">
                     <img src="${sanitize(product.image_url || '')}" class="card-img-top" alt="${sanitize(product.name || '')}">
                     <div class="card-body text-center">
                         <h5 class="card-title">${sanitize(product.name || '')}</h5>
