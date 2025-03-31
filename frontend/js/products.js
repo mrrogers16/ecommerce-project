@@ -26,14 +26,25 @@ document.addEventListener("DOMContentLoaded", () => {
             // Extract the shoes array from the results property
             const shoes = data.results;
 
-            if (!Array.isArray(shoes) || shoes.length === 0) {
+            // Check for gender/category filter in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get("category");
+
+            let filteredShoes = shoes;
+            if (category) {
+                filteredShoes = shoes.filter(shoe =>
+                    shoe.gender && shoe.gender.toLowerCase() === category.toLowerCase()
+                );
+            }
+
+            if (!Array.isArray(filteredShoes) || filteredShoes.length === 0) {
                 console.warn("⚠ No products found.");
                 productList.innerHTML = `<p class="text-center">No products available.</p>`;
                 return;
             }
 
             // Insert dynamically generated product cards
-            productList.innerHTML = `<div class="row g-4">${shoes.map(generateProductCard).join("")}</div>`;
+            productList.innerHTML = `<div class="row g-4">${filteredShoes.map(generateProductCard).join("")}</div>`;
         })
         .catch(error => {
             console.error("❌ Error fetching shoes:", error);
