@@ -2,16 +2,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const cartContainer = document.getElementById("cart-items");
     const cartTotal = document.getElementById("cart-total");
 
-    if (!cartContainer) {
-        console.error("❌ Error: Cart container not found!");
+    if (!cartContainer || !cartTotal) {
+        console.error("❌ Error: Required elements not found on the cart page!");
         return;
     }
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    
 
     function renderCart() {
         cartContainer.innerHTML = "";
-        let total = 0;
+        let totalPrice = 0;
 
         if (cart.length === 0) {
             cartContainer.innerHTML = `
@@ -25,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         cart.forEach((product, index) => {
-            total += product.price;
+            totalPrice += product.price;
 
             const cartItem = document.createElement("div");
             cartItem.classList.add("cart-item", "col-md-4");
@@ -53,6 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
             cart.splice(index, 1);
             localStorage.setItem("cart", JSON.stringify(cart));
             renderCart();
+            updateCartCount(); //updates cart count in navbar 
         }
     });
 

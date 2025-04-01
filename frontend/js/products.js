@@ -61,6 +61,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div class="card-body text-center">
                             <h5 class="card-title">${product.name}</h5>
                             <p class="card-text">$${product.price}</p>
+                            <button class="btn btn-primary add-to-cart"
+                                data-id="${product.id}"
+                                data-name="${product.name}"
+                                data-price="${product.price}"
+                                data-image="${product.image_url}"
+                                data-sizes='${JSON.stringify(product.sizes)}'>
+                                Add to Cart
+                            </button>
                         </div>
                     </div>
                 </a>
@@ -71,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Handle "Add to Cart" Click
     document.addEventListener("click", (event) => {
         if (event.target.classList.contains("add-to-cart")) {
+            console.log("Add to Cart button clicked");
             const button = event.target;
             selectedProduct = {
                 id: button.getAttribute("data-id"),
@@ -81,6 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 sizes: JSON.parse(button.getAttribute("data-sizes")),
                 selectedSize: null,
             };
+            console.log("Selected product:", selectedProduct);
 
             showSizeModal();
         }
@@ -124,6 +134,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        selectedProduct.selectedSize = selectedProduct.selectedSize || 7; // Default to "N/A" if not selected
+
         cart.push(selectedProduct);
         localStorage.setItem("cart", JSON.stringify(cart));
 
