@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 localStorage.setItem("cart", JSON.stringify(cart));
 
-                updateCartCount();
+                window.updateCartCount();
 
                 alert(`${product.name} (Size ${selectedSize}) added to cart!`);
             });
