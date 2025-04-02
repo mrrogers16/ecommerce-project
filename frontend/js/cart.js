@@ -48,6 +48,16 @@ document.addEventListener("DOMContentLoaded", () => {
         cartTotal.textContent = totalPrice.toFixed(2);
     }
 
+    // updates the cart count
+    function updateCartCount() { //currently isnt working
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartCount = cart.length;
+        const cartCountElement = document.getElementById('cart-count');
+        if (cartCountElement) {
+            cartCountElement.textContent = cartCount;
+        }
+    }
+
     document.addEventListener("click", (event) => {
         if (event.target.classList.contains("remove-from-cart")) {
             const index = event.target.getAttribute("data-index");
@@ -60,12 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderCart();
 });
-// updates the cart count
-function updateCartCount() { //currently isnt working
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const cartCount = cart.length;
-    document.getElementById('cart-count').textContent = cartCount;
-}
+
 
 // Handles clear cart button
 const clearCartBtn = document.getElementById("clearCart");
@@ -105,4 +110,12 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCartCount();
 });
 // Call this function when the page loads or after adding/removing items from the cart
-updateCartCount();
+//updateCartCount();
+
+
+
+
+/*TO DO:
+- update cart count
+- get clear cart functionality working, only remove works
+*/
