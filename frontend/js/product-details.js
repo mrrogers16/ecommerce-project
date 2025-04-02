@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const productId = new URLSearchParams(window.location.search).get('id'); // Get the product ID from the URL
+    const addToCartBtn = document.getElementById("add-to-cart-btn");
 
     // Fetch product data using the product ID
     fetch(`https://fly-feet.com/api/shoes/${productId}`)
@@ -31,6 +32,34 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             // Handle add to cart functionality here...
+            addToCartBtn.addEventListener("click", () =>{
+                const selectedSize = sizeSelect.value;
+
+                if(!selectedSize){
+                    alert("Please select a size:");
+                    return;
+                }
+
+                const productToAdd = {
+                    id: product.id,
+                    name: product.name,
+                    brand: product.brand,
+                    price: parseFloat(product.price),
+                    image: product.image_url,
+                    selectedSize: selectedSize
+                };
+
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+                //add product to cart
+                cart.push(productToAdd);
+
+                localStorage.setItem("cart", JSON.stringify(cart));
+
+                updateCartCount();
+
+                alert(`${product.name} (Size ${selectedSize}) added to cart!`);
+            });
         })
         .catch(error => {
             console.error("Error fetching product details:", error);
