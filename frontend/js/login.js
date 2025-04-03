@@ -1,20 +1,17 @@
 // frontend/js/login.js
 
-document.addEventListener("DOMContentLoaded", () =>
-{
+document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
 
-    form.addEventListener("submit", async (e) =>
-    {
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const email = emailInput.value.trim();
         const password = passwordInput.value;
 
-        try
-        {
+        try {
             const res = await fetch("/api/customers/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -23,8 +20,7 @@ document.addEventListener("DOMContentLoaded", () =>
 
             const data = await res.json();
 
-            if (res.ok && data.token)
-            {
+            if (res.ok && data.token) {
                 // Save the token for later use (adminLink.js will pick this up)
                 localStorage.setItem("token", data.token);
 
@@ -32,22 +28,18 @@ document.addEventListener("DOMContentLoaded", () =>
                 const payload = JSON.parse(atob(data.token.split('.')[1]));
                 const role = payload.role;
 
-                if (role === "admin")
-                {
+                if (role === "admin") {
                     window.location.href = "admin.html";
                 }
-                else
-                {
+                else {
                     window.location.href = "index.html";
                 }
             }
-            else
-            {
+            else {
                 alert(data.error || "Login failed. Please try again.");
             }
         }
-        catch (err)
-        {
+        catch (err) {
             console.error("Login error:", err);
             alert("Something went wrong while logging in.");
         }
