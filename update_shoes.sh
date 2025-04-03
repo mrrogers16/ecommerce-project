@@ -18,8 +18,8 @@ S3_BUCKET="s3://ecommerce-static-0130"
 echo "#### Syncing index.html to S3 root ####"
 aws s3 cp "$STAGING_DIR/index.html" "$S3_BUCKET/index.html" || { echo "xxxx Error syncing index.html xxxx"; exit 1; }
 
-echo "#### Syncing Static HTML Pages to Bucket Root ####"
-aws s3 sync "$STAGING_DIR/static_pages" "$S3_BUCKET" --delete --exclude "*.DS_Store" || { echo "xxxx Error syncing static pages xxxx"; exit 1; }
+echo "#### Syncing Static Pages Folder ####"
+aws s3 sync "$STAGING_DIR/static_pages" "$S3_BUCKET/static_pages" --delete --exclude "*.DS_Store" || { echo "xxxx Error syncing static pages xxxx"; exit 1; }
 
 echo "#### Syncing JS folder to S3 ####"
 aws s3 sync "$STAGING_DIR/js" "$S3_BUCKET/js" --delete || { echo "xxxx Error syncing JS folder xxxx"; exit 1; }
