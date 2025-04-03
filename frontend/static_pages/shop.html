@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,31 +15,32 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Custom Styles -->  
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/LogSign.css">
 </head>
+
 <body>
 
-<!-- Popup Modal  -->
-<div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="welcomeModalLabel">Welcome to Fly Feet!</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Popup Modal  -->
+    <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="welcomeModalLabel">Welcome to Fly Feet!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Log in, sign up, or continue as a guest to explore our shoes.</p>
+                    <button id="loginButton" class="btn btn-primary">Log In</button>
+                    <button id="signupButton" class="btn btn-secondary">Sign Up</button>
+                    <button id="continueAsGuest" class="btn btn-info">Continue as Guest</button>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-          <p>Log in, sign up, or continue as a guest to explore our shoes.</p>
-          <button id="loginButton" class="btn btn-primary">Log In</button>
-          <button id="signupButton" class="btn btn-secondary">Sign Up</button>
-          <button id="continueAsGuest" class="btn btn-info">Continue as Guest</button>
-        </div>
-      </div>
     </div>
-  </div>
-  
-  
+
+
 
     <!-- Add cart container at the top -->
     <div id="cart-container"></div>
@@ -50,13 +52,15 @@
             <a href="index.html" class="flyfeet-brand">Fly Feet</a>
         </h1>
         <div id="cart-container">
-        <a href="cart.html" class="cart-icon d-flex align-items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" class="bi bi-cart" viewBox="0 0 16 16">
-                <path d="M0 1a1 1 0 0 1 1-1h1.11a1 1 0 0 1 .98.8l.401 2.401a.5.5 0 0 0 .49.399h9.747a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 12 13H4a.5.5 0 0 1-.491-.408L1.01 2.607 1 2.5V2a1 1 0 0 1-1-1zm3.14 3 1.313 7h7.094l1.312-7H3.14zM5.5 14a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
-            </svg>
-            <span id="cart-count" class="cart-count">0</span> <!-- Cart count display -->
-        </a>  
-    </div>
+            <a href="cart.html" class="cart-icon d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" class="bi bi-cart"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M0 1a1 1 0 0 1 1-1h1.11a1 1 0 0 1 .98.8l.401 2.401a.5.5 0 0 0 .49.399h9.747a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 12 13H4a.5.5 0 0 1-.491-.408L1.01 2.607 1 2.5V2a1 1 0 0 1-1-1zm3.14 3 1.313 7h7.094l1.312-7H3.14zM5.5 14a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                </svg>
+                <span id="cart-count" class="cart-count">0</span> <!-- Cart count display -->
+            </a>
+        </div>
     </header>
 
     <!-- Side Navigation Drawer -->
@@ -74,15 +78,17 @@
             </li>
             <li><a href="#">About</a></li>
             <li><a href="contact.html">Contact</a></li>
-            <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" class="bi bi-person-circle ms-2" viewBox="0 0 16 16">
-                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-            </svg></a></li>
-          <!-- <li><a href="cart.html">Cart</a></li>  -->
+            <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white"
+                        class="bi bi-person-circle ms-2" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                        <path fill-rule="evenodd"
+                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                    </svg></a></li>
+            <!-- <li><a href="cart.html">Cart</a></li>  -->
         </ul>
     </aside>
-<!-- Products Section -->
- <main class="container">
+    <!-- Products Section -->
+    <main class="container">
         <h1>Our Products</h1>
         <div id="product-list" class="row">
             <!-- Products will be dynamically loaded here -->
@@ -99,6 +105,25 @@
             <button id="confirmSize" class="btn btn-warning">Confirm</button>
         </div>
     </div>
+    <!-- Login Button (only shows if not logged in) -->
+    <div id="login-button" style="position: fixed; top: 10px; right: 30px; z-index: 1000;"></div>
+
+    <!-- Admin Panel Link (injected if user is admin) -->
+    <div id="admin-panel-link" style="position: fixed; top: 50px; right: 30px; z-index: 1000;"></div>
+
+    <script>
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            document.getElementById("login-button").innerHTML = `
+      <a href="login.html" 
+         style="background-color: #0b2f98; color: white; padding: 10px 16px; border-radius: 8px; text-decoration: none; font-weight: bold;">
+        Login
+      </a>
+    `;
+        }
+    </script>
+    <script src="../js/adminLink.js"></script>
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3">
         <p>© 2025 Fly Feet. All Rights Reserved.</p>
@@ -116,4 +141,5 @@
     <script src="../js/script.js"></script>
     <script src="../js/LogSign.js"></script>
 </body>
+
 </html>
