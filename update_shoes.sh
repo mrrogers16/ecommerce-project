@@ -18,6 +18,9 @@ S3_BUCKET="s3://ecommerce-static-0130"
 echo "#### Syncing index.html to S3 root ####"
 aws s3 cp "$STAGING_DIR/index.html" "$S3_BUCKET/index.html" || { echo "xxxx Error syncing index.html xxxx"; exit 1; }
 
+echo "#### Syncing static pages to S3 ####"
+aws s3 sync "$STAGING_DIR/static_pages" "$S3_BUCKET/static_pages" || { echo "xxxx Error syncing static_pages xxxx"; exit 1; }
+
 echo "#### Syncing JS folder to S3 ####"
 aws s3 sync "$STAGING_DIR/js" "$S3_BUCKET/js" --delete || { echo "xxxx Error syncing JS folder xxxx"; exit 1; }
 
@@ -34,16 +37,6 @@ echo "#### Syncing Fonts folder to S3 ####"
 aws s3 sync "$STAGING_DIR/fonts" "$S3_BUCKET/fonts" --delete || { echo "xxxx Error syncing Fonts folder xxxx"; exit 1; }
 
 echo "#### Deployment to S3 complete ####"
-
-
-
-
-
-
-
-
-
-
 
 
 

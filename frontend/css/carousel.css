@@ -14,7 +14,7 @@
     height: auto;
     object-fit: cover;
     border-radius: 8px;
-    transition: transform 0.3s ease;
+    transition: transform 2.5s ease;
   }
   
   /* Hover effect for images */

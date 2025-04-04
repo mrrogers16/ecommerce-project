@@ -7,14 +7,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const adjustments = {
         // For the "Fly" word (index 0)
         0: {
-            offsetX: -45,  // Negative values move left, positive values move right
+            offsetX: -50,  // Negative values move left, positive values move right
             offsetY: -5,    // Negative values move up, positive values move down
             extraWidth: 10, // Make frame wider
             extraHeight: 10 // Make frame taller
         },
         // For the "Feet!" word (index 1)
         1: {
-            offsetX: 165,
+            offsetX: 185,
             offsetY: -7,
             extraWidth: 10,
             extraHeight: 10
@@ -49,5 +49,5 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(focusNextWord, 500);
     
     // Animation interval
-    setInterval(focusNextWord, 1500);
+    setInterval(focusNextWord, 3000);
 });

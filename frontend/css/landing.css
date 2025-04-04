@@ -8,20 +8,20 @@
   justify-content: center;
   text-align: center;
   background: url('../assets/images/icon.png') center/cover no-repeat;
-  background-size: 120%; /* Initial zoom in */
-  animation: zoomEffect 5s ease-in-out infinite;
+  background-size: 100%; /* Initial zoom in */
+  animation: zoomEffect 8s ease-in-out infinite;
 }
 
 /* 🔹 Keyframes for Zoom Effect */
 @keyframes zoomEffect {
   0% {
-    background-size: 120%; /* Start zoomed in */
+    background-size: 100%; /* Start zoomed in */
   }
   50% {
-    background-size: 100%; /* Zoom out to original size */
+    background-size: 80%; /* Zoom out to original size */
   }
   100% {
-    background-size: 120%; /* Zoom back in */
+    background-size: 100%; /* Zoom back in */
   }
 }
 
@@ -241,4 +241,43 @@
   to {
       transform: translateX(-100%);
   }
+}
+
+/* Welcome Modal Styling */
+.welcome-modal .modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  border: none;
+}
+
+.welcome-modal .modal-header {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.welcome-modal .modal-title {
+  color: #0b2f98;
+  font-weight: bold;
+}
+
+.welcome-modal .btn {
+  margin: 5px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.welcome-modal .btn-primary {
+  background-color: #0b2f98;
+  border-color: #0b2f98;
+}
+
+.welcome-modal .btn-outline-primary {
+  color: #0b2f98;
+  border-color: #0b2f98;
+}
+
+.welcome-modal .btn-outline-primary:hover {
+  background-color: #0b2f98;
+  color: white;
 }
