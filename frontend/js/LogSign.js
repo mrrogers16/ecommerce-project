@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const hasSeenWelcome = localStorage.getItem("hasSeenWelcomeModal");
+    const hasSeenWelcome = sessionStorage.getItem("hasSeenWelcomeModal");
     const token = localStorage.getItem("token");
     const modalElement = document.getElementById('welcomeModal');
 
@@ -14,15 +14,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     welcomeModal.show();
-    localStorage.setItem("hasSeenWelcomeModal", "true");
+    sessionStorage.setItem("hasSeenWelcomeModal", "true");
 
     function removeBackdrop() {
-        document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+        const modalBackdrop = document.querySelector('.modal-backdrop');
+        if (modalBackdrop) {
+            modalBackdrop.remove();
+        }
         document.body.classList.remove('modal-open');
         document.body.style.overflow = '';
     }
-
-
 
     // Manual close
     document.getElementById('continueAsGuest').addEventListener('click', function () {
@@ -31,10 +32,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Auth buttons
     document.getElementById('loginButton').addEventListener('click', function () {
+        removeBackdrop();
         window.location.href = 'login.html';
     });
 
     document.getElementById('signupButton').addEventListener('click', function () {
+        removeBackdrop();
         window.location.href = 'signup.html';
     });
 
