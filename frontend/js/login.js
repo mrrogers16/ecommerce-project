@@ -29,10 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 const role = payload.role;
 
                 if (role === "admin") {
-                    window.location.href = "admin.html";
+                    window.location.href = "/admin.html";
                 }
                 else {
-                    window.location.href = "../index.html";
+                    window.location.href = "/index.html";
                 }
             }
             else {
