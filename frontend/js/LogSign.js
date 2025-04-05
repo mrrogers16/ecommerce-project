@@ -25,6 +25,13 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.style.overflow = '';
     }
 
+    // Listen for the message to remove the backdrop
+    window.addEventListener('message', (event) => {
+        if (event.data === 'removeBackdrop') {
+            removeBackdrop();
+        }
+    });
+
     // Manual close
     document.getElementById('continueAsGuest').addEventListener('click', function () {
         welcomeModal.hide();
