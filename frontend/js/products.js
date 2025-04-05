@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeModalButton = document.querySelector(".close");
 
     if (!productList || !sizeModal) {
-        console.error("❌ Error: Required elements not found!");
+        console.error(" Error: Required elements not found!");
         return;
     }
 
@@ -17,23 +17,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let selectedProduct = null;
 
-    // Fetch products from the live API
+    // Fetch products from the API endpoint
     fetch("https://fly-feet.com/api/shoes")
         .then(response => response.json())
         .then(data => {
             console.log("✅ API Response:", data);
-            
+
             // Extract the shoes array from the results property
             const shoes = data.results;
 
-            // Check for gender/category filter in URL
+            // Check for category filter in URL
             const urlParams = new URLSearchParams(window.location.search);
-            const category = urlParams.get("category");
+            const category = urlParams.get("category")?.toLowerCase();
 
             let filteredShoes = shoes;
-            if (category && category !== "All Shoes") {
+            if (category && category !== "all shoes") {
                 filteredShoes = shoes.filter(shoe =>
-                    shoe.gender && shoe.gender.toLowerCase() === category.toLowerCase()
+                    shoe.category && shoe.category.toLowerCase() === categoryParam
                 );
             }
 
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
             productList.innerHTML = `<div class="row g-4">${filteredShoes.map(generateProductCard).join("")}</div>`;
         })
         .catch(error => {
-            console.error("❌ Error fetching shoes:", error);
+            console.error(" Error fetching shoes:", error);
             productList.innerHTML = `<p class="text-center text-danger">Failed to load products. Please try again later.</p>`;
         });
 
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function showSizeModal() {
         if (!selectedProduct || !sizeOptions) return;
-        
+
         // Clear previous event listeners by replacing the element
         const newSizeOptions = sizeOptions.cloneNode(false);
         sizeOptions.parentNode.replaceChild(newSizeOptions, sizeOptions);

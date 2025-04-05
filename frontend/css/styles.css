@@ -3,7 +3,7 @@ body, html {
   margin: 0;
   padding: 0;
   font-family: 'Urbanist', sans-serif;
-  background: linear-gradient(to bottom, #0a54dd, #5da1e6); /* Gradient background */
+  background: linear-gradient(to top, #0a54dd, hsl(210, 73%, 63%)); /* Gradient background */
   color: #333;
   text-align: center;
 }

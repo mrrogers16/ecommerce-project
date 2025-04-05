@@ -8,27 +8,22 @@ const authorizeRole = require('../middleware/authorizeRole');
 // GET /api/shoes - Return all shoes from DB (Public)
 router.get('/shoes', async (req, res) => {
     try {
+        const { brand, size, priceMin, priceMax, category, name, page = 1, limit = 10, sort = 'created_at', order = 'desc' } = req.query;
 
-        const { brand, size, priceMin, priceMax, page = 1, limit = 10, sort = 'created_at', order = 'desc' } = req.query;
-
-        // Validate sort columns
         const sortableFields = ['created_at', 'price', 'name'];
         const sortBy = sortableFields.includes(sort) ? sort : 'created_at';
-
-        // Validate order direction
         const orderBy = order.toLowerCase() === 'asc' ? 'ASC' : 'DESC';
 
         const pageNumber = Math.max(parseInt(page) || 1, 1);
         const pageSize = Math.max(parseInt(limit) || 10, 1);
         const offset = (pageNumber - 1) * pageSize;
 
-        // Build filters
         const conditions = [];
         const values = [];
 
         if (brand) {
             values.push(brand);
-            conditions.push(`brand ILIKE $${values.length}`); // Case insensitive
+            conditions.push(`brand ILIKE $${values.length}`);
         }
 
         if (size) {
@@ -46,24 +41,44 @@ router.get('/shoes', async (req, res) => {
             conditions.push(`price <= $${values.length}`);
         }
 
-        // Base query
-        let query = `SELECT * FROM shoes`;
-
-        // Add WHERE clause
-        if (conditions.length > 0) {
-            query += ` WHERE ${conditions.join(' AND ')}`;
+        if (category) {
+            values.push(category);
+            conditions.push(`category = $${values.length}`);
         }
 
-        // Add ORDER BY, LIMIT, OFFSET
+        if (name) {
+            values.push(`%${name}%`);
+            conditions.push(`name ILIKE $${values.length}`);
+        }
+
+
+        let query = `SELECT * FROM shoes`;
+        let countQuery = `SELECT COUNT(*) FROM shoes`;
+
+        if (conditions.length > 0) {
+            const whereClause = ` WHERE ${conditions.join(' AND ')}`;
+            query += whereClause;
+            countQuery += whereClause;
+        }
+
         query += ` ORDER BY ${sortBy} ${orderBy} LIMIT ${pageSize} OFFSET ${offset}`;
 
         console.log('Executing query:', query, values);
-        const shoes = await pool.query(query, values);
+
+        const [shoesResult, countResult] = await Promise.all([
+            pool.query(query, values),
+            pool.query(countQuery, values)
+        ]);
+
+        const totalCount = parseInt(countResult.rows[0].count, 10);
+        const totalPages = Math.ceil(totalCount / pageSize);
 
         res.json({
             page: pageNumber,
             limit: pageSize,
-            results: shoes.rows
+            totalPages,
+            totalCount,
+            results: shoesResult.rows
         });
 
     } catch (error) {
@@ -71,6 +86,7 @@ router.get('/shoes', async (req, res) => {
         res.status(500).json({ error: 'Internal server error - /shoes' });
     }
 });
+
 
 // GET /api/shoes/:id - Return single shoe by ID (Public)
 router.get('/shoes/:id', async (req, res) => {
@@ -94,14 +110,14 @@ router.get('/shoes/:id', async (req, res) => {
 
 // POST /api/shoes - Create a new shoe (Admin only)
 router.post('/shoes', authenticateToken, authorizeRole('admin'), async (req, res) => {
-    const { name, brand, price, stock, sizes, image_url } = req.body;
+    const { name, brand, price, stock, sizes, image_url, category } = req.body;
 
     try {
         const result = await pool.query(
-            `INSERT INTO shoes (name, brand, price, stock, sizes, image_url)
-                 VALUES ($1, $2, $3, $4, $5, $6)
+            `INSERT INTO shoes (name, brand, price, stock, sizes, image_url, category)
+                 VALUES ($1, $2, $3, $4, $5, $6, $7)
                  RETURNING *`,
-            [name, brand, price, stock, sizes, image_url]
+            [name, brand, price, stock, sizes, image_url, category]
         );
 
         res.status(201).json({
@@ -118,7 +134,7 @@ router.post('/shoes', authenticateToken, authorizeRole('admin'), async (req, res
 // PUT /api/shoes/:id - Update an existing shoe (Admin only)
 router.put('/shoes/:id', authenticateToken, authorizeRole('admin'), async (req, res) => {
     const { id } = req.params;
-    const { name, brand, price, stock, sizes, image_url } = req.body;
+    const { name, brand, price, stock, sizes, image_url, category } = req.body;
 
     try {
         const result = await pool.query(
@@ -128,10 +144,11 @@ router.put('/shoes/:id', authenticateToken, authorizeRole('admin'), async (req, 
                      price = $3,
                      stock = $4,
                      sizes = $5,
-                     image_url = $6
-                 WHERE id = $7
+                     image_url = $6,
+                     category = $7
+                 WHERE id = $8
                  RETURNING *`,
-            [name, brand, price, stock, sizes, image_url, id]
+            [name, brand, price, stock, sizes, image_url, category, id]
         );
 
         if (result.rows.length === 0) {
@@ -164,7 +181,7 @@ router.put('/shoes', authenticateToken, authorizeRole('admin'), async (req, res)
         await client.query('BEGIN');
 
         for (const shoe of shoes) {
-            const { id, ...fieldsToUpdate } = shoes;
+            const { id, ...fieldsToUpdate } = shoe;
 
             if (!id) {
                 throw new Error('Each shoe must have an ID');

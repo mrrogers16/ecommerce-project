@@ -1,0 +1,60 @@
+<!-- frontend/static_pages/admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+
+    <!-- Preload auth check: prevent flicker -->
+    <script>
+        (function () {
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+                window.location.href = "index.html";
+                return;
+            }
+
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                if (payload.role !== "admin") {
+                    window.location.href = "index.html";
+                    return;
+                }
+            }
+            catch (err) {
+                console.error("Invalid token:", err);
+                window.location.href = "index.html";
+            }
+        })();
+    </script>
+
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Admin Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <!-- Removed the Admin link as requested -->
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h2>Manage Shoes</h2>
+        <div id="shoe-table-container">
+            <!-- JS will populate this -->
+        </div>
+    </main>
+
+    <script src="../js/admin.js"></script>
+</body>
+
+</html>
