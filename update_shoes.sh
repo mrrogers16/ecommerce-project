@@ -38,11 +38,6 @@ aws s3 sync "$STAGING_DIR/fonts" "$S3_BUCKET/fonts" --delete || { echo "xxxx Err
 
 echo "#### Deployment to S3 complete ####"
 
-
-
-
-
-
 # Restart Nginx
 echo "#### Restarting Nginx... ####"
 sudo systemctl restart nginx || { echo "xxxx Error: Nginx restart failed"; exit 1; };
