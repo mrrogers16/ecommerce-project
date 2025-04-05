@@ -54,11 +54,11 @@ echo ">>> CloudFront invalidation started: $INVALIDATION_ID"
 echo ">>> Waiting for CloudFront invalidation to complete..."
 
 while true; do
-    STATUS=$(aws cloudfront get-invalidation --distribution-id YOUR_DISTRIBUTION_ID --id $INVALIDATION_ID | jq -r '.Invalidation.Status')
+    STATUS=$(aws cloudfront get-invalidation --distribution-id E2DT7FJ3FS2XGY --id $INVALIDATION_ID | jq -r '.Invalidation.Status')
     echo ">>> Current invalidation status: $STATUS"
 
     if [ "$STATUS" == "Completed" ]; then
-        echo ">>> ✅ CloudFront invalidation completed!"
+        echo ">>> CloudFront invalidation completed!"
         break
     else
         sleep 5
