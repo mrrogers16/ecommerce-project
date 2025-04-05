@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () =>
     {
         const container = document.getElementById("shoe-table-container");
-    
         const token = localStorage.getItem("token");
     
         if (!token)
@@ -28,8 +27,8 @@ document.addEventListener("DOMContentLoaded", () =>
             return;
         }
     
-        // Safe to proceed
         let currentPage = 1;
+        let totalPages = 1;
     
         async function fetchShoes(page = 1)
         {
@@ -51,13 +50,11 @@ document.addEventListener("DOMContentLoaded", () =>
                 const data = await response.json();
                 const shoes = data.results;
     
-                if (!Array.isArray(shoes))
-                {
-                    throw new Error("Unexpected response format");
-                }
+                currentPage = data.page;
+                totalPages = data.totalPages;
     
                 renderTable(shoes);
-                renderPagination(data.page);
+                renderPagination();
             }
             catch (err)
             {
@@ -98,46 +95,83 @@ document.addEventListener("DOMContentLoaded", () =>
                 </tbody>
             `;
     
-            container.innerHTML = ""; // Clear previous
+            container.innerHTML = "";
             container.appendChild(table);
         }
     
-        function renderPagination(page)
+        function renderPagination()
         {
             const pagination = document.createElement("div");
             pagination.classList.add("admin-pagination");
             pagination.style.marginTop = "20px";
             pagination.style.display = "flex";
             pagination.style.justifyContent = "center";
+            pagination.style.alignItems = "center";
             pagination.style.gap = "10px";
     
-            const prevButton = document.createElement("button");
-            prevButton.textContent = "Previous";
-            prevButton.disabled = page <= 1;
-            prevButton.onclick = () =>
-            {
-                if (currentPage > 1)
-                {
+            const firstButton = createPaginationButton("First", () => {
+                currentPage = 1;
+                fetchShoes(currentPage);
+            }, currentPage === 1);
+    
+            const prevButton = createPaginationButton("Previous", () => {
+                if (currentPage > 1) {
                     currentPage--;
+                    fetchShoes(currentPage);
+                }
+            }, currentPage === 1);
+    
+            const nextButton = createPaginationButton("Next", () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    fetchShoes(currentPage);
+                }
+            }, currentPage === totalPages);
+    
+            const lastButton = createPaginationButton("Last", () => {
+                currentPage = totalPages;
+                fetchShoes(currentPage);
+            }, currentPage === totalPages);
+    
+            const pageInfo = document.createElement("span");
+            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+    
+            const jumpInput = document.createElement("input");
+            jumpInput.type = "number";
+            jumpInput.min = 1;
+            jumpInput.max = totalPages;
+            jumpInput.placeholder = "Page #";
+            jumpInput.style.width = "70px";
+            jumpInput.onchange = () => {
+                const targetPage = Math.max(1, Math.min(totalPages, parseInt(jumpInput.value)));
+                if (targetPage && targetPage !== currentPage) {
+                    currentPage = targetPage;
                     fetchShoes(currentPage);
                 }
             };
     
-            const nextButton = document.createElement("button");
-            nextButton.textContent = "Next";
-            nextButton.onclick = () =>
-            {
-                currentPage++;
-                fetchShoes(currentPage);
-            };
-    
-            pagination.appendChild(prevButton);
-            pagination.appendChild(nextButton);
+            pagination.append(
+                firstButton,
+                prevButton,
+                pageInfo,
+                nextButton,
+                lastButton,
+                jumpInput
+            );
     
             container.appendChild(pagination);
         }
     
-        // Initial fetch
+        function createPaginationButton(text, onClick, disabled)
+        {
+            const button = document.createElement("button");
+            button.textContent = text;
+            button.disabled = disabled;
+            button.onclick = onClick;
+            return button;
+        }
+    
+        // Initial load
         fetchShoes(currentPage);
     });
     

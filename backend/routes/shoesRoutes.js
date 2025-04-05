@@ -8,27 +8,22 @@ const authorizeRole = require('../middleware/authorizeRole');
 // GET /api/shoes - Return all shoes from DB (Public)
 router.get('/shoes', async (req, res) => {
     try {
-
         const { brand, size, priceMin, priceMax, page = 1, limit = 10, sort = 'created_at', order = 'desc' } = req.query;
 
-        // Validate sort columns
         const sortableFields = ['created_at', 'price', 'name'];
         const sortBy = sortableFields.includes(sort) ? sort : 'created_at';
-
-        // Validate order direction
         const orderBy = order.toLowerCase() === 'asc' ? 'ASC' : 'DESC';
 
         const pageNumber = Math.max(parseInt(page) || 1, 1);
         const pageSize = Math.max(parseInt(limit) || 10, 1);
         const offset = (pageNumber - 1) * pageSize;
 
-        // Build filters
         const conditions = [];
         const values = [];
 
         if (brand) {
             values.push(brand);
-            conditions.push(`brand ILIKE $${values.length}`); // Case insensitive
+            conditions.push(`brand ILIKE $${values.length}`);
         }
 
         if (size) {
@@ -46,24 +41,33 @@ router.get('/shoes', async (req, res) => {
             conditions.push(`price <= $${values.length}`);
         }
 
-        // Base query
         let query = `SELECT * FROM shoes`;
+        let countQuery = `SELECT COUNT(*) FROM shoes`;
 
-        // Add WHERE clause
         if (conditions.length > 0) {
-            query += ` WHERE ${conditions.join(' AND ')}`;
+            const whereClause = ` WHERE ${conditions.join(' AND ')}`;
+            query += whereClause;
+            countQuery += whereClause;
         }
 
-        // Add ORDER BY, LIMIT, OFFSET
         query += ` ORDER BY ${sortBy} ${orderBy} LIMIT ${pageSize} OFFSET ${offset}`;
 
         console.log('Executing query:', query, values);
-        const shoes = await pool.query(query, values);
+
+        const [shoesResult, countResult] = await Promise.all([
+            pool.query(query, values),
+            pool.query(countQuery, values)
+        ]);
+
+        const totalCount = parseInt(countResult.rows[0].count, 10);
+        const totalPages = Math.ceil(totalCount / pageSize);
 
         res.json({
             page: pageNumber,
             limit: pageSize,
-            results: shoes.rows
+            totalPages,
+            totalCount,
+            results: shoesResult.rows
         });
 
     } catch (error) {
@@ -71,6 +75,7 @@ router.get('/shoes', async (req, res) => {
         res.status(500).json({ error: 'Internal server error - /shoes' });
     }
 });
+
 
 // GET /api/shoes/:id - Return single shoe by ID (Public)
 router.get('/shoes/:id', async (req, res) => {
