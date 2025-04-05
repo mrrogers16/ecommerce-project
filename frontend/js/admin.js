@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             <td>${shoe.id}</td>
                             <td>${shoe.name}</td>
                             <td>${shoe.brand}</td>
-                            <td>$${Number(shoe.price).toFixed(2)}</td>
+                            <td>${Number(shoe.price).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
                             <td>${shoe.stock}</td>
                             <td>${shoe.sizes.join(", ")}</td>
                         </tr>
