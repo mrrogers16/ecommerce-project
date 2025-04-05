@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Decode the token and redirect accordingly
                 const payload = JSON.parse(atob(data.token.split('.')[1]));
                 const role = payload.role;
+                removeBackdrop();
 
                 if (role === "admin") {
                     window.location.href = "/static_pages/admin.html";
