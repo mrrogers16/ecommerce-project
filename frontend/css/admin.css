@@ -193,7 +193,7 @@ main h2 {
         display: flex;
         flex-wrap: wrap;
         gap: 16px;
-        justify-content: flex-start;
+        justify-content: space-between;
         margin-bottom: 30px;
         padding: 20px;
         background-color: #1f1f1f;
@@ -210,7 +210,6 @@ main h2 {
         font-weight: 600;
         min-width: 160px;
         max-width: 220px;
-        /* Make sure they don’t stretch too wide */
         margin-bottom: 10px;
     }
 
@@ -226,7 +225,6 @@ main h2 {
         outline: none;
         transition: border-color 0.3s;
         width: 100%;
-        /* Ensure inputs and selects fill their container */
     }
 
     .filter-controls input:focus,
@@ -262,21 +260,29 @@ main h2 {
         background-color: #555;
     }
 
+    /* Ensure "Price Min" and "Price Max" are on separate lines */
     @media (max-width: 768px) {
         .filter-controls {
             flex-direction: column;
-            align-items: stretch;
         }
 
         .filter-controls label {
             max-width: none;
-            /* Allow labels to take full width */
         }
 
         .filter-controls button {
             width: 100%;
         }
+
+        .filter-controls .price-range {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-controls .price-range label {
+            flex: 1;
+            min-width: 100%;
+        }
     }
-
-
 }
