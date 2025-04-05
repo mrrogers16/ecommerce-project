@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     window.location.href = "/admin.html";
                 }
                 else {
-                    window.location.href = "/index.html";
+                    window.location.href = "../index.html";
                 }
             }
             else {
