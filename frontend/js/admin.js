@@ -63,10 +63,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                             <td>${shoe.id}</td>
                             <td>${shoe.name}</td>
                             <td>${shoe.brand}</td>
-                            <td>$${shoe.price.toFixed(2)}</td>
+                            <td>$${Number(shoe.price).toFixed(2)}</td>
                             <td>${shoe.stock}</td>
                             <td>${shoe.sizes.join(", ")}</td>
-                            <td><img src="${shoe.image_url}" width="60" alt="${shoe.name}"/></td>
                         </tr>
                     `).join("")}
                 </tbody>
