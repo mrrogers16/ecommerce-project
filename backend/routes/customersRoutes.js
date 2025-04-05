@@ -46,6 +46,46 @@ router.get('/test', (req, res) => {
     res.json({ message: 'Customers route is working!' });
 });
 
+// Customer Signup Route (Public)
+router.post('/customers/signup', async (req, res) => {
+    const { first_name, last_name, email, password } = req.body;
+
+    if (!first_name || !last_name || !email || !password) {
+        return res.status(400).json({ error: 'All fields are required.' });
+    }
+
+    try {
+        // Check if email already exists
+        const existingUser = await pool.query('SELECT * FROM customers WHERE email = $1', [email]);
+
+        if (existingUser.rows.length > 0) {
+            return res.status(400).json({ error: 'Email already exists' });
+        }
+
+        // Hash password
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Insert new customer
+        const result = await pool.query(
+            `INSERT INTO customers (first_name, last_name, email, password_hash, role)
+                 VALUES ($1, $2, $3, $4, $5)
+                 RETURNING id, first_name, last_name, email`,
+            [first_name, last_name, email, hashedPassword, 'customer'] // default role: customer
+        );
+
+        res.status(201).json({
+            message: 'Account created successfully!',
+            user: result.rows[0]
+        });
+    }
+    catch (error) {
+        console.error('Error registering customer:', error);
+        res.status(500).json({ error: 'Internal server error - signup' });
+    }
+});
+
+
 // Login customer (Public)
 router.post('/customers/login', async (req, res) => {
     const { email, password } = req.body;
