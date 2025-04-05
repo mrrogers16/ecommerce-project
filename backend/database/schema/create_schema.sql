@@ -94,3 +94,9 @@
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
 
+
+-- ADDED A NEW COLUMN TO ALL SHOES FOR CLASSIFICATION
+-- ALTER TABLE shoes
+-- ADD COLUMN category VARCHAR(20) NOT NULL DEFAULT 'mens' CHECK (category IN ('mens', 'womens', 'kids'));
+
+

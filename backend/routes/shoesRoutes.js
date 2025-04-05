@@ -8,7 +8,7 @@ const authorizeRole = require('../middleware/authorizeRole');
 // GET /api/shoes - Return all shoes from DB (Public)
 router.get('/shoes', async (req, res) => {
     try {
-        const { brand, size, priceMin, priceMax, page = 1, limit = 10, sort = 'created_at', order = 'desc' } = req.query;
+        const { brand, size, priceMin, priceMax, category, page = 1, limit = 10, sort = 'created_at', order = 'desc' } = req.query;
 
         const sortableFields = ['created_at', 'price', 'name'];
         const sortBy = sortableFields.includes(sort) ? sort : 'created_at';
@@ -39,6 +39,11 @@ router.get('/shoes', async (req, res) => {
         if (priceMax) {
             values.push(priceMax);
             conditions.push(`price <= $${values.length}`);
+        }
+
+        if (category) {
+            values.push(category);
+            conditions.push(`category = $${values.length}`);
         }
 
         let query = `SELECT * FROM shoes`;
@@ -99,14 +104,14 @@ router.get('/shoes/:id', async (req, res) => {
 
 // POST /api/shoes - Create a new shoe (Admin only)
 router.post('/shoes', authenticateToken, authorizeRole('admin'), async (req, res) => {
-    const { name, brand, price, stock, sizes, image_url } = req.body;
+    const { name, brand, price, stock, sizes, image_url, category } = req.body;
 
     try {
         const result = await pool.query(
-            `INSERT INTO shoes (name, brand, price, stock, sizes, image_url)
-                 VALUES ($1, $2, $3, $4, $5, $6)
+            `INSERT INTO shoes (name, brand, price, stock, sizes, image_url, category)
+                 VALUES ($1, $2, $3, $4, $5, $6, $7)
                  RETURNING *`,
-            [name, brand, price, stock, sizes, image_url]
+            [name, brand, price, stock, sizes, image_url, category]
         );
 
         res.status(201).json({
@@ -123,7 +128,7 @@ router.post('/shoes', authenticateToken, authorizeRole('admin'), async (req, res
 // PUT /api/shoes/:id - Update an existing shoe (Admin only)
 router.put('/shoes/:id', authenticateToken, authorizeRole('admin'), async (req, res) => {
     const { id } = req.params;
-    const { name, brand, price, stock, sizes, image_url } = req.body;
+    const { name, brand, price, stock, sizes, image_url, category } = req.body;
 
     try {
         const result = await pool.query(
@@ -133,10 +138,11 @@ router.put('/shoes/:id', authenticateToken, authorizeRole('admin'), async (req, 
                      price = $3,
                      stock = $4,
                      sizes = $5,
-                     image_url = $6
-                 WHERE id = $7
+                     image_url = $6,
+                     category = $7
+                 WHERE id = $8
                  RETURNING *`,
-            [name, brand, price, stock, sizes, image_url, id]
+            [name, brand, price, stock, sizes, image_url, category, id]
         );
 
         if (result.rows.length === 0) {
@@ -169,7 +175,7 @@ router.put('/shoes', authenticateToken, authorizeRole('admin'), async (req, res)
         await client.query('BEGIN');
 
         for (const shoe of shoes) {
-            const { id, ...fieldsToUpdate } = shoes;
+            const { id, ...fieldsToUpdate } = shoe;
 
             if (!id) {
                 throw new Error('Each shoe must have an ID');
