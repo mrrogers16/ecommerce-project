@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const welcomeModal = new bootstrap.Modal(modalElement, {
-        backdrop: static,
+        backdrop: 'static',
         keyboard: true
     });
 
