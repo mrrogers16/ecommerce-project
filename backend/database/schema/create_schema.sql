@@ -94,6 +94,18 @@
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
 
+--CREATE TABLE reviews(
+--  id INT PRIMARY KEY,
+--  user_id INT NOT NULL,
+--  shoe_id INT NOT NULL,
+--  rating INT CHECK (rating BETWEEN 1 AND 5),
+--  review_text TEXT,
+--  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+--FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+--FOREIGN KEY (shoe_id) REFERENCES shoes(id) ON DELETE CASCADE
+-- );
+
 
 -- ADDED A NEW COLUMN TO ALL SHOES FOR CLASSIFICATION
 -- ALTER TABLE shoes
