@@ -40,9 +40,8 @@ aws s3 sync "$STAGING_DIR/fonts" "$S3_BUCKET/fonts" --delete || { echo "xxxx Err
 # CloudFront Cache Invalidation <------ This is why I almost threw my computer out of the window. smmfh
 # In the future it would be nice to remove this and add versioning to all of our JS/CSS to abide by industry standards. 
 echo "#### Creating CloudFront invalidation ####"
-aws cloudfront create-invalidation --distribution-id E2DT7FJ3FS2XGY --paths "/*" || { echo "xxxx Error: CloudFront invalidation failed xxxx"; exit 1; }
-echo ">>> CloudFront cache invalidation requested"
-INVALIDATION_ID=$(echo $INVALIDATION_OUTPUT | jq -r '.Invalidation.Id')
+
+INVALIDATION_ID=$(aws cloudfront create-invalidation --distribution-id E2DT7FJ3FS2XGY --paths "/*" | jq -r '.Invalidation.Id')
 
 if [ -z "$INVALIDATION_ID" ]; then
     echo "xxxx Error: Failed to get CloudFront invalidation ID xxxx"
@@ -62,9 +61,10 @@ while true; do
         echo ">>> ✅ CloudFront invalidation completed!"
         break
     else
-        sleep 3
+        sleep 5
     fi
 done
+
 
 
 echo "#### Deployment to S3 complete ####"
