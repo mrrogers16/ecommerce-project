@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const welcomeModal = new bootstrap.Modal(modalElement, {
-        backdrop: true,
+        backdrop: static,
         keyboard: true
     });
 
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.style.overflow = '';
     }
 
-    
+
 
     // Manual close
     document.getElementById('continueAsGuest').addEventListener('click', function () {
