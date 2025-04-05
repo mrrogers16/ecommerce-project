@@ -36,7 +36,39 @@ aws s3 sync "$STAGING_DIR/images" "$S3_BUCKET/images" --delete || { echo "xxxx E
 echo "#### Syncing Fonts folder to S3 ####"
 aws s3 sync "$STAGING_DIR/fonts" "$S3_BUCKET/fonts" --delete || { echo "xxxx Error syncing Fonts folder xxxx"; exit 1; }
 
+
+# CloudFront Cache Invalidation <------ This is why I almost threw my computer out of the window. smmfh
+# In the future it would be nice to remove this and add versioning to all of our JS/CSS to abide by industry standards. 
+echo "#### Creating CloudFront invalidation ####"
+aws cloudfront create-invalidation --distribution-id E2DT7FJ3FS2XGY --paths "/*" || { echo "xxxx Error: CloudFront invalidation failed xxxx"; exit 1; }
+echo ">>> CloudFront cache invalidation requested"
+INVALIDATION_ID=$(echo $INVALIDATION_OUTPUT | jq -r '.Invalidation.Id')
+
+if [ -z "$INVALIDATION_ID" ]; then
+    echo "xxxx Error: Failed to get CloudFront invalidation ID xxxx"
+    exit 1
+fi
+
+echo ">>> CloudFront invalidation started: $INVALIDATION_ID"
+
+# Wait for invalidation to complete
+echo ">>> Waiting for CloudFront invalidation to complete..."
+
+while true; do
+    STATUS=$(aws cloudfront get-invalidation --distribution-id YOUR_DISTRIBUTION_ID --id $INVALIDATION_ID | jq -r '.Invalidation.Status')
+    echo ">>> Current invalidation status: $STATUS"
+
+    if [ "$STATUS" == "Completed" ]; then
+        echo ">>> ✅ CloudFront invalidation completed!"
+        break
+    else
+        sleep 3
+    fi
+done
+
+
 echo "#### Deployment to S3 complete ####"
+
 
 # Restart Nginx
 echo "#### Restarting Nginx... ####"
