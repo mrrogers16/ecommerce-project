@@ -154,6 +154,14 @@ document.addEventListener("DOMContentLoaded", () =>
     
         function renderPagination() 
         {
+
+            // Remove existing pagination
+            const existing = document.querySelector(".adminh-pagination");
+            if (existing)
+            {
+                existing.remove();
+            }
+
             const pagination = document.createElement("div");
             pagination.classList.add("admin-pagination");
             pagination.style.marginTop = "20px";
