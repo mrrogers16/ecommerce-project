@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Close modal when 'Continue as Guest' is clicked
     document.getElementById('continueAsGuest').addEventListener('click', function () {
         welcomeModal.hide();
+        document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
     });
 
     // Redirect to login or sign up pages when respective buttons are clicked
