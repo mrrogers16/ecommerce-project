@@ -41,13 +41,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('loginButton').addEventListener('click', function () {
         removeBackdrop();
         window.location.href = 'login.html';
-        welcomeModal.hide();
     });
 
     document.getElementById('signupButton').addEventListener('click', function () {
         removeBackdrop();
         window.location.href = 'signup.html';
-        welcomeModal.hide();
     });
 
     // Ensure cleanup even if closed by clicking outside
