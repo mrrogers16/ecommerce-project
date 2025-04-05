@@ -26,14 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
             // Extract the shoes array from the results property
             const shoes = data.results;
 
-            // Check for gender/category filter in URL
+            // Check for category filter in URL
             const urlParams = new URLSearchParams(window.location.search);
-            const category = urlParams.get("category");
+            const category = urlParams.get("category")?.toLowerCase();
 
             let filteredShoes = shoes;
-            if (category && category !== "All Shoes") {
+            if (categoryParam && categoryParam !== "all shoes") {
                 filteredShoes = shoes.filter(shoe =>
-                    shoe.gender && shoe.gender.toLowerCase() === category.toLowerCase()
+                    shoe.category && shoe.category.toLowerCase() === categoryParam
                 );
             }
 
