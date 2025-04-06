@@ -3,7 +3,7 @@ body, html {
   margin: 0;
   padding: 0;
   font-family: 'Urbanist', sans-serif;
-  background: linear-gradient(to top, #0a54dd, hsl(210, 73%, 63%)); /* Gradient background */
+  background:#0E0E0E;
   color: #333;
   text-align: center;
 }
@@ -19,15 +19,23 @@ body, html {
     text-decoration: none;
   }
 
-  .bg-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-width: 100%;
-  min-height: 100%;
-  object-fit: cover;
-  z-index: -1;
-}
+  .video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* To keep it behind other content */
+  }
+  
+  #background-video {
+    object-fit: none; /* Ensures the video covers the whole screen */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: -5px;
+    left: 0;
+  }
 
 /* Header */
 header {
@@ -41,7 +49,7 @@ header h1 a {
 }
 
 header h1 a:hover {
-    color: #ff5733; /* Change color on hover (optional) */
+    color: #3f66a0; /* Change color on hover (optional) */
 }
 /* General navigation styles */
 nav ul {
@@ -65,13 +73,90 @@ nav ul li a {
 nav ul li a.active {
     font-weight: bold;
   /*  border-bottom: 2px solid #ff5733; */
-    color: #9409ff !important; /* Can change color */
+    color: #5c9b77 !important; /* Can change color */
 }
 /* Hover effect for all navigation links */
 nav ul li a:hover {
-    color: #ff5733; /* Light blue hover for all links */
+    color: #3f66a0; /* Light blue hover for all links */
 }
 
+.loader {
+  --uib-size: 125px;
+  --uib-color: rgb(207, 213, 225);
+  --uib-speed: 1.25s;
+  --uib-dot-size: calc(var(--uib-size) * 0.18);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 10px;
+  height: calc(var(--uib-size) * 0.5);
+  width: var(--uib-size);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #191b1eef;
+  transition: opacity 0.75s, visibility 0.75s;
+  z-index: 9999;
+}
+
+.dot {
+  flex-shrink: 0;
+  width: calc(var(--uib-size) * 0.17);
+  height: calc(var(--uib-size) * 0.17);
+  border-radius: 50%;
+  background-color: var(--uib-color);
+  transition: background-color 0.3s ease;
+}
+
+.dot:nth-child(1) {
+  animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.45)
+    infinite;
+}
+
+.dot:nth-child(2) {
+  animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.3)
+    infinite;
+}
+
+.dot:nth-child(3) {
+  animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.15)
+    infinite;
+}
+
+.dot:nth-child(4) {
+  animation: loading var(--uib-speed) ease-in-out infinite;
+}
+
+.loader--hidden{
+  opacity: 0;
+  visibility: hidden;
+}
+
+.dot::after{
+  flex-shrink: 0;
+  width: calc(var(--uib-size) * 0.17);
+  height: calc(var(--uib-size) * 0.17);
+  border-radius: 50%;
+  background-color: var(--uib-color);
+  transition: background-color 0.3s ease;
+}
+
+@keyframes loading {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-50px);
+  }
+}
 
 /* Hero(banner) Section */
 .hero {
@@ -87,7 +172,7 @@ nav ul li a:hover {
 
 .button {
     display: inline-block;
-    background-color: #ff5733;
+    background-color: #3f66a0;
     color: white;
     padding: 10px 20px;
     text-decoration: none;
@@ -97,7 +182,7 @@ nav ul li a:hover {
 }
 
 .button:hover {
-    background-color: #c44127;
+    background-color: #3f66a0;
 }
 
 /* Products */
@@ -112,7 +197,7 @@ nav ul li a:hover {
 }
 
 .product {
-    background: white;
+    background: #E6F0F4;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -134,7 +219,7 @@ nav ul li a:hover {
 
 .add-to-cart {
     background: #28a745;
-    color: white;
+    color: #E6F0F4;
     padding: 10px;
     border: none;
     cursor: pointer;
@@ -221,22 +306,22 @@ nav ul li a:hover {
 /* 🔹 Hover & Active State for Size Buttons */
 #sizeModal .size-btn:hover,
 #sizeModal .size-btn.active {
-    background-color: #ff5733;
+    background-color: #3f66a0;
     color: white;
-    border: 2px solid #ff5733;
+    border: 2px solid #3f66a0;
     transform: scale(1.1);
 }
 
 /* 🔹 Add focus effect only inside the modal */
 #sizeModal .size-btn:focus {
     outline: none;
-    box-shadow: 0px 0px 10px rgba(255, 87, 51, 0.5);
+    box-shadow: 0px 0px 10px #338fff80;
 }
 /* 🔹 Keep Selected Size Highlighted */
 #sizeModal .size-btn.active {
-    background-color: #ff5733 !important;
+    background-color: #3f66a0 !important;
     color: white !important;
-    border: 2px solid #ff5733 !important;
+    border: 2px solid #3f66a0 !important;
     transform: scale(1.1);
 }
 
@@ -275,7 +360,7 @@ nav ul li a:hover {
 }
 
 .dropdown-content a:hover {
-    background-color: #ff5733;
+    background-color: #3f66a0;
 }
 
 /* Show dropdown on hover */
@@ -354,7 +439,7 @@ nav ul li a:hover {
 }
 
 .drawer-links li a:hover {
-  background-color: #ff5733;
+  background-color: #3f66a0;
   display: block;
 }
 .has-submenu {
@@ -441,12 +526,12 @@ nav ul li a:hover {
   padding: 10px 20px;
   width: 100%;
   border-radius: 5px;
-  background-color: #ff5733; /* Red color for the button */
+  background-color: #3f66a0; /* Red color for the button */
   transition: background-color 0.3s ease;
 }
 
 #add-to-cart-btn:hover {
-  background-color: #c44127; /* Darker red on hover */
+  background-color: #3f66a0; /* Darker red on hover */
 }
 /* Footer */
 footer {
@@ -534,7 +619,7 @@ footer .list-inline-item {
   }
 }
 #add-to-cart-btn:hover {
-  background-color: #c44127; /* Darker red when hovered */
+  background-color: #27c46b; /* Darker red when hovered */
   color: white;
   transform: scale(1.05); /* Slight scale-up effect */
 }

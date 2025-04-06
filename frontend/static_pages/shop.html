@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Fly Feet</title>
 
+    <!-- Adobe Fonts: Lalezar -->
+    <link rel="stylesheet" href="https://use.typekit.net/chc1oih.css">
+
     <!-- Adobe Fonts: Antipol -->
     <link rel="stylesheet" href="https://use.typekit.net/dro4ebr.css">
 
@@ -18,9 +21,31 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/LogSign.css">
+
+    <!--Loading Screen Animation Script-->
+  <script>
+    window.addEventListener("load", () => {
+      const loader = document.querySelector(".loader");
+
+      setTimeout(() => {
+        loader.classList.add("loader--hidden");
+      }, 1250);
+      
+      loader.addEventListener("transistionend", () => {
+        document.body.removeChild(loader);
+      });
+    });
+  </script>
 </head>
 
 <body>
+    <!--Loading Page Overlay-->
+  <div class="loader">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
 
     <!-- Popup Modal  -->
     <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
@@ -122,6 +147,7 @@
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3">
+
         <p>© 2025 Fly Feet. All Rights Reserved.</p>
         <ul class="list-inline">
             <li class="list-inline-item"><a href="#" class="text-white">Terms of Service</a></li>
