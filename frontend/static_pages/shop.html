@@ -73,7 +73,7 @@
     <header class="header d-flex justify-content-between align-items-center px-3 py-2 bg-dark text-white">
         <button id="menu-toggle" class="hamburger btn btn-outline-light">&#9776;</button>
         <h1 class="site-title m-0">
-            <a href="/" class="flyfeet-brand">Fly Feet</a>
+            <a href="index.html" class="flyfeet-brand">Fly Feet</a>
         </h1>
 
         <div class="d-flex align-items-center gap-3" id="right-actions">
@@ -128,6 +128,63 @@
     <!-- Products Section -->
     <main class="container">
         <h1>Our Products</h1>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="d-flex align-items-center">
+                    <label for="sort-select" class="me-2">Sort by:</label>
+                    <select id="sort-select" class="form-select">
+                        <option value="default">Featured</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="name-asc">Name: A to Z</option>
+                        <option value="name-desc">Name: Z to A</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add the new filter section here -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <!-- Brand Filter -->
+                            <div class="col-md-3">
+                                <label for="brand-select" class="form-label">Brand</label>
+                                <select id="brand-select" class="form-select">
+                                    <option value="">All Brands</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Price Range Filter -->
+                            <div class="col-md-4">
+                                <label class="form-label">Price Range</label>
+                                <div class="d-flex gap-2">
+                                    <input type="number" id="price-min" class="form-control" placeholder="Min" min="0">
+                                    <input type="number" id="price-max" class="form-control" placeholder="Max" min="0">
+                                </div>
+                            </div>
+
+                            <!-- Size Filter -->
+                            <div class="col-md-3">
+                                <label for="size-select" class="form-label">Size</label>
+                                <select id="size-select" class="form-select">
+                                    <option value="">All Sizes</option>
+                                </select>
+                            </div>
+
+                            <!-- Filter Buttons -->
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button id="apply-filters" class="btn btn-primary me-2">Apply</button>
+                                <button id="clear-filters" class="btn btn-outline-secondary">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="product-list" class="row">
             <!-- Products will be dynamically loaded here -->
         </div>

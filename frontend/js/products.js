@@ -16,40 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sizeModal.style.display = "none";
 
     let selectedProduct = null;
-
-    // Fetch products from the API endpoint
-    fetch("https://fly-feet.com/api/shoes")
-        .then(response => response.json())
-        .then(data => {
-            console.log("✅ API Response:", data);
-
-            // Extract the shoes array from the results property
-            const shoes = data.results;
-
-            // Check for category filter in URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const category = urlParams.get("category")?.toLowerCase();
-
-            let filteredShoes = shoes;
-            if (category && category !== "all shoes") {
-                filteredShoes = shoes.filter(shoe =>
-                    shoe.category && shoe.category.toLowerCase() === categoryParam
-                );
-            }
-
-            if (!Array.isArray(filteredShoes) || filteredShoes.length === 0) {
-                console.warn("⚠ No products found.");
-                productList.innerHTML = `<p class="text-center">No products available.</p>`;
-                return;
-            }
-
-            // Insert dynamically generated product cards
-            productList.innerHTML = `<div class="row g-4">${filteredShoes.map(generateProductCard).join("")}</div>`;
-        })
-        .catch(error => {
-            console.error(" Error fetching shoes:", error);
-            productList.innerHTML = `<p class="text-center text-danger">Failed to load products. Please try again later.</p>`;
-        });
+    let allProducts = []; // Store all products
 
     // Function to generate HTML for each product
     function generateProductCard(product) {
@@ -74,6 +41,110 @@ document.addEventListener("DOMContentLoaded", () => {
                 </a>
             </div>
         `;
+    }
+
+    // Fetch products from the API endpoint
+    fetch("https://fly-feet.com/api/shoes")
+        .then(response => response.json())
+        .then(data => {
+            console.log("✅ API Response:", data);
+            allProducts = data.results;
+
+            // Initialize filters
+            initializeFilters(allProducts);
+
+            // Initial render of products
+            renderProducts(allProducts);
+        })
+        .catch(error => {
+            console.error(" Error fetching shoes:", error);
+            productList.innerHTML = `<p class="text-center text-danger">Failed to load products. Please try again later.</p>`;
+        });
+
+    function initializeFilters(products) {
+        // Get unique brands
+        const brands = [...new Set(products.map(p => p.brand))].sort();
+        const brandSelect = document.getElementById('brand-select');
+        brands.forEach(brand => {
+            if (brand) { // Only add non-empty brands
+                const option = document.createElement('option');
+                option.value = brand;
+                option.textContent = brand;
+                brandSelect.appendChild(option);
+            }
+        });
+
+        // Get unique sizes
+        const sizes = [...new Set(products.flatMap(p => p.sizes))].sort((a, b) => a - b);
+        const sizeSelect = document.getElementById('size-select');
+        sizes.forEach(size => {
+            const option = document.createElement('option');
+            option.value = size;
+            option.textContent = size;
+            sizeSelect.appendChild(option);
+        });
+    }
+
+    function applyFilters() {
+        const brandFilter = document.getElementById('brand-select').value;
+        const sizeFilter = document.getElementById('size-select').value;
+        const minPrice = parseFloat(document.getElementById('price-min').value) || 0;
+        const maxPrice = parseFloat(document.getElementById('price-max').value) || Infinity;
+
+        let filtered = allProducts.filter(product => {
+            const matchesBrand = !brandFilter || product.brand === brandFilter;
+            const matchesSize = !sizeFilter || product.sizes.includes(parseFloat(sizeFilter));
+            const matchesPrice = product.price >= minPrice && 
+                               (!maxPrice || product.price <= maxPrice);
+
+            return matchesBrand && matchesSize && matchesPrice;
+        });
+
+        // Apply current sort
+        const sortValue = document.getElementById('sort-select').value;
+        filtered = sortProducts(filtered, sortValue);
+
+        renderProducts(filtered);
+    }
+
+    // Add event listeners for filters
+    document.getElementById('apply-filters')?.addEventListener('click', applyFilters);
+    document.getElementById('clear-filters')?.addEventListener('click', () => {
+        document.getElementById('brand-select').value = '';
+        document.getElementById('size-select').value = '';
+        document.getElementById('price-min').value = '';
+        document.getElementById('price-max').value = '';
+        document.getElementById('sort-select').value = 'default';
+        renderProducts(allProducts);
+    });
+
+    // Sort products function
+    function sortProducts(products, sortBy) {
+        const sorted = [...products];
+        switch (sortBy) {
+            case 'price-asc':
+                sorted.sort((a, b) => a.price - b.price);
+                break;
+            case 'price-desc':
+                sorted.sort((a, b) => b.price - a.price);
+                break;
+            case 'name-asc':
+                sorted.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+            case 'name-desc':
+                sorted.sort((a, b) => b.name.localeCompare(a.name));
+                break;
+        }
+        return sorted;
+    }
+
+    function renderProducts(products) {
+        if (!Array.isArray(products) || products.length === 0) {
+            productList.innerHTML = `<p class="text-center">No products found matching your criteria.</p>`;
+            return;
+        }
+
+        productList.innerHTML = `<div class="row g-4">${products.map(generateProductCard).join("")}</div>`;
     }
 
     // Handle "Add to Cart" Click
@@ -120,12 +191,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Add null checks for DOM elements
-    if (!sizeOptions || !confirmSizeButton || !closeModalButton) {
-        console.error("❌ Error: Required modal elements not found!");
-        return;
-    }
-
     // Confirm size selection
     confirmSizeButton.onclick = () => {
         if (!selectedProduct.selectedSize) {
@@ -134,13 +199,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        selectedProduct.selectedSize = selectedProduct.selectedSize || 7; // Default to "N/A" if not selected
+        selectedProduct.selectedSize = selectedProduct.selectedSize || 7;
 
         cart.push(selectedProduct);
         localStorage.setItem("cart", JSON.stringify(cart));
 
         alert(`${selectedProduct.name} (Size ${selectedProduct.selectedSize}) added to cart!`);
-        sizeModal.style.display = "none"; // Close the modal after confirming
+        sizeModal.style.display = "none";
     };
 
     // Close modal when clicking "X"
@@ -153,5 +218,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (event.target === sizeModal) {
             sizeModal.style.display = "none";
         }
+    });
+
+    // Add sort change listener
+    document.getElementById('sort-select')?.addEventListener('change', (e) => {
+        const sorted = sortProducts(allProducts, e.target.value);
+        renderProducts(sorted);
     });
 });

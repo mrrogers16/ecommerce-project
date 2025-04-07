@@ -623,3 +623,121 @@ footer .list-inline-item {
   color: white;
   transform: scale(1.05); /* Slight scale-up effect */
 }
+
+/* Add these styles to your CSS */
+.product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.product-image-container {
+    position: relative;
+    padding-top: 100%; /* 1:1 Aspect Ratio */
+    overflow: hidden;
+}
+
+.product-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.05);
+}
+
+/* Loading Skeleton */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Infinite Scroll Loading */
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    display: none;
+}
+
+.loading-spinner.active {
+    display: flex;
+}
+
+/* Filter Animations */
+.filters-container {
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+}
+
+.filters-container.collapsed {
+    max-height: 0;
+}
+
+/* Product Grid Responsive Layout */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+        padding: 15px;
+    }
+}
+
+/* Add these styles for pagination */
+.pagination-container {
+    margin-top: 2rem;
+    padding: 1rem 0;
+}
+
+.pagination-container button {
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.pagination-container button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.current-page-info {
+    font-size: 0.9rem;
+    color: #666;
+    padding: 0.5rem 1rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+/* Add loading transition for products */
+.row {
+    transition: opacity 0.3s ease;
+}
+
+.row.loading {
+    opacity: 0.5;
+}
