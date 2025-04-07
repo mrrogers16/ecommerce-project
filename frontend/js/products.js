@@ -191,10 +191,30 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Confirm size selection
+    // Add this function at the top level of your script
+    function showToast(message) {
+        // Create toast element
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.textContent = message;
+        
+        // Add to document
+        document.body.appendChild(toast);
+        
+        // Trigger animation
+        setTimeout(() => toast.classList.add('show'), 10);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    // Then modify the confirm size button click handler
     confirmSizeButton.onclick = () => {
         if (!selectedProduct.selectedSize) {
-            alert("Please select a size.");
+            showToast("Please select a size");
             return;
         }
 
@@ -204,7 +224,8 @@ document.addEventListener("DOMContentLoaded", () => {
         cart.push(selectedProduct);
         localStorage.setItem("cart", JSON.stringify(cart));
 
-        alert(`${selectedProduct.name} (Size ${selectedProduct.selectedSize}) added to cart!`);
+        // Replace alert with toast
+        showToast(`${selectedProduct.name} (Size ${selectedProduct.selectedSize}) added to cart!`);
         sizeModal.style.display = "none";
     };
 

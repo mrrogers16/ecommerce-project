@@ -626,19 +626,21 @@ footer .list-inline-item {
 
 /* Add these styles to your CSS */
 .product-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
     height: 100%;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 .product-image-container {
     position: relative;
-    padding-top: 100%; /* 1:1 Aspect Ratio */
     overflow: hidden;
+    padding-top: 100%; /* 1:1 Aspect ratio */
 }
 
 .product-image {
@@ -653,6 +655,80 @@ footer .list-inline-item {
 
 .product-card:hover .product-image {
     transform: scale(1.05);
+}
+
+.product-card .card-body {
+    padding: 1.25rem;
+}
+
+.product-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.product-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Breadcrumb styles */
+.breadcrumb-nav {
+    background-color: #f8f9fa;
+    padding: 0.75rem 1rem;
+    margin-bottom: 2rem;
+    border-radius: 0.25rem;
+}
+
+.breadcrumb-item {
+    color: #6c757d;
+}
+
+.breadcrumb-item.active {
+    color: #343a40;
+}
+
+/* Error/Success notifications */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 4px;
+    color: white;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification.success {
+    background-color: #28a745;
+}
+
+.notification.error {
+    background-color: #dc3545;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .product-card {
+        margin-bottom: 1rem;
+    }
+    
+    .filters-container {
+        margin-bottom: 1rem;
+    }
+    
+    .sort-container {
+        margin-bottom: 1rem;
+    }
 }
 
 /* Loading Skeleton */
@@ -671,12 +747,23 @@ footer .list-inline-item {
 .loading-spinner {
     display: flex;
     justify-content: center;
-    padding: 20px;
-    display: none;
+    align-items: center;
+    min-height: 200px;
 }
 
-.loading-spinner.active {
-    display: flex;
+.loading-spinner::after {
+    content: "";
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* Filter Animations */
@@ -740,4 +827,91 @@ footer .list-inline-item {
 
 .row.loading {
     opacity: 0.5;
+}
+
+/* Toast notification styles */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.toast {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    border-left: 4px solid #28a745;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast-success {
+    border-left-color: #28a745;
+}
+
+.toast-icon {
+    color: #28a745;
+    font-size: 1.2rem;
+}
+
+.toast-message {
+    margin: 0;
+    color: #333;
+}
+
+/* Add these toast notification styles */
+.toast-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 4px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.toast-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.toast-message {
+    background-color: #333;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.toast-message.show {
+    opacity: 1;
+    transform: translateY(0);
 }
