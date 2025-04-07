@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Fly Feet</title>
+    
+    <!-- Adobe Fonts: Lalezar -->
+    <link rel="stylesheet" href="https://use.typekit.net/chc1oih.css">
+    
+    <!-- Adobe Fonts: Antipol -->
+    <link rel="stylesheet" href="https://use.typekit.net/dro4ebr.css">
+    
+    <!-- Google Fonts: Urbanist -->
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/checkout.css">
+</head>
+<body>
+    <!--Loading Page Overlay-->
+    <div class="loader">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <!-- Header with hamburger and logo -->
+    <header class="header d-flex justify-content-between align-items-center px-3 py-2 bg-dark text-white">
+        <button id="menu-toggle" class="hamburger btn btn-outline-light">&#9776;</button>
+        <h1 class="site-title m-0">
+            <a href="index.html" class="flyfeet-brand">Fly Feet</a>
+        </h1>
+
+        <div class="d-flex align-items-center gap-3" id="right-actions">
+            <!-- Cart Icon/Link -->
+            <a href="cart.html" class="cart-icon d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" class="bi bi-cart"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M0 1a1 1 0 0 1 1-1h1.11a1 1 0 0 1 .98.8l.401 2.401a.5.5 0 0 0 .49.399h9.747a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 12 13H4a.5.5 0 0 1-.491-.408L1.01 2.607 1 2.5V2a1 1 0 0 1-1-1zm3.14 3 1.313 7h7.094l1.312-7H3.14zM5.5 14a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                </svg>
+                <span id="cart-count" class="cart-count">0</span>
+            </a>
+
+            <!-- Login Link -->
+            <a href="profile.html" class="text-white d-flex align-items-center login-link"
+                style="text-decoration: none; font-weight: bold;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white"
+                    class="bi bi-person-circle me-1" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                    <path fill-rule="evenodd"
+                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                </svg>
+                Profile
+            </a>
+        </div>
+    </header>
+
+    <!-- Side Navigation Drawer -->
+    <aside id="side-drawer" class="side-drawer">
+        <button class="close-btn" id="close-drawer">&times;</button>
+        <ul class="drawer-links">
+            <li class="has-submenu">
+                <a href="#" id="shop-toggle">Shop ▾</a>
+                <ul class="submenu" id="shop-submenu">
+                    <li><a href="shop.html?category=All Shoes">All Shoes</a></li>
+                    <li><a href="shop.html?category=mens">Men's Shoes</a></li>
+                    <li><a href="shop.html?category=womens">Women's Shoes</a></li>
+                    <li><a href="shop.html?category=kids">Kids' Shoes</a></li>
+                </ul>
+            </li>
+            <li><a href="#">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </aside>
+
+    <!-- Checkout Section -->
+    <div class="checkout-container my-5">
+        <div class="row">
+            <!-- Left Column - Form -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="section-heading">Shipping Information</h3>
+                        <form id="shipping-form">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="city" class="form-label">City</label>
+                                    <input type="text" class="form-control" id="city" required>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="state" class="form-label">State</label>
+                                    <input type="text" class="form-control" id="state" required>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="zip" class="form-label">ZIP Code</label>
+                                    <input type="text" class="form-control" id="zip" required>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h3 class="section-heading">Payment Information</h3>
+                        <form id="payment-form">
+                            <div class="payment-info">
+                                <div class="mb-3">
+                                    <label for="cardNumber" class="form-label">Card Number</label>
+                                    <input type="text" class="form-control" id="cardNumber" required>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="expiry" class="form-label">Expiry Date</label>
+                                        <input type="text" class="form-control" id="expiry" placeholder="MM/YY" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="cvv" class="form-label">CVV</label>
+                                        <input type="text" class="form-control" id="cvv" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Order Summary -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="section-heading">Order Summary</h3>
+                        <div id="order-items">
+                            <!-- Items will be populated by JavaScript -->
+                        </div>
+                        <div class="totals-section">
+                            <div class="total-row">
+                                <span>Subtotal</span>
+                                <span id="subtotal">$0.00</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Shipping</span>
+                                <span id="shipping">$0.00</span>
+                            </div>
+                            <div class="total-row final">
+                                <strong>Total</strong>
+                                <strong id="total">$0.00</strong>
+                            </div>
+                            <button id="place-order" class="btn btn-primary">Place Order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen Animation Script -->
+    <script>
+        window.addEventListener("load", () => {
+            const loader = document.querySelector(".loader");
+            setTimeout(() => {
+                loader.classList.add("loader--hidden");
+            }, 1250);
+            loader.addEventListener("transitionend", () => {
+                document.body.removeChild(loader);
+            });
+        });
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="../js/navbar.js"></script>
+    <script src="../js/checkout.js"></script>
+</body>
+</html> 

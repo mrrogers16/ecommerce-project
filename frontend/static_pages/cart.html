@@ -58,13 +58,25 @@
             <!-- JavaScript will dynamically load cart items here -->
         </div>
 
-        <!-- Cart Total -->
-        <!-- <div id="cart-total">
-             Cart total will be shown here
-        </div> -->
-        <div class="text-center mt-4">
-            <h4>Total: $<span id="cart-total">0.00</span></h4>
-            <button id="clearCart" class="btn btn-danger mt-3">Clear Cart</button>
+        <!-- Cart Total and Actions -->
+        <div class="cart-summary mt-4">
+            <div class="row justify-content-end">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="mb-3">Order Summary</h4>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span>Subtotal:</span>
+                                <span>$<span id="cart-total">0.00</span></span>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button id="proceed-to-checkout" class="btn btn-primary">Proceed to Checkout</button>
+                                <button id="clearCart" class="btn btn-outline-danger">Clear Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

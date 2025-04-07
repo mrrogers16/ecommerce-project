@@ -20,13 +20,28 @@ function renderCart() {
 
     if (cart.length === 0) {
         cartContainer.innerHTML = `
-            <div class="text-center">
-                <p>Your cart is empty! Start shopping now.</p>
-                <a href="shop.html" class="btn btn-primary">Browse Shoes</a>
+            <div class="col-12 text-center">
+                <div class="empty-cart-message">
+                    <h3 class="mb-4">Your cart is empty!</h3>
+                    <p class="mb-4">Looks like you haven't added any items to your cart yet.</p>
+                    <a href="shop.html" class="btn btn-primary btn-lg">Continue Shopping</a>
+                </div>
             </div>
         `;
         cartTotal.textContent = "0.00";
+        
+        // Disable checkout button if it exists
+        const checkoutBtn = document.getElementById("proceed-to-checkout");
+        if (checkoutBtn) {
+            checkoutBtn.disabled = true;
+        }
         return;
+    }
+
+    // Enable checkout button if cart has items
+    const checkoutBtn = document.getElementById("proceed-to-checkout");
+    if (checkoutBtn) {
+        checkoutBtn.disabled = false;
     }
 
     cart.forEach((product, index) => {
@@ -98,6 +113,19 @@ document.addEventListener("DOMContentLoaded", () => {
             cart = [];
             renderCart();
             updateCartCount();
+        });
+    }
+    
+    // Add this after the clearCartBtn event listener in the DOMContentLoaded section
+    const checkoutBtn = document.getElementById("proceed-to-checkout");
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener("click", () => {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+            window.location.href = "checkout.html";
         });
     }
     
