@@ -233,7 +233,7 @@ nav ul li a:hover {
 .cart-icon {
     position: relative;
     left: -20px; /* Adjust this to move left or right */
-    top: 10px; /* Adjust this to move up or down */
+    top: 2px; /* Adjust this to move up or down */
 }
 
 
