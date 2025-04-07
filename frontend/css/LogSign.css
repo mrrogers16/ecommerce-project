@@ -1,119 +1,103 @@
 /* Modal Styles */
 .modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1050 !important; /* Ensure modal is on top */
+    display: none; /* Hidden by default */
+}
+
+.modal.show {
+    display: block;
 }
 
 .modal-backdrop {
-    z-index: 1040 !important; /* Ensure backdrop stays behind modal */
-    background-color: rgba(0, 0, 0, 0.7); /* Darker backdrop */
+    z-index: 1040;
 }
 
-/* Modal Dialog (Centered) */
+.welcome-modal {
+    z-index: 1050;
+}
+
 .modal-dialog {
-    max-width: 500px; /* Limit the width of the modal */
-    margin: 0 auto; /* Center the modal */
+    margin: 1.75rem auto;
+    max-width: 500px;
 }
 
-/* Modal Styling */
+/* Modal Content */
 .modal-content {
     background-color: white;
-    padding: 20px;
-    width: 300px; /* Adjust width as needed */
-    border-radius: 8px;
+    border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: calc(20% - 20px); /* Shift the modal to the left */
-    transform: translateY(-40%); /* Vertically center the modal */
+    border: none;
 }
 
 /* Modal Header */
 .modal-header {
-    border-bottom: none; /* Remove bottom border */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 15px;
+    border-bottom: none;
+    padding: 1.5rem 1.5rem 0.5rem;
 }
 
 /* Modal Title */
 .modal-title {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: bold;
     color: #333;
 }
 
-/* Modal Close Button */
-.btn-close {
-    background-color: transparent;
-    border: none;
-    font-size: 1.2rem; /* Smaller size for the 'X' */
-    color: #333;
-    position: absolute;
-    top: 10px; /* Move it closer to the top */
-    right: 10px; /* Move it towards the right */
-    padding: 0; /* Remove padding to make the button fit the 'X' */
+/* Modal Body */
+.modal-body {
+    padding: 1.5rem;
+    text-align: center;
 }
-
 
 /* Buttons Styling */
 .modal-body .btn {
-    width: 100%; /* Full width buttons */
-    padding: 12px;
-    font-size: 1.2rem;
-    margin-bottom: 12px; /* Space between buttons */
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 /* Button Colors */
-#loginButton {
-    background-color: #007bff;
-    color: white;
+.modal-body .btn-primary {
+    background-color: #0b2f98;
+    border-color: #0b2f98;
 }
 
-#signupButton {
+.modal-body .btn-secondary {
     background-color: #28a745;
-    color: white;
+    border-color: #28a745;
 }
 
-#continueAsGuest {
+.modal-body .btn-info {
     background-color: #6c757d;
+    border-color: #6c757d;
     color: white;
 }
 
 /* Button Hover Effects */
 .modal-body .btn:hover {
-    transform: scale(1.05); /* Slight grow effect */
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-#loginButton:hover {
-    background-color: #0056b3;
+/* Close Button */
+.btn-close {
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
 }
 
-#signupButton:hover {
-    background-color: #218838;
+.btn-close:hover {
+    opacity: 1;
 }
 
-#continueAsGuest:hover {
-    background-color: #5a6268;
-}
-
-/* Responsive design for smaller screens */
+/* Responsive Styles */
 @media (max-width: 576px) {
     .modal-dialog {
-        max-width: 90%; /* Make the modal smaller on mobile */
+        margin: 1rem;
+        padding: 0 1rem;
     }
-
-    .modal-title {
-        font-size: 1.5rem;
-    }
-
+    
     .modal-body .btn {
-        font-size: 1rem;
+        padding: 0.5rem;
     }
 }

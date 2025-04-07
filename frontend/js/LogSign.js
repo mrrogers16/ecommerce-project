@@ -8,49 +8,47 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
+    // Set modal styles to ensure it appears on top
+    if (modalElement) {
+        modalElement.style.zIndex = "9999";
+        modalElement.style.position = "fixed";
+        modalElement.classList.add('fade');  // Ensure fade animation is present
+    }
+
+    // Initialize the modal with specific options
     const welcomeModal = new bootstrap.Modal(modalElement, {
         backdrop: 'static',
-        keyboard: true
+        keyboard: false
     });
 
+    // Show the modal if it's the first visit
     welcomeModal.show();
     sessionStorage.setItem("hasSeenWelcomeModal", "true");
 
-    function removeBackdrop() {
-        const modalBackdrop = document.querySelector('.modal-backdrop');
-        if (modalBackdrop) {
-            modalBackdrop.remove();
-        }
-        document.body.classList.remove('modal-open');
-        document.body.style.overflow = '';
-    }
-
-    // Listen for the message to remove the backdrop
-    window.addEventListener('message', (event) => {
-        if (event.data === 'removeBackdrop') {
-            removeBackdrop();
-        }
-    });
-
-    // Manual close
+    // Handle "Continue as Guest" button
     document.getElementById('continueAsGuest').addEventListener('click', function () {
         welcomeModal.hide();
+        // Clean up backdrop
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) backdrop.remove();
+        document.body.classList.remove('modal-open');
     });
 
-    // Auth buttons
+    // Handle "Login" button to redirect
     document.getElementById('loginButton').addEventListener('click', function () {
-        removeBackdrop();
+        welcomeModal.hide();
+        // Clean up backdrop before redirect
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) backdrop.remove();
         window.location.href = 'login.html';
     });
 
+    // Handle "Sign Up" button to redirect
     document.getElementById('signupButton').addEventListener('click', function () {
-        removeBackdrop();
+        welcomeModal.hide();
+        // Clean up backdrop before redirect
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) backdrop.remove();
         window.location.href = 'signup.html';
-    });
-
-    // Ensure cleanup even if closed by clicking outside
-    modalElement.addEventListener('hidden.bs.modal', () => {
-        removeBackdrop();
-        welcomeModal.dispose();  // This helps fully clean it up
     });
 });
