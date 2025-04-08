@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout - Fly Feet</title>
-    
+
     <!-- Adobe Fonts: Lalezar -->
     <link rel="stylesheet" href="https://use.typekit.net/chc1oih.css">
-    
+
     <!-- Adobe Fonts: Antipol -->
     <link rel="stylesheet" href="https://use.typekit.net/dro4ebr.css">
-    
+
     <!-- Google Fonts: Urbanist -->
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Custom Styles -->
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/checkout.css">
 </head>
+
 <body>
     <!--Loading Page Overlay-->
     <div class="loader">
@@ -137,7 +139,8 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="expiry" class="form-label">Expiry Date</label>
-                                        <input type="text" class="form-control" id="expiry" placeholder="MM/YY" required>
+                                        <input type="text" class="form-control" id="expiry" placeholder="MM/YY"
+                                            required>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="cvv" class="form-label">CVV</label>
@@ -183,20 +186,26 @@
     <script>
         window.addEventListener("load", () => {
             const loader = document.querySelector(".loader");
+            if (!loader) return; // Safety
+
             setTimeout(() => {
                 loader.classList.add("loader--hidden");
             }, 1250);
-            loader.addEventListener("transitionend", () => {
-                document.body.removeChild(loader);
+
+            loader.addEventListener("transitionend", (event) => {
+                if (event.target === loader && loader.parentNode) {
+                    loader.parentNode.removeChild(loader);
+                }
             });
         });
     </script>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- Custom Scripts -->
     <script src="../js/navbar.js"></script>
     <script src="../js/checkout.js"></script>
 </body>
-</html> 
+
+</html>

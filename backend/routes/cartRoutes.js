@@ -24,7 +24,7 @@ router.get('/cart', authenticateToken, async (req, res) => {
 
         // Get the cart items
         const cartItems = await pool.query(
-            `SELECT ci.id AS cart_item_id, s.id AS shoe_id, s.name, s.brand, s.price, ci.quantity
+            `SELECT ci.id AS cart_item_id, s.id AS shoe_id, s.name, s.brand, s.price, ci.quantity, ci.selected_size
              FROM cart_items ci
              JOIN shoes s ON ci.shoe_id = s.id
              WHERE ci.cart_id = $1`,
@@ -45,10 +45,10 @@ router.get('/cart', authenticateToken, async (req, res) => {
 // Add shoe to cart - (Authenticated user)
 router.post('/cart', authenticateToken, async (req, res) => {
     const customerId = req.user.id;
-    const { shoe_id, quantity } = req.body;
+    const { shoe_id, quantity, selectedSize } = req.body;
 
-    if (!shoe_id || !quantity) {
-        return res.status(400).json({ error: 'shoe_id and quantity are required.' });
+    if (!shoe_id || !quantity || !selectedSize) {
+        return res.status(400).json({ error: 'shoe_id, quantity, and size are required.' });
     }
 
     try {
@@ -83,9 +83,9 @@ router.post('/cart', authenticateToken, async (req, res) => {
         } else {
             // Insert new item
             const newItem = await pool.query(
-                `INSERT INTO cart_items (cart_id, shoe_id, quantity)
-                 VALUES ($1, $2, $3) RETURNING *`,
-                [cartId, shoe_id, quantity]
+                `INSERT INTO cart_items (cart_id, shoe_id, quantity, selected_size)
+                 VALUES ($1, $2, $3, $4) RETURNING *`,
+                [cartId, shoe_id, quantity, selectedSize]
             );
             return res.status(201).json(newItem.rows[0]);
         }
@@ -95,6 +95,66 @@ router.post('/cart', authenticateToken, async (req, res) => {
         res.status(500).json({ error: 'Internal server error - add to cart' });
     }
 });
+
+// router.post('/cart_items', authenticateToken, async (req, res) => 
+//     {
+//         const customerId = req.user.id;
+//         const { shoe_id, quantity } = req.body;
+    
+//         try 
+//         {
+//             // Get or create cart
+//             let cart = await pool.query('SELECT * FROM carts WHERE customer_id = $1', [customerId]);
+//             let cartId;
+    
+//             if (cart.rows.length === 0) 
+//             {
+//                 const result = await pool.query(
+//                     'INSERT INTO carts (customer_id) VALUES ($1) RETURNING id',
+//                     [customerId]
+//                 );
+//                 cartId = result.rows[0].id;
+//             } 
+//             else 
+//             {
+//                 cartId = cart.rows[0].id;
+//             }
+    
+//             // Check if the item is already in the cart
+//             const existing = await pool.query(
+//                 `SELECT * FROM cart_items WHERE cart_id = $1 AND shoe_id = $2`,
+//                 [cartId, shoe_id]
+//             );
+    
+//             if (existing.rows.length > 0) 
+//             {
+//                 // Update quantity
+//                 await pool.query(
+//                     `UPDATE cart_items
+//                      SET quantity = quantity + $1
+//                      WHERE cart_id = $2 AND shoe_id = $3`,
+//                     [quantity, cartId, shoe_id]
+//                 );
+//             } 
+//             else 
+//             {
+//                 // Insert new item
+//                 await pool.query(
+//                     `INSERT INTO cart_items (cart_id, shoe_id, quantity)
+//                      VALUES ($1, $2, $3)`,
+//                     [cartId, shoe_id, quantity]
+//                 );
+//             }
+    
+//             res.json({ message: 'Cart item synced successfully.' });
+//         } 
+//         catch (err) 
+//         {
+//             console.error('Error syncing cart item:', err);
+//             res.status(500).json({ error: 'Failed to sync cart item' });
+//         }
+//     });
+    
 
 // Delete item from cart - (Authenticated user)
 router.delete('/cart/:item_id', authenticateToken, async (req, res) => {
