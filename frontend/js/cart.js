@@ -3,6 +3,12 @@ let cart = [];
 let cartContainer;
 let cartTotal;
 
+// Initialize cart from localStorage on page load
+function initializeCart() {
+    cart = JSON.parse(localStorage.getItem('cart')) || [];
+    updateCartCount();
+}
+
 function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const cartCount = cart.length;
@@ -11,6 +17,19 @@ function updateCartCount() {
         cartCountElement.textContent = cartCount;
     }
 }
+
+// Add event listener for page visibility changes
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+        updateCartCount();
+    }
+});
+
+// Add event listener for page load
+window.addEventListener('load', () => {
+    initializeCart();
+    updateCartCount();
+});
 
 function renderCart() {
     if (!cartContainer || !cartTotal) return;
