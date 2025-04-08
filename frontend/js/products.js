@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("✅ Fetching products from API...");
+    console.log("Fetching products from API...");
 
     const productList = document.getElementById("product-list");
     const sizeModal = document.getElementById("sizeModal");
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeModalButton = document.querySelector(".close");
 
     if (!productList || !sizeModal) {
-        console.error(" Error: Required elements not found!");
+        console.error("Error: Required elements not found!");
         return;
     }
 
@@ -94,8 +94,8 @@ document.addEventListener("DOMContentLoaded", () => {
         let filtered = allProducts.filter(product => {
             const matchesBrand = !brandFilter || product.brand === brandFilter;
             const matchesSize = !sizeFilter || product.sizes.includes(parseFloat(sizeFilter));
-            const matchesPrice = product.price >= minPrice && 
-                               (!maxPrice || product.price <= maxPrice);
+            const matchesPrice = product.price >= minPrice &&
+                (!maxPrice || product.price <= maxPrice);
 
             return matchesBrand && matchesSize && matchesPrice;
         });
@@ -197,13 +197,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const toast = document.createElement('div');
         toast.className = 'toast-notification';
         toast.textContent = message;
-        
+
         // Add to document
         document.body.appendChild(toast);
-        
+
         // Trigger animation
         setTimeout(() => toast.classList.add('show'), 10);
-        
+
         // Remove after 3 seconds
         setTimeout(() => {
             toast.classList.remove('show');
@@ -219,14 +219,45 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        selectedProduct.selectedSize = selectedProduct.selectedSize || 7;
-
         cart.push(selectedProduct);
         localStorage.setItem("cart", JSON.stringify(cart));
 
-        // Replace alert with toast
-        showToast(`${selectedProduct.name} (Size ${selectedProduct.selectedSize}) added to cart!`);
-        sizeModal.style.display = "none";
+        const token = localStorage.getItem('token');
+        if (!token) {
+            showToast("Please log in to add items to your cart.");
+            sizeModal.style.display = "none";
+            return;
+        }
+
+        fetch('/api/cart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                shoe_id: selectedProduct.id,
+                quantity: 1,
+                selectedSize: selectedProduct.selectedSize
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to add item to backend cart');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Backend cart updated', data);
+                window.updateCartCount && window.updateCartCount();
+                showToast(`${selectedProduct.name} (Size ${selectedProduct.selectedSize}) added to cart`)
+            })
+            .catch(error => {
+                console.error('Error adding to backend cart:', error);
+                showToast('Error adding to cart. Please try again.');
+            });
+
+        sizeModal.style.display = 'none';
     };
 
     // Close modal when clicking "X"
