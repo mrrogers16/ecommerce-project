@@ -29,6 +29,12 @@ function addToCart(productId, selectedSize, quantity = 1, name, image, price) {
     existingCart.push(productToAdd);
     localStorage.setItem('cart', JSON.stringify(existingCart));
 
+    console.log("Sending to backend:", {
+        shoe_id: productId,
+        quantity,
+        selectedSize
+    });
+
     // Update backend cart in the db
     fetch('/api/cart', {
         method: 'POST',
@@ -65,7 +71,10 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Script.js (cart logic) loaded");
 
     document.addEventListener("click", (event) => {
-        if (event.target.classList.contains("add-to-cart")) {
+        if (
+            event.target.classList.contains("add-to-cart") &&
+            !event.target.dataset.modal // skip modal buttons 
+        ) {
             const productId = event.target.getAttribute("data-id");
             const selectedSize = document.getElementById('size-select')?.value;
             addToCart(productId, selectedSize);

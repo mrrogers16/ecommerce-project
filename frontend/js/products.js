@@ -40,7 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             data-name="${product.name}"
                             data-price="${product.price}"
                             data-image="${product.image_url}"
-                            data-sizes='${JSON.stringify(product.sizes)}'>
+                            data-sizes='${JSON.stringify(product.sizes)}'
+                            data-modal="true">
                             Add to Cart
                         </button>
                     </div>
