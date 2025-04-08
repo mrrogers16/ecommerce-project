@@ -94,17 +94,16 @@
 --     created_at TIMESTAMP DEFAULT NOW()
 -- );
 
---CREATE TABLE reviews(
---  id INT PRIMARY KEY,
---  user_id INT NOT NULL,
---  shoe_id INT NOT NULL,
---  rating INT CHECK (rating BETWEEN 1 AND 5),
---  review_text TEXT,
---  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
---FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
---FOREIGN KEY (shoe_id) REFERENCES shoes(id) ON DELETE CASCADE
--- );
+-- CREATE TABLE reviews (
+--    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--    customer_id UUID NOT NULL REFERENCES customers(id) ON DELETE CASCADE,
+--   shoe_id UUID NOT NULL REFERENCES shoes(id) ON DELETE CASCADE,
+--    rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+--    review_text TEXT,
+--    helpful_count INT DEFAULT 0,
+--    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+--  );
 
 
 -- ADDED A NEW COLUMN TO ALL SHOES FOR CLASSIFICATION
