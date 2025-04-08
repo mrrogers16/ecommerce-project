@@ -1,5 +1,5 @@
 // Moved addToCart outside of DOM logic to be global accessable 
-function addToCart(productId, selectedSize, quantity = 1) {
+function addToCart(productId, selectedSize, quantity = 1, name, image, price) {
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -20,7 +20,10 @@ function addToCart(productId, selectedSize, quantity = 1) {
     const productToAdd = {
         id: parseInt(productId),
         selectedSize,
-        quantity
+        quantity,
+        name,
+        image,
+        price
     };
 
     existingCart.push(productToAdd);

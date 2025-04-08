@@ -223,26 +223,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Update the confirm size button click handler
-    confirmSizeButton.onclick = () => 
-        {
-            if (!selectedProduct.selectedSize)
-            {
-                showToast("Please select a size");
-                return;
-            }
-        
-            const quantity = document.getElementById('quantity')?.value || 1;
-        
-            addToCart(
-                selectedProduct.id,
-                selectedProduct.selectedSize,
-                parseInt(quantity)
-            );
-        
-            showToast("Item added to cart successfully!");
-            sizeModal.style.display = "none";
-            window.updateCartCount(); // Update cart count
-        };
+    confirmSizeButton.onclick = () => {
+        if (!selectedProduct.selectedSize) {
+            showToast("Please select a size");
+            return;
+        }
+
+        const quantity = document.getElementById('quantity')?.value || 1;
+
+        addToCart(
+            selectedProduct.id,
+            selectedProduct.selectedSize,
+            selectedProduct.quantity,
+            selectedProduct.name,
+            selectedProduct.image,
+            selectedProduct.price
+        );
+
+        showToast("Item added to cart successfully!");
+        sizeModal.style.display = "none";
+        window.updateCartCount(); // Update cart count
+    };
 
     // Close modal when clicking "X"
     closeModalButton.addEventListener("click", () => {
