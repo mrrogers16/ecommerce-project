@@ -20,18 +20,15 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        const selectedSize = document.getElementById('size-select').ariaValueMax;
 
-        // FRONTEND NOTE: I added this just to make sure that selectedSize gets passed along. 
-        // #############  When the button gets fixed, make sure selectedSize is included. 
-        // If you want to use the current 'alert' you can just leave this here and it will take in a size to be passed to the cart. 
-        // You will need to just add the item to the cart instead of opening the product details page.
-        // Also, quantity is hardcoded at 1 for now. We need to look into a quantity field 
-        const selectedSize = prompt("Enter your size");
-
-        if (!selectedSize) {
-            alert("Please select your size.");
+        if (!selectedSize)
+        {
+            document.getElementById("size-error-message").innerText = "Please select a size.";
             return;
         }
+
+        document.getElementById("size-error-message").innerText = "";
 
         // Add to localStorage for UI/UX display
         let existingCart = JSON.parse(localStorage.getItem('cart')) || [];
