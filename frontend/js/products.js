@@ -229,12 +229,12 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const quantity = document.getElementById('quantity')?.value || 1;
+        const quantity = parseInt(document.getElementById('quantity')?.value || 1);
 
         addToCart(
             selectedProduct.id,
             selectedProduct.selectedSize,
-            selectedProduct.quantity,
+            quantity,
             selectedProduct.name,
             selectedProduct.image,
             selectedProduct.price

@@ -37,7 +37,13 @@ document.addEventListener("DOMContentLoaded", () => {
             addToCartBtn.addEventListener("click", () => {
                 const selectedSize = sizeSelect.value;
                 // addToCart() is inside of script.js
-                addToCart(productId, selectedSize);
+                addToCart(product.id,
+                    selectedSize,
+                    1,
+                    product.name,
+                    product.image_url,
+                    parseFloat(product.price)
+                );
             });
         })
         .catch(error => {
