@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render order items and calculate totals
     function renderOrderSummary() {
         let subtotal = 0;
-        
+
         // Clear existing items
         orderItems.innerHTML = '';
 
@@ -48,11 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function validateForms() {
         const shippingForm = document.getElementById('shipping-form');
         const paymentForm = document.getElementById('payment-form');
-        
+
         return shippingForm.checkValidity() && paymentForm.checkValidity();
     }
 
     // Handle order placement
+    // We are using the localStorage cart only for display on the actual checkout page.
+    // The real checkout logic is based on the server side cart table.
     placeOrderButton.addEventListener('click', (e) => {
         e.preventDefault();
 
@@ -61,16 +63,43 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // In a real application, you would:
-        // 1. Send the order data to your backend
-        // 2. Process the payment
-        // 3. Create the order in your database
-        // 4. Send confirmation email
-        
-        // For now, we'll just show a success message and clear the cart
-        alert('Order placed successfully! Thank you for your purchase.');
-        localStorage.removeItem('cart');
-        window.location.href = 'index.html';
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            alert('You must be logged in to place an order.');
+            return;
+        }
+
+        // If you have a discount code input, replace null
+        const orderData = {
+            discount_code: null
+        };
+
+        fetch('/api/orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(orderData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Order Created', data);
+
+                alert('Order placed successfully! Thank you for your purchase.');
+                localStorage.removeItem('cart');
+                window.location.href = 'index.html';
+            })
+            .catch(error => {
+                console.error('Error placing order: ', error);
+                alert('There was an issue placing your order. Please try again.');
+            });
     });
 
     // Initialize the page
