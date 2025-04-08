@@ -223,54 +223,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Update the confirm size button click handler
-    confirmSizeButton.onclick = () => {
-        if (!selectedProduct.selectedSize) {
-            showToast("Please select a size");
-            return;
-        }
-
-        const quantity = document.getElementById('quantity')?.value || 1;
-        selectedProduct.quantity = parseInt(quantity);
-
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        cart.push(selectedProduct);
-        localStorage.setItem("cart", JSON.stringify(cart));
-
-        const token = localStorage.getItem('token');
-        if (!token) {
-            showToast("Please log in to add items to your cart.");
-            sizeModal.style.display = "none";
-            return;
-        }
-
-        fetch('/api/cart', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                shoe_id: selectedProduct.id,
-                quantity: selectedProduct.quantity,
-                selectedSize: selectedProduct.selectedSize
-            })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to add item to backend cart');
+    confirmSizeButton.onclick = () => 
+        {
+            if (!selectedProduct.selectedSize)
+            {
+                showToast("Please select a size");
+                return;
             }
-            return response.json();
-        })
-        .then(data => {
+        
+            const quantity = document.getElementById('quantity')?.value || 1;
+        
+            addToCart(
+                selectedProduct.id,
+                selectedProduct.selectedSize,
+                parseInt(quantity)
+            );
+        
             showToast("Item added to cart successfully!");
             sizeModal.style.display = "none";
             window.updateCartCount(); // Update cart count
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showToast("Failed to add item to cart. Please try again.");
-        });
-    };
+        };
 
     // Close modal when clicking "X"
     closeModalButton.addEventListener("click", () => {
