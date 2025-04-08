@@ -73,7 +73,7 @@
     <header class="header d-flex justify-content-between align-items-center px-3 py-2 bg-dark text-white">
         <button id="menu-toggle" class="hamburger btn btn-outline-light">&#9776;</button>
         <h1 class="site-title m-0">
-            <a href="index.html" class="flyfeet-brand">Fly Feet</a>
+            <a href="shop.html" class="flyfeet-brand">Fly Feet</a>
         </h1>
 
         <div class="d-flex align-items-center gap-3" id="right-actions">
@@ -200,7 +200,11 @@
             <span class="close">&times;</span>
             <h2>Select Size</h2>
             <div id="sizeOptions"></div>
-            <button id="confirmSize" class="btn btn-warning">Confirm</button>
+            <div class="quantity-selector mt-3">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" class="form-control" value="1" min="1" max="10">
+            </div>
+            <button id="confirmSize" class="btn btn-warning mt-3">Confirm</button>
         </div>
     </div>
 
