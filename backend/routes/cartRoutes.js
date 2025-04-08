@@ -24,7 +24,7 @@ router.get('/cart', authenticateToken, async (req, res) => {
 
         // Get the cart items
         const cartItems = await pool.query(
-            `SELECT ci.id AS cart_item_id, s.id AS shoe_id, s.name, s.brand, s.price, ci.quantity
+            `SELECT ci.id AS cart_item_id, s.id AS shoe_id, s.name, s.brand, s.price, ci.quantity, ci.selected_size
              FROM cart_items ci
              JOIN shoes s ON ci.shoe_id = s.id
              WHERE ci.cart_id = $1`,
@@ -45,10 +45,10 @@ router.get('/cart', authenticateToken, async (req, res) => {
 // Add shoe to cart - (Authenticated user)
 router.post('/cart', authenticateToken, async (req, res) => {
     const customerId = req.user.id;
-    const { shoe_id, quantity } = req.body;
+    const { shoe_id, quantity, selectedSize } = req.body;
 
-    if (!shoe_id || !quantity) {
-        return res.status(400).json({ error: 'shoe_id and quantity are required.' });
+    if (!shoe_id || !quantity || !selectedSize) {
+        return res.status(400).json({ error: 'shoe_id, quantity, and size are required.' });
     }
 
     try {
@@ -83,9 +83,9 @@ router.post('/cart', authenticateToken, async (req, res) => {
         } else {
             // Insert new item
             const newItem = await pool.query(
-                `INSERT INTO cart_items (cart_id, shoe_id, quantity)
-                 VALUES ($1, $2, $3) RETURNING *`,
-                [cartId, shoe_id, quantity]
+                `INSERT INTO cart_items (cart_id, shoe_id, quantity, selected_size)
+                 VALUES ($1, $2, $3, $4) RETURNING *`,
+                [cartId, shoe_id, quantity, selectedSize]
             );
             return res.status(201).json(newItem.rows[0]);
         }
