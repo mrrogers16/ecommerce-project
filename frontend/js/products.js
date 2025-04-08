@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("✅ Fetching products from API...");
+    console.log("Fetching products from API...");
 
     const productList = document.getElementById("product-list");
     const sizeModal = document.getElementById("sizeModal");
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeModalButton = document.querySelector(".close");
 
     if (!productList || !sizeModal) {
-        console.error(" Error: Required elements not found!");
+        console.error("Error: Required elements not found!");
         return;
     }
 
@@ -18,33 +18,44 @@ document.addEventListener("DOMContentLoaded", () => {
     let selectedProduct = null;
     let allProducts = []; // Store all products
 
+    // Get category from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category');
+
     // Function to generate HTML for each product
     function generateProductCard(product) {
         return `
             <div class="col-md-4">
-                <a href="product-details.html?id=${product.id}">
-                    <div class="card">
+                <div class="card">
+                    <a href="product-details.html?id=${product.id}">
                         <img src="${product.image_url}" class="card-img-top" alt="${product.name}">
                         <div class="card-body text-center">
                             <h5 class="card-title">${product.name}</h5>
                             <p class="card-text">$${product.price}</p>
-                            <button class="btn btn-primary add-to-cart"
-                                data-id="${product.id}"
-                                data-name="${product.name}"
-                                data-price="${product.price}"
-                                data-image="${product.image_url}"
-                                data-sizes='${JSON.stringify(product.sizes)}'>
-                                Add to Cart
-                            </button>
                         </div>
+                    </a>
+                    <div class="card-footer text-center">
+                        <button class="btn btn-primary add-to-cart"
+                            data-id="${product.id}"
+                            data-name="${product.name}"
+                            data-price="${product.price}"
+                            data-image="${product.image_url}"
+                            data-sizes='${JSON.stringify(product.sizes)}'>
+                            Add to Cart
+                        </button>
                     </div>
-                </a>
+                </div>
             </div>
         `;
     }
 
-    // Fetch products from the API endpoint
-    fetch("https://fly-feet.com/api/shoes")
+    // Fetch products from the API endpoint with category filter
+    let apiUrl = "https://fly-feet.com/api/shoes";
+    if (category && category !== "All Shoes") {
+        apiUrl += `?category=${encodeURIComponent(category.toLowerCase())}`;
+    }
+
+    fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
             console.log("✅ API Response:", data);
@@ -57,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
             renderProducts(allProducts);
         })
         .catch(error => {
-            console.error(" Error fetching shoes:", error);
+            console.error("Error fetching shoes:", error);
             productList.innerHTML = `<p class="text-center text-danger">Failed to load products. Please try again later.</p>`;
         });
 
@@ -94,8 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
         let filtered = allProducts.filter(product => {
             const matchesBrand = !brandFilter || product.brand === brandFilter;
             const matchesSize = !sizeFilter || product.sizes.includes(parseFloat(sizeFilter));
-            const matchesPrice = product.price >= minPrice && 
-                               (!maxPrice || product.price <= maxPrice);
+            const matchesPrice = product.price >= minPrice &&
+                (!maxPrice || product.price <= maxPrice);
 
             return matchesBrand && matchesSize && matchesPrice;
         });
@@ -197,13 +208,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const toast = document.createElement('div');
         toast.className = 'toast-notification';
         toast.textContent = message;
-        
+
         // Add to document
         document.body.appendChild(toast);
-        
+
         // Trigger animation
         setTimeout(() => toast.classList.add('show'), 10);
-        
+
         // Remove after 3 seconds
         setTimeout(() => {
             toast.classList.remove('show');
@@ -211,23 +222,27 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 3000);
     }
 
-    // Then modify the confirm size button click handler
-    confirmSizeButton.onclick = () => {
-        if (!selectedProduct.selectedSize) {
-            showToast("Please select a size");
-            return;
-        }
-
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        selectedProduct.selectedSize = selectedProduct.selectedSize || 7;
-
-        cart.push(selectedProduct);
-        localStorage.setItem("cart", JSON.stringify(cart));
-
-        // Replace alert with toast
-        showToast(`${selectedProduct.name} (Size ${selectedProduct.selectedSize}) added to cart!`);
-        sizeModal.style.display = "none";
-    };
+    // Update the confirm size button click handler
+    confirmSizeButton.onclick = () => 
+        {
+            if (!selectedProduct.selectedSize)
+            {
+                showToast("Please select a size");
+                return;
+            }
+        
+            const quantity = document.getElementById('quantity')?.value || 1;
+        
+            addToCart(
+                selectedProduct.id,
+                selectedProduct.selectedSize,
+                parseInt(quantity)
+            );
+        
+            showToast("Item added to cart successfully!");
+            sizeModal.style.display = "none";
+            window.updateCartCount(); // Update cart count
+        };
 
     // Close modal when clicking "X"
     closeModalButton.addEventListener("click", () => {

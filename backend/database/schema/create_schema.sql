@@ -111,3 +111,7 @@
 -- ADD COLUMN category VARCHAR(20) NOT NULL DEFAULT 'mens' CHECK (category IN ('mens', 'womens', 'kids'));
 
 
+-- ADDED A NEW COLUMN TO cart_items FOR SIZE 
+-- ALTER TABLE cart_items
+-- ADD COLUMN selected_size VARCHAR(10);
+

@@ -34,33 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             // Handle add to cart functionality here...
-            addToCartBtn.addEventListener("click", () =>{
+            addToCartBtn.addEventListener("click", () => {
                 const selectedSize = sizeSelect.value;
-
-                if(!selectedSize){
-                    alert("Please select a size:");
-                    return;
-                }
-
-                const productToAdd = {
-                    id: product.id,
-                    name: product.name,
-                    brand: product.brand,
-                    price: parseFloat(product.price),
-                    image: product.image_url,
-                    selectedSize: selectedSize
-                };
-
-                let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-                //add product to cart
-                cart.push(productToAdd);
-
-                localStorage.setItem("cart", JSON.stringify(cart));
-
-                window.updateCartCount();
-
-                alert(`${product.name} (Size ${selectedSize}) added to cart!`);
+                // addToCart() is inside of script.js
+                addToCart(productId, selectedSize);
             });
         })
         .catch(error => {
