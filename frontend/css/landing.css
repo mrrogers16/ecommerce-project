@@ -7,21 +7,21 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: url('../assets/images/.png') center/cover no-repeat;
-  background-size: 100%; /* Initial zoom in */
+  background: url('../assets/images/icon.png') center/cover no-repeat;
+  background-size: 90%; /* Initial zoom in */
   animation: zoomEffect 8s ease-in-out infinite;
 }
 
 /* 🔹 Keyframes for Zoom Effect */
 @keyframes zoomEffect {
   0% {
-    background-size: 100%; /* Start zoomed in */
+    background-size: 80%; /* Start zoomed in */
   }
   50% {
-    background-size: 80%; /* Zoom out to original size */
+    background-size: 70%; /* Zoom out to original size */
   }
   100% {
-    background-size: 100%; /* Zoom back in */
+    background-size: 80%; /* Zoom back in */
   }
 }
 

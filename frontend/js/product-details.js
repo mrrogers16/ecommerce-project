@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("product-image").src = product.image_url;
             document.getElementById("product-description").innerText = product.description;
             document.getElementById("product-price").innerText = `$${product.price}`;
+            document.getElementById("product-quantity").innerText = `${product.stock} left in stock`;
+            document.getElementById("product-brand").innerText = product.brand;
 
             // Populate size options
             const sizeSelect = document.getElementById("size-select");
