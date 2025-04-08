@@ -1,14 +1,13 @@
 // Moved addToCart outside of DOM logic to be global accessable 
 function addToCart(productId, selectedSize, quantity = 1) {
     const token = localStorage.getItem('token');
-    
+
     if (!token) {
         alert('You must be logged in to add items to your cart.');
         return;
     }
 
-    if (!selectedSize)
-    {
+    if (!selectedSize) {
         document.getElementById("size-error-message").innerText = "Please select a size.";
         return;
     }
@@ -68,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const selectedSize = document.getElementById('size-select')?.value;
             addToCart(productId, selectedSize);
         }
-    });    
+    });
 });
 
 
