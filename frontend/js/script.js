@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const selectedSize = document.getElementById('size-select').ariaValueMax;
+        const selectedSize = document.getElementById('size-select').value;
 
         if (!selectedSize)
         {

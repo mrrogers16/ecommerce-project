@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             discount_code: null
         };
 
-        fetch('/api/orders', {
+        fetch('/api/cart', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

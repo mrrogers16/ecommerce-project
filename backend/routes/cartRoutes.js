@@ -96,6 +96,66 @@ router.post('/cart', authenticateToken, async (req, res) => {
     }
 });
 
+// router.post('/cart_items', authenticateToken, async (req, res) => 
+//     {
+//         const customerId = req.user.id;
+//         const { shoe_id, quantity } = req.body;
+    
+//         try 
+//         {
+//             // Get or create cart
+//             let cart = await pool.query('SELECT * FROM carts WHERE customer_id = $1', [customerId]);
+//             let cartId;
+    
+//             if (cart.rows.length === 0) 
+//             {
+//                 const result = await pool.query(
+//                     'INSERT INTO carts (customer_id) VALUES ($1) RETURNING id',
+//                     [customerId]
+//                 );
+//                 cartId = result.rows[0].id;
+//             } 
+//             else 
+//             {
+//                 cartId = cart.rows[0].id;
+//             }
+    
+//             // Check if the item is already in the cart
+//             const existing = await pool.query(
+//                 `SELECT * FROM cart_items WHERE cart_id = $1 AND shoe_id = $2`,
+//                 [cartId, shoe_id]
+//             );
+    
+//             if (existing.rows.length > 0) 
+//             {
+//                 // Update quantity
+//                 await pool.query(
+//                     `UPDATE cart_items
+//                      SET quantity = quantity + $1
+//                      WHERE cart_id = $2 AND shoe_id = $3`,
+//                     [quantity, cartId, shoe_id]
+//                 );
+//             } 
+//             else 
+//             {
+//                 // Insert new item
+//                 await pool.query(
+//                     `INSERT INTO cart_items (cart_id, shoe_id, quantity)
+//                      VALUES ($1, $2, $3)`,
+//                     [cartId, shoe_id, quantity]
+//                 );
+//             }
+    
+//             res.json({ message: 'Cart item synced successfully.' });
+//         } 
+//         catch (err) 
+//         {
+//             console.error('Error syncing cart item:', err);
+//             res.status(500).json({ error: 'Failed to sync cart item' });
+//         }
+//     });
+    
+
 // Delete item from cart - (Authenticated user)
 router.delete('/cart/:item_id', authenticateToken, async (req, res) => {
     const customerId = req.user.id;
