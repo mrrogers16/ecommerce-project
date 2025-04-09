@@ -25,110 +25,109 @@
     <!--Loading Screen Animation Script-->
     <style>
         .loader {
-          --uib-size: 125px;
-          --uib-color: rgb(207, 213, 225);
-          --uib-speed: 1.25s;
-          --uib-dot-size: calc(var(--uib-size) * 0.18);
-          display: flex;
-          align-items: flex-end;
-          justify-content: center;
-          gap: 10px;
-          height: calc(var(--uib-size) * 0.5);
-          width: var(--uib-size);
-    
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: #191b1eef;
-          transition: opacity 0.75s, visibility 0.75s;
-          z-index: 9999;
-        }
-    
-        .dot {
-          flex-shrink: 0;
-          width: calc(var(--uib-size) * 0.17);
-          height: calc(var(--uib-size) * 0.17);
-          border-radius: 50%;
-          background-color: var(--uib-color);
-          transition: background-color 0.3s ease;
-        }
-    
-        .dot:nth-child(1) {
-          animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.45)
-            infinite;
-        }
-      
-        .dot:nth-child(2) {
-          animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.3)
-            infinite;
-        }
-      
-        .dot:nth-child(3) {
-          animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.15)
-            infinite;
-        }
-      
-        .dot:nth-child(4) {
-          animation: loading var(--uib-speed) ease-in-out infinite;
-        }
-    
-        .loader--hidden{
-          opacity: 0;
-          visibility: hidden;
-        }
-    
-        .dot::after{
-          flex-shrink: 0;
-          width: calc(var(--uib-size) * 0.17);
-          height: calc(var(--uib-size) * 0.17);
-          border-radius: 50%;
-          background-color: var(--uib-color);
-          transition: background-color 0.3s ease;
-        }
-    
-        @keyframes loading {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-    
-          50% {
-            transform: translateY(-50px);
-          }
-        }
-      </style>
-      
-    <script>
-    window.addEventListener("load", () => {
-        const loader = document.querySelector(".loader");
+            --uib-size: 125px;
+            --uib-color: rgb(207, 213, 225);
+            --uib-speed: 1.25s;
+            --uib-dot-size: calc(var(--uib-size) * 0.18);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 10px;
+            height: calc(var(--uib-size) * 0.5);
+            width: var(--uib-size);
 
-        setTimeout(() => {
-        loader.classList.add("loader--hidden");
-        }, 1250);
-        
-        loader.addEventListener("transitionend", () => {
-        document.body.removeChild(loader);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #191b1eef;
+            transition: opacity 0.75s, visibility 0.75s;
+            z-index: 9999;
+        }
+
+        .dot {
+            flex-shrink: 0;
+            width: calc(var(--uib-size) * 0.17);
+            height: calc(var(--uib-size) * 0.17);
+            border-radius: 50%;
+            background-color: var(--uib-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .dot:nth-child(1) {
+            animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.45) infinite;
+        }
+
+        .dot:nth-child(2) {
+            animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.3) infinite;
+        }
+
+        .dot:nth-child(3) {
+            animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.15) infinite;
+        }
+
+        .dot:nth-child(4) {
+            animation: loading var(--uib-speed) ease-in-out infinite;
+        }
+
+        .loader--hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .dot::after {
+            flex-shrink: 0;
+            width: calc(var(--uib-size) * 0.17);
+            height: calc(var(--uib-size) * 0.17);
+            border-radius: 50%;
+            background-color: var(--uib-color);
+            transition: background-color 0.3s ease;
+        }
+
+        @keyframes loading {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-50px);
+            }
+        }
+    </style>
+
+    <script>
+        window.addEventListener("load", () => {
+            const loader = document.querySelector(".loader");
+
+            setTimeout(() => {
+                loader.classList.add("loader--hidden");
+            }, 1250);
+
+            loader.addEventListener("transitionend", () => {
+                document.body.removeChild(loader);
+            });
         });
-    });
     </script>
 </head>
 
 <body>
     <!--Loading Page Overlay-->
-  <div class="loader">
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-  </div>
+    <div class="loader">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
 
-   <!-- Popup Modal -->
-   <div class="modal fade welcome-modal" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+    <!-- Popup Modal -->
+    <div class="modal fade welcome-modal" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -209,7 +208,7 @@
             <li><a href="#" id="logout-button">Logout</a></li>
         </ul>
     </aside>
-    
+
     <!-- Products Section -->
     <main class="container">
         <h1>Our Products</h1>
@@ -241,7 +240,7 @@
                                     <option value="">All Brands</option>
                                 </select>
                             </div>
-                            
+
                             <!-- Price Range Filter -->
                             <div class="col-md-4">
                                 <label class="form-label">Price Range</label>
@@ -272,6 +271,11 @@
 
         <div id="product-list" class="row">
             <!-- Products will be dynamically loaded here -->
+        </div>
+
+        <!-- Pagination Container -->
+        <div id="paginationContainer" class="d-flex justify-content-center mt-4">
+            <!-- Pagination buttons will be dynamically added here -->
         </div>
     </main>
 
