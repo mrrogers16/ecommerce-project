@@ -97,7 +97,7 @@
 -- CREATE TABLE reviews (
 --    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 --    customer_id UUID NOT NULL REFERENCES customers(id) ON DELETE CASCADE,
---   shoe_id UUID NOT NULL REFERENCES shoes(id) ON DELETE CASCADE,
+--    shoe_id UUID NOT NULL REFERENCES shoes(id) ON DELETE CASCADE,
 --    rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
 --    review_text TEXT,
 --    helpful_count INT DEFAULT 0,

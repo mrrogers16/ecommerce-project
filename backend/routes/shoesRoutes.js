@@ -15,7 +15,7 @@ router.get('/shoes', async (req, res) => {
         const orderBy = order.toLowerCase() === 'asc' ? 'ASC' : 'DESC';
 
         const pageNumber = Math.max(parseInt(page) || 1, 1);
-        const pageSize = Math.max(parseInt(limit) || 10, 1);
+        const pageSize = Math.max(parseInt(limit) || 12, 1);
         const offset = (pageNumber - 1) * pageSize;
 
         const conditions = [];
