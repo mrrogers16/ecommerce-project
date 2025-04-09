@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Existing codes
+    //Existing codes
     function populateDiscountTable(discounts) {
         discountTableBody.innerHTML = '';  // Clear any existing rows
 
@@ -63,26 +63,27 @@ document.addEventListener("DOMContentLoaded", function() {
     // Create discount code
     createDiscountForm.addEventListener("submit", async function(event) {
         event.preventDefault();
-
+    
         const code = document.getElementById("discount-code").value;
         const discountAmount = document.getElementById("discount-amount").value;
         const discountType = document.getElementById("discount-type").value;
-
+    
+        // Ensure discount value is properly converted to a number
         const discountValue = parseFloat(discountAmount);
-        
+    
         if (isNaN(discountValue)) {
             alert("Discount value must be a valid number.");
             return;
         }
-
+    
         const newDiscount = {
             code: code,
             discount_type: discountType,
-            discount_value: discountValue,
+            discount_value: discountValue, // Send number, not string
             min_order_total: 0,
             usage_limit: 0
         };
-
+    
         try {
             const response = await fetch('/api/discount_codes', {
                 method: 'POST',
@@ -92,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 },
                 body: JSON.stringify(newDiscount)
             });
-
+    
             if (response.ok) {
                 const createdDiscount = await response.json();
                 alert("Discount code created successfully");
@@ -107,7 +108,6 @@ document.addEventListener("DOMContentLoaded", function() {
             alert("An error occurred while creating the discount code.");
         }
     });
-
     // Edit discount code
     async function editDiscount(discountId) {
         const code = prompt("Enter the new discount code:");
