@@ -111,36 +111,34 @@
         </ul>
     </aside>
 
-    <main class="container">
-        <h1 class="text-center mt-4">Contact Us</h1>
-        <p class="text-center">To contact us please fill out the form below:</p>
-        
+    <main class="container mt-5">
         <div class="contact-container">
             <h2>Contact Us</h2>
+            <p class="contact-intro">Have questions or feedback? We'd love to hear from you!</p>
             <form id="contact-form">
                 <div class="mb-3">
-                    <label for="name" class="form-label">Your Name:</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name:" required>
+                    <label for="name" class="form-label">Your Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
                 </div>
-
                 <div class="mb-3">
-                    <label for="email" class="form-label">Your Email:</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email:" required>
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
                 </div>
-
                 <div class="mb-3">
-                    <label for="message" class="form-label">Message:</label>
-                    <textarea class="form-control" id="message" name="message" rows="4" placeholder="Send message" required></textarea>
+                    <label for="subject" class="form-label">Subject</label>
+                    <input type="text" class="form-control" id="subject" name="subject" required>
                 </div>
-
-                <button type="submit" class="btn btn-primary">Send Message</button>
-                <div id="status" class="mt-3"></div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Your Message</label>
+                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Send Message</button>
             </form>
         </div>
 
-        <!-- Creators Section -->
-        <div class="creator-container mt-5">
-            <h2>Creators</h2>
+        <div class="creator-container">
+            <h2>Meet Our Team</h2>
+            <p class="team-intro">We're a passionate team of developers dedicated to bringing you the best shopping experience. Get to know the people behind Fly Feet:</p>
             <div class="creator-grid">
                 <div class="creator-box">
                     <p>Brandon Gallegos</p>
