@@ -17,6 +17,10 @@
     padding: 1.5rem;
 }
 
+.card-body > :empty {
+    display: none;
+}
+
 /* Form Styles */
 .form-label {
     font-weight: 500;
@@ -133,11 +137,11 @@
     .card-body {
         padding: 1.5rem;
     }
-
+    
     .checkout-container {
         padding: 1rem;
     }
-
+    
     .section-heading {
         font-size: 1.25rem;
     }
@@ -200,4 +204,4 @@
 
 #order-items::-webkit-scrollbar-thumb:hover {
     background: #555;
-}
+} 
