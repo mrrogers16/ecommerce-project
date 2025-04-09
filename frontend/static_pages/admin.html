@@ -53,31 +53,49 @@
             <!-- JS will populate this -->
         </div>
 
-        <h2>Manage Discounts</h2>
-        <div id="discount-section">
-            <form id="discount-form">
-                <label for="discount-code">Discount Code:</label>
-                <input type="text" id="discount-code" required>
+        <!-- Manage Discounts -->
+        <div id="discount-management">
+            <h2>Manage Discounts</h2>
 
-                <label for="discount-percentage">Percentage(%):</label>
-                <input type="number" id="discount-percentage" min="1" max="100" required>
+            <!-- Create New Discount -->
+            <div id="create-discount">
+                <h3>Create New Discount</h3>
+                <form id="create-discount-form">
+                    <label for="discount-code">Discount Code:</label>
+                    <input type="text" id="discount-code" name="discount-code" required placeholder="Enter code">
 
-                <label for="discount-expire">Expiry Date:</label>
-                <input type="date" id="discount-expire">
+                    <label for="discount-amount">Amount:</label>
+                    <input type="number" id="discount-amount" name="discount-amount" required placeholder="Enter amount">
 
-                <label for="discount-shoes">Apply to Shoes:</label>
-                <div id="discount-shoes-checkboxes">
-                    <!------>
-                </div>
+                    <label for="discount-type">Discount Type:</label>
+                    <select id="discount-type" name="discount-type" required>
+                        <option value="percentage">Percentage</option>
+                        <option value="fixed">Fixed Amount</option>
+                    </select>
 
-                <button type="submit">Create Discount</button>
-            </form>
+                    <button type="submit">Create Discount</button>
+                </form>
+            </div>
 
-            <h3>Existing Discounts</h3>
-            <div id="discount-list">
-                <!------>
+            <!-- Existing Discounts -->
+            <div id="existing-discounts">
+                <h3>Existing Discounts</h3>
+                <table id="discount-table">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Amount</th>
+                            <th>Type</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Discount rows will be dynamically inserted here -->
+                    </tbody>
+                </table>
             </div>
         </div>
+    </main>
     </main>
 
     <script src="../js/admin.js"></script>
