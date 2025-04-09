@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", () =>
             const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value;
             const confirmPassword = document.getElementById("confirmPassword").value;
+            const address = document.getElementById("address").value.trim();
+            const phone = document.getElementById("phone").value.trim();
             const termsAccepted = document.getElementById("terms").checked;
     
             // Basic validation
@@ -39,7 +41,9 @@ document.addEventListener("DOMContentLoaded", () =>
                         first_name: firstName,
                         last_name: lastName,
                         email,
-                        password
+                        password,
+                        address,
+                        phone
                     })
                 });
     

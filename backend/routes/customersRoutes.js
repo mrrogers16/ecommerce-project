@@ -48,7 +48,7 @@ router.get('/test', (req, res) => {
 
 // Customer Signup Route (Public)
 router.post('/customers/signup', async (req, res) => {
-    const { first_name, last_name, email, password } = req.body;
+    const { first_name, last_name, email, password, phone, address } = req.body;
 
     if (!first_name || !last_name || !email || !password) {
         return res.status(400).json({ error: 'All fields are required.' });
@@ -68,10 +68,10 @@ router.post('/customers/signup', async (req, res) => {
 
         // Insert new customer
         const result = await pool.query(
-            `INSERT INTO customers (first_name, last_name, email, password_hash, role)
-                 VALUES ($1, $2, $3, $4, $5)
-                 RETURNING id, first_name, last_name, email`,
-            [first_name, last_name, email, hashedPassword, 'customer'] // default role: customer
+            `INSERT INTO customers (first_name, last_name, email, password_hash, phone, address, role)
+                 VALUES ($1, $2, $3, $4, $5, $6, $7)
+                 RETURNING id, first_name, last_name, email, phone, address, role`,
+            [first_name, last_name, email, hashedPassword, phone, address, 'customer'] // default role: customer
         );
 
         res.status(201).json({
