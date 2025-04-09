@@ -43,7 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             data-name="${product.name}"
                             data-price="${product.price}"
                             data-image="${product.image_url}"
-                            data-sizes='${JSON.stringify(product.sizes)}'>
+                            data-sizes='${JSON.stringify(product.sizes)}'
+                            data-modal="true">
                             Add to Cart
                         </button>
                     </div>
@@ -79,45 +80,35 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }
 
-    // Function to render products
-    function renderProducts(products) {
-        if (!Array.isArray(products) || products.length === 0) {
-            productList.innerHTML = `<p class="text-center">No products found matching your criteria.</p>`;
-            return;
-        }
-
-        productList.innerHTML = `<div class="row g-4">${products.map(generateProductCard).join("")}</div>`;
+    // Fetch products from the API endpoint with category filter
+    let apiUrl = "https://fly-feet.com/api/shoes";
+    if (category && category !== "All Shoes") {
+        apiUrl += `?category=${encodeURIComponent(category.toLowerCase())}`;
     }
 
-    // Function to render pagination buttons
-    function renderPagination() {
-        paginationContainer.innerHTML = ''; // Clear pagination buttons
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            console.log("✅ API Response:", data);
+            allProducts = data.results;
 
-        if (totalPages <= 1) return;
+            // Initialize filters
+            initializeFilters(allProducts);
 
-        for (let i = 1; i <= totalPages; i++) {
-            const pageButton = document.createElement('button');
-            pageButton.classList.add('page-btn');
-            pageButton.textContent = i;
-            pageButton.addEventListener('click', () => {
-                currentPage = i;
-                fetchProducts(currentPage);
-            });
+            // Initial render of products
+            renderProducts(allProducts);
+        })
+        .catch(error => {
+            console.error("Error fetching shoes:", error);
+            productList.innerHTML = `<p class="text-center text-danger">Failed to load products. Please try again later.</p>`;
+        });
 
-            if (i === currentPage) {
-                pageButton.classList.add('active');
-            }
-
-            paginationContainer.appendChild(pageButton);
-        }
-    }
-
-    // Filter initialization (brands and sizes)
     function initializeFilters(products) {
+        // Get unique brands
         const brands = [...new Set(products.map(p => p.brand))].sort();
         const brandSelect = document.getElementById('brand-select');
         brands.forEach(brand => {
-            if (brand) {
+            if (brand) { // Only add non-empty brands
                 const option = document.createElement('option');
                 option.value = brand;
                 option.textContent = brand;
@@ -125,6 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
+        // Get unique sizes
         const sizes = [...new Set(products.flatMap(p => p.sizes))].sort((a, b) => a - b);
         const sizeSelect = document.getElementById('size-select');
         sizes.forEach(size => {
@@ -135,7 +127,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Function to apply filters
     function applyFilters() {
         const brandFilter = document.getElementById('brand-select').value;
         const sizeFilter = document.getElementById('size-select').value;
@@ -151,6 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return matchesBrand && matchesSize && matchesPrice;
         });
 
+        // Apply current sort
         const sortValue = document.getElementById('sort-select').value;
         filtered = sortProducts(filtered, sortValue);
 
@@ -165,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('price-min').value = '';
         document.getElementById('price-max').value = '';
         document.getElementById('sort-select').value = 'default';
-        fetchProducts(currentPage);
+        renderProducts(allProducts);
     });
 
     // Sort products function
@@ -186,6 +178,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 break;
         }
         return sorted;
+    }
+
+    function renderProducts(products) {
+        if (!Array.isArray(products) || products.length === 0) {
+            productList.innerHTML = `<p class="text-center">No products found matching your criteria.</p>`;
+            return;
+        }
+
+        productList.innerHTML = `<div class="row g-4">${products.map(generateProductCard).join("")}</div>`;
     }
 
     // Handle "Add to Cart" Click
@@ -287,6 +288,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Initially load products
-    fetchProducts(currentPage);
+    // Add sort change listener
+    document.getElementById('sort-select')?.addEventListener('change', (e) => {
+        const sorted = sortProducts(allProducts, e.target.value);
+        renderProducts(sorted);
+    });
 });
