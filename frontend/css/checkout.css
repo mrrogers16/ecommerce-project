@@ -10,11 +10,11 @@
     border: none;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .card-body {
-    padding: 2rem;
+    padding: 1.5rem;
 }
 
 /* Form Styles */
@@ -133,11 +133,11 @@
     .card-body {
         padding: 1.5rem;
     }
-    
+
     .checkout-container {
         padding: 1rem;
     }
-    
+
     .section-heading {
         font-size: 1.25rem;
     }
@@ -200,4 +200,4 @@
 
 #order-items::-webkit-scrollbar-thumb:hover {
     background: #555;
-} 
+}
