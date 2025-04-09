@@ -4,7 +4,7 @@ body, html {
   padding: 0;
   font-family: 'Urbanist', sans-serif;
   background:#0E0E0E;
-  color: #333;
+  color: #909394;
   text-align: center;
 }
   
@@ -19,7 +19,7 @@ body, html {
     text-decoration: none;
   }
 
-  .video-background {
+  .landing-background {
     position: absolute;
     top: 0;
     left: 0;
@@ -78,84 +78,6 @@ nav ul li a.active {
 /* Hover effect for all navigation links */
 nav ul li a:hover {
     color: #3f66a0; /* Light blue hover for all links */
-}
-
-.loader {
-  --uib-size: 125px;
-  --uib-color: rgb(207, 213, 225);
-  --uib-speed: 1.25s;
-  --uib-dot-size: calc(var(--uib-size) * 0.18);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 10px;
-  height: calc(var(--uib-size) * 0.5);
-  width: var(--uib-size);
-
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #191b1eef;
-  transition: opacity 0.75s, visibility 0.75s;
-  z-index: 9999;
-}
-
-.dot {
-  flex-shrink: 0;
-  width: calc(var(--uib-size) * 0.17);
-  height: calc(var(--uib-size) * 0.17);
-  border-radius: 50%;
-  background-color: var(--uib-color);
-  transition: background-color 0.3s ease;
-}
-
-.dot:nth-child(1) {
-  animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.45)
-    infinite;
-}
-
-.dot:nth-child(2) {
-  animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.3)
-    infinite;
-}
-
-.dot:nth-child(3) {
-  animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.15)
-    infinite;
-}
-
-.dot:nth-child(4) {
-  animation: loading var(--uib-speed) ease-in-out infinite;
-}
-
-.loader--hidden{
-  opacity: 0;
-  visibility: hidden;
-}
-
-.dot::after{
-  flex-shrink: 0;
-  width: calc(var(--uib-size) * 0.17);
-  height: calc(var(--uib-size) * 0.17);
-  border-radius: 50%;
-  background-color: var(--uib-color);
-  transition: background-color 0.3s ease;
-}
-
-@keyframes loading {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-50px);
-  }
 }
 
 /* Hero(banner) Section */
@@ -555,14 +477,28 @@ footer .list-inline-item {
 
 /* Custom CSS for the product details page */
 #product-name {
-  font-size: 2.5rem; /* Larger font for product name */
+  font-size: 3.5rem; /* Larger font for product name */
   font-weight: bold; /* Bold to make it stand out */
-  color: #333; /* Dark color for readability */
+  color: #cdd5de; /* Dark color for readability */
   margin-bottom: 15px;
 }
 
+#product-brand {
+  font-size: 1.5rem; /* Larger font for product name */
+  font-weight: bold; /* Bold to make it stand out */
+  color: #70757c; /* Dark color for readability */
+  margin-bottom: 15px;
+}
+
+#product-description {
+  font-size: 1.2rem; /* Larger font for product name */
+  color: #70757c; /* Dark color for readability */
+  margin-bottom: 15px;
+  line-height: 1.5; /* Better line spacing for readability */
+}
+
 #product-price {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 600; /* Semi-bold for emphasis */
   color: #ff5733; /* Price color to stand out */
   margin-bottom: 20px; /* Space between price and size selector */
@@ -601,13 +537,21 @@ footer .list-inline-item {
   border-radius: 8px;
 }
 
-#product-name, #product-price, #size-select {
+#product-name, #product-brand, #product-description, #product-price, #product-quantity, #size-select {
   text-align: left; /* Align text to the left */
   margin: 10px 0;
 }
 @media (max-width: 768px) {
   #product-name {
-    font-size: 2rem; /* Slightly smaller font on smaller screens */
+    font-size: 2.5rem; /* Slightly smaller font on smaller screens */
+  }
+
+  #product-brand {
+    font-size: 1.5rem; /* Slightly smaller font on smaller screens */
+  }
+
+  #product-description {
+    font-size: 1.5rem; /* Slightly smaller font on smaller screens */
   }
 
   #product-price {
@@ -617,6 +561,12 @@ footer .list-inline-item {
   #size-select select {
     width: 100%; /* Make the size selector full width on smaller screens */
   }
+
+  #product-quantity {
+    width: 100%; /* Make the quantity input full width on smaller screens */
+  }
+
+  
 }
 #add-to-cart-btn:hover {
   background-color: #27c46b; /* Darker red when hovered */

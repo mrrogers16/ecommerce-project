@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("product-image").src = product.image_url;
             document.getElementById("product-description").innerText = product.description;
             document.getElementById("product-price").innerText = `$${product.price}`;
+            document.getElementById("product-quantity").innerText = `${product.stock} left in stock`;
+            document.getElementById("product-brand").innerText = product.brand;
 
             // Populate size options
             const sizeSelect = document.getElementById("size-select");
@@ -32,33 +34,16 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             // Handle add to cart functionality here...
-            addToCartBtn.addEventListener("click", () =>{
+            addToCartBtn.addEventListener("click", () => {
                 const selectedSize = sizeSelect.value;
-
-                if(!selectedSize){
-                    alert("Please select a size:");
-                    return;
-                }
-
-                const productToAdd = {
-                    id: product.id,
-                    name: product.name,
-                    brand: product.brand,
-                    price: parseFloat(product.price),
-                    image: product.image_url,
-                    selectedSize: selectedSize
-                };
-
-                let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-                //add product to cart
-                cart.push(productToAdd);
-
-                localStorage.setItem("cart", JSON.stringify(cart));
-
-                window.updateCartCount();
-
-                alert(`${product.name} (Size ${selectedSize}) added to cart!`);
+                // addToCart() is inside of script.js
+                addToCart(product.id,
+                    selectedSize,
+                    1,
+                    product.name,
+                    product.image_url,
+                    parseFloat(product.price)
+                );
             });
         })
         .catch(error => {

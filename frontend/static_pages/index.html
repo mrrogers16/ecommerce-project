@@ -12,14 +12,94 @@
   <!-- Adobe Fonts: Antipol -->
   <link rel="stylesheet" href="https://use.typekit.net/dro4ebr.css">
   <!-- Adobe Fonts: Lalezar -->
-  <link rel="stylesheet" href="https://use.typekit.net/chc1oih.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lalezar&display=swap" rel="stylesheet">
+
 
   <link rel="stylesheet" href="../css/styles.css" />
   <link rel="stylesheet" href="../css/landing.css" />
   <link rel="stylesheet" href="../css/focus.css">
   <link rel="stylesheet" href="../css/carousel.css">
 
-  <!--Loading Screen Animation Script-->
+  <style>
+    .loader {
+      --uib-size: 125px;
+      --uib-color: rgb(207, 213, 225);
+      --uib-speed: 1.25s;
+      --uib-dot-size: calc(var(--uib-size) * 0.18);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 10px;
+      height: calc(var(--uib-size) * 0.5);
+      width: var(--uib-size);
+
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #191b1eef;
+      transition: opacity 0.75s, visibility 0.75s;
+      z-index: 9999;
+    }
+
+    .dot {
+      flex-shrink: 0;
+      width: calc(var(--uib-size) * 0.17);
+      height: calc(var(--uib-size) * 0.17);
+      border-radius: 50%;
+      background-color: var(--uib-color);
+      transition: background-color 0.3s ease;
+    }
+
+    .dot:nth-child(1) {
+      animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.45)
+        infinite;
+    }
+  
+    .dot:nth-child(2) {
+      animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.3)
+        infinite;
+    }
+  
+    .dot:nth-child(3) {
+      animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.15)
+        infinite;
+    }
+  
+    .dot:nth-child(4) {
+      animation: loading var(--uib-speed) ease-in-out infinite;
+    }
+
+    .loader--hidden{
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .dot::after{
+      flex-shrink: 0;
+      width: calc(var(--uib-size) * 0.17);
+      height: calc(var(--uib-size) * 0.17);
+      border-radius: 50%;
+      background-color: var(--uib-color);
+      transition: background-color 0.3s ease;
+    }
+
+    @keyframes loading {
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-50px);
+      }
+    }
+  </style>
+
   <script>
     window.addEventListener("load", () => {
       const loader = document.querySelector(".loader");
@@ -28,32 +108,11 @@
         loader.classList.add("loader--hidden");
       }, 1250);
       
-      loader.addEventListener("transistionend", () => {
+      loader.addEventListener("transitionend", () => {
         document.body.removeChild(loader);
       });
     });
   </script>
-
-<!--Background Video Animation Last-Frame Script-->
-<script>
-  window.addEventListener("load", () => {
-  const video = document.getElementById("background-video");
-
-  // Listen for the 'ended' event (when the video finishes)
-  video.addEventListener('ended', function() {
-    // Pause the video when it finishes
-    video.pause();
-  });
-
-  // Listen for the 'timeupdate' event to check if the video is at the end
-  video.addEventListener('timeupdate', function() {
-    // Check if the current time is very close to the video's duration
-    if (video.currentTime >= video.duration - 0.1) {
-      video.pause(); // Pauses at the last frame
-    }
-  });
-});
-</script>
 </head>
 
 <body>
@@ -67,17 +126,12 @@
   </div>
 
   <!-- Hero Section -->
-  <section class="hero text-center  d-flex align-items-center justify-content-center"
-  <div class="video-background">
-    <video id="background-video" autoplay muted loop>
-      <source src="../assets/images/pointCloud_indexPage_animation_SHORTver.mp4" type="video/mp4" />
-    </video>
-  </div>
+  <section class="hero text-center d-flex align-items-center justify-content-center">
     <div class="container">
       <!-- Headline -->
       <h1 class="hero-heading">Step into Style</h1>
       <p class="hero-subtitle">With</p>
-
+  
       <!-- 🔥 Fly Feet! Focus Effect -->
       <div class="focus-wrapper">
         <h2 class="display-2 fw-bold animate__animated animate__fadeInUp focus-container" style="color: #0b2f98;">
@@ -92,14 +146,13 @@
         </h2>
       </div>
     </div>
-  </section>
+  </section>  
 
 <!-- 🔹 Shop Button -->
 <section class="banner-and-button">
-  <div class="button-container mt-4">
+  <div class="button-container">
     <a href="../static_pages/shop.html" class="btn btn-warning btn-lg animate__animated animate__zoomIn">Shop Now</a>
   </div>
-  <!-- Background image as a banner -->
   <img src="../assets/images/simple_abstractBanner.png" alt="Banner" class="img-fluid" />
 </section>
 
@@ -129,6 +182,12 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../js/focus.js"></script>
   <script src="../js/carousel.js"></script>
+  <script src="../js/products.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        fetchProducts();
+    });
+  </script>
 </body>
 
 </html>

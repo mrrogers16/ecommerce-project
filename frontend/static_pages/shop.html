@@ -23,19 +23,99 @@
     <link rel="stylesheet" href="../css/LogSign.css">
 
     <!--Loading Screen Animation Script-->
-  <script>
-    window.addEventListener("load", () => {
-      const loader = document.querySelector(".loader");
-
-      setTimeout(() => {
-        loader.classList.add("loader--hidden");
-      }, 1250);
+    <style>
+        .loader {
+          --uib-size: 125px;
+          --uib-color: rgb(207, 213, 225);
+          --uib-speed: 1.25s;
+          --uib-dot-size: calc(var(--uib-size) * 0.18);
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          gap: 10px;
+          height: calc(var(--uib-size) * 0.5);
+          width: var(--uib-size);
+    
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #191b1eef;
+          transition: opacity 0.75s, visibility 0.75s;
+          z-index: 9999;
+        }
+    
+        .dot {
+          flex-shrink: 0;
+          width: calc(var(--uib-size) * 0.17);
+          height: calc(var(--uib-size) * 0.17);
+          border-radius: 50%;
+          background-color: var(--uib-color);
+          transition: background-color 0.3s ease;
+        }
+    
+        .dot:nth-child(1) {
+          animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.45)
+            infinite;
+        }
       
-      loader.addEventListener("transistionend", () => {
+        .dot:nth-child(2) {
+          animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.3)
+            infinite;
+        }
+      
+        .dot:nth-child(3) {
+          animation: loading var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.15)
+            infinite;
+        }
+      
+        .dot:nth-child(4) {
+          animation: loading var(--uib-speed) ease-in-out infinite;
+        }
+    
+        .loader--hidden{
+          opacity: 0;
+          visibility: hidden;
+        }
+    
+        .dot::after{
+          flex-shrink: 0;
+          width: calc(var(--uib-size) * 0.17);
+          height: calc(var(--uib-size) * 0.17);
+          border-radius: 50%;
+          background-color: var(--uib-color);
+          transition: background-color 0.3s ease;
+        }
+    
+        @keyframes loading {
+          0%,
+          100% {
+            transform: translateY(0px);
+          }
+    
+          50% {
+            transform: translateY(-50px);
+          }
+        }
+      </style>
+      
+    <script>
+    window.addEventListener("load", () => {
+        const loader = document.querySelector(".loader");
+
+        setTimeout(() => {
+        loader.classList.add("loader--hidden");
+        }, 1250);
+        
+        loader.addEventListener("transitionend", () => {
         document.body.removeChild(loader);
-      });
+        });
     });
-  </script>
+    </script>
 </head>
 
 <body>
@@ -73,7 +153,7 @@
     <header class="header d-flex justify-content-between align-items-center px-3 py-2 bg-dark text-white">
         <button id="menu-toggle" class="hamburger btn btn-outline-light">&#9776;</button>
         <h1 class="site-title m-0">
-            <a href="index.html" class="flyfeet-brand">Fly Feet</a>
+            <a href="shop.html" class="flyfeet-brand">Fly Feet</a>
         </h1>
 
         <div class="d-flex align-items-center gap-3" id="right-actions">
@@ -126,6 +206,7 @@
                             d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
                     </svg></a></li>
             <!-- <li><a href="cart.html">Cart</a></li>  -->
+            <li><a href="#" id="logout-button">Logout</a></li>
         </ul>
     </aside>
     
@@ -201,7 +282,11 @@
             <span class="close">&times;</span>
             <h2>Select Size</h2>
             <div id="sizeOptions"></div>
-            <button id="confirmSize" class="btn btn-warning">Confirm</button>
+            <div class="quantity-selector mt-3">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" class="form-control" value="1" min="1" max="10">
+            </div>
+            <button id="confirmSize" class="btn btn-warning mt-3">Confirm</button>
         </div>
     </div>
 
@@ -222,6 +307,7 @@
     <script src="../js/cart.js"></script> <!-- Manages Add to Cart -->
     <script src="../js/script.js"></script>
     <script src="../js/LogSign.js"></script>
+    <script src="../js/auth.js"></script>
 </body>
 
 </html>
