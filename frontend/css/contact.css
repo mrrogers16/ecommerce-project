@@ -4,6 +4,9 @@ body {
     padding: 0;
     border: none;
     color: white; /* Adding white text for better contrast */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
   p {
     margin-top: 20px;
@@ -24,6 +27,24 @@ body {
   h2 {
     text-align: center;
     margin-bottom: 20px;
+    font-family: 'Montserrat', 'Poppins', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #333;
+    text-transform: uppercase;
+    position: relative;
+    padding-bottom: 10px;
+  }
+  
+  h2:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: #007BFF;
   }
   
   label {
@@ -195,5 +216,15 @@ body {
     50% {
         transform: translateY(-50px);
     }
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+footer {
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: auto;
 }
 
