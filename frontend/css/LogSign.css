@@ -101,3 +101,110 @@
         padding: 0.5rem;
     }
 }
+
+/* Common styles for login and signup pages */
+.login-container,
+.signup-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.login-card,
+.signup-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.login-header,
+.signup-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-header h1,
+.signup-header h1 {
+    color: #0b2f98;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+}
+
+.form-control:focus {
+    border-color: #0b2f98;
+    box-shadow: 0 0 0 0.2rem rgba(11, 47, 152, 0.25);
+}
+
+.btn-login,
+.btn-signup {
+    background-color: #0b2f98;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem;
+    width: 100%;
+    color: white;
+    font-weight: bold;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover,
+.btn-signup:hover {
+    background-color: #0a2477;
+    transform: translateY(-2px);
+}
+
+.login-footer,
+.signup-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.login-footer a,
+.signup-footer a {
+    color: #0b2f98;
+    text-decoration: none;
+}
+
+.login-footer a:hover,
+.signup-footer a:hover {
+    text-decoration: underline;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.back-to-shop {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: white;
+    color: #0b2f98;
+    border: 2px solid #0b2f98;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.back-to-shop:hover {
+    background-color: #0b2f98;
+    color: white;
+    transform: translateY(-2px);
+}
