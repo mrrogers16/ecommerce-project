@@ -194,7 +194,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderPagination() {
-        const paginationContainer = document.getElementById("pagination-container");
+        const paginationContainer = document.getElementById("paginationContainer");
+        if (!paginationContainer){
+            console.error("Pagination container not found!");
+            return;
+        } 
         paginationContainer.innerHTML = ""; // Clear previous pagination
     
         // Add First, Previous, Next, Last buttons based on the current page
