@@ -53,32 +53,28 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
     }
 
-    // Function to fetch products from API with pagination
-    function fetchProducts(page) {
-        let apiUrl = `https://fly-feet.com/api/shoes?page=${page}&limit=10`;
-        if (category && category !== "All Shoes") {
-            apiUrl += `&category=${encodeURIComponent(category.toLowerCase())}`;
-        }
-
+    // Function to fetch products from API with pagination    
+    function fetchProducts(page = 1) {
+        currentPage = page; // Update current page
+        
+        const apiUrl = `https://fly-feet.com/api/shoes?page=${currentPage}&limit=10`;
+    
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
                 console.log("✅ API Response:", data);
-                allProducts = data.results;
-                totalPages = data.totalPages;
-
-                // Initialize filters
-                initializeFilters(allProducts);
-
-                // Render products and pagination
-                renderProducts(allProducts);
-                renderPagination();
+                allProducts = data.results; // Store all products for the current page
+                totalPages = data.totalPages; // Update total pages for pagination
+    
+                renderProducts(allProducts); // Render products
+                renderPagination(); // Update pagination controls
             })
             .catch(error => {
                 console.error("Error fetching shoes:", error);
                 productList.innerHTML = `<p class="text-center text-danger">Failed to load products. Please try again later.</p>`;
             });
     }
+    
 
     // Fetch products from the API endpoint with category filter
     let apiUrl = "https://fly-feet.com/api/shoes";
@@ -188,6 +184,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
         productList.innerHTML = `<div class="row g-4">${products.map(generateProductCard).join("")}</div>`;
     }
+
+    function createPaginationButton(text, onClick, disabled) {
+        const button = document.createElement("button");
+        button.textContent = text;
+        button.disabled = disabled;
+        button.onclick = onClick;
+        return button;
+    }
+
+    function renderPagination() {
+        const paginationContainer = document.getElementById("pagination-container");
+        paginationContainer.innerHTML = ""; // Clear previous pagination
+    
+        // Add First, Previous, Next, Last buttons based on the current page
+        const firstButton = createPaginationButton("First", () => fetchProducts(1), currentPage === 1);
+        const prevButton = createPaginationButton("Previous", () => fetchProducts(currentPage - 1), currentPage === 1);
+        const nextButton = createPaginationButton("Next", () => fetchProducts(currentPage + 1), currentPage === totalPages);
+        const lastButton = createPaginationButton("Last", () => fetchProducts(totalPages), currentPage === totalPages);
+    
+        const pageInfo = document.createElement("span");
+        pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+    
+        const jumpInput = document.createElement("input");
+        jumpInput.type = "number";
+        jumpInput.min = 1;
+        jumpInput.max = totalPages;
+        jumpInput.placeholder = "Page #";
+        jumpInput.style.width = "70px";
+        jumpInput.onchange = () => {
+            const targetPage = Math.max(1, Math.min(totalPages, parseInt(jumpInput.value)));
+            if (targetPage && targetPage !== currentPage) {
+                fetchProducts(targetPage);
+            }
+        };
+    
+        paginationContainer.append(firstButton, prevButton, pageInfo, nextButton, lastButton, jumpInput);
+    }
+
+    fetchProducts(1);
 
     // Handle "Add to Cart" Click
     document.addEventListener("click", (event) => {
