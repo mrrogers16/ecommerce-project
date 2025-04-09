@@ -38,15 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                     </a>
                     <div class="card-footer text-center">
-                        <button class="btn btn-primary add-to-cart"
-                            data-id="${product.id}"
-                            data-name="${product.name}"
-                            data-price="${product.price}"
-                            data-image="${product.image_url}"
-                            data-sizes='${JSON.stringify(product.sizes)}'
-                            data-modal="true">
-                            Add to Cart
-                        </button>
+                        <a href="product-details.html?id=${product.id}" class="btn btn-primary">
+                            Show Details
+                        </a>
                     </div>
                 </div>
             </div>
