@@ -42,6 +42,7 @@
             <ul>
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="shop.html">Shop</a></li>
+                <li><a href="discounts.html">Discounts</a></li>
                 <!-- Removed the Admin link as requested -->
             </ul>
         </nav>
@@ -51,32 +52,6 @@
         <h2>Manage Shoes</h2>
         <div id="shoe-table-container">
             <!-- JS will populate this -->
-        </div>
-
-        <h2>Manage Discounts</h2>
-        <div id="discount-section">
-            <form id="discount-form">
-                <label for="discount-code">Discount Code:</label>
-                <input type="text" id="discount-code" required>
-
-                <label for="discount-percentage">Percentage(%):</label>
-                <input type="number" id="discount-percentage" min="1" max="100" required>
-
-                <label for="discount-expire">Expiry Date:</label>
-                <input type="date" id="discount-expire">
-
-                <label for="discount-shoes">Apply to Shoes:</label>
-                <div id="discount-shoes-checkboxes">
-                    <!------>
-                </div>
-
-                <button type="submit">Create Discount</button>
-            </form>
-
-            <h3>Existing Discounts</h3>
-            <div id="discount-list">
-                <!------>
-            </div>
         </div>
     </main>
 
