@@ -6,6 +6,9 @@ body, html {
   background:#0E0E0E;
   color: #909394;
   text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
   
   /* Antipol for the Fly Feet brand */
@@ -459,6 +462,9 @@ nav ul li a:hover {
 footer {
     background-color: #343a40;
     color: white;
+    margin-top: auto;
+    width: 100%;
+    flex-shrink: 0;
 }
 
 footer a {
@@ -864,4 +870,10 @@ footer .list-inline-item {
 .toast-message.show {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Main content area */
+main {
+  flex: 1 0 auto;
+  width: 100%;
 }
