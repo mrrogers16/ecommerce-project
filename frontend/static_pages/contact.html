@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - Fly Feet</title>
     
+    <!-- Adobe Fonts: Lalezar -->
+    <link rel="stylesheet" href="https://use.typekit.net/chc1oih.css">
+
+    <!-- Adobe Fonts: Antipol -->
+    <link rel="stylesheet" href="https://use.typekit.net/dro4ebr.css">
+
+    <!-- Google Fonts: Urbanist -->
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     
@@ -12,81 +21,137 @@
     <link rel="stylesheet" href="../css/styles.css">   
     <link rel="stylesheet" href="../css/contact.css">
 </head>
-<header>
-    <h1><a href="index.html">Welcome to Fly Feet!</a></h1>
-    <nav id="navbar">
-        <ul>
-            <li class="dropdown">
-                <a href="shop.html" class="dropbtn">Shop ▼</a>
-                <div class="dropdown-content">
-                    <a href="shop.html?category=mens">Men's Shoes</a>
-                    <a href="shop.html?category=womens">Women's Shoes</a>
-                    <a href="shop.html?category=kids">Kids' Shoes</a>
-                </div>
+
+<body>
+    <!-- Header with hamburger and logo -->
+    <header class="header d-flex justify-content-between align-items-center px-3 py-2 bg-dark text-white">
+        <div class="d-flex align-items-center" style="width: 100px;">
+            <button id="menu-toggle" class="hamburger btn btn-outline-light">&#9776;</button>
+        </div>
+        <h1 class="site-title m-0 text-center" style="flex: 1; max-width: 200px;">
+            <a href="index.html" class="flyfeet-brand">Fly Feet</a>
+        </h1>
+
+        <div class="d-flex align-items-center gap-3" id="right-actions" style="width: 100px; justify-content: flex-end;">
+            <!-- Cart Icon/Link -->
+            <a href="cart.html" class="cart-icon d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" class="bi bi-cart"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M0 1a1 1 0 0 1 1-1h1.11a1 1 0 0 1 .98.8l.401 2.401a.5.5 0 0 0 .49.399h9.747a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 12 13H4a.5.5 0 0 1-.491-.408L1.01 2.607 1 2.5V2a1 1 0 0 1-1-1zm3.14 3 1.313 7h7.094l1.312-7H3.14zM5.5 14a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                </svg>
+                <span id="cart-count" class="cart-count">0</span>
+            </a>
+
+            <!-- Login Link -->
+            <a href="profile.html" class="text-white d-flex align-items-center login-link"
+                style="text-decoration: none; font-weight: bold;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white"
+                    class="bi bi-person-circle me-1" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                    <path fill-rule="evenodd"
+                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                </svg>
+                Profile
+            </a>
+        </div>
+    </header>
+
+    <!-- Add this right after your header -->
+    <div id="toast-container"></div>
+
+    <!-- Side Navigation Drawer -->
+    <aside id="side-drawer" class="side-drawer">
+        <button class="close-btn" id="close-drawer">&times;</button>
+        <ul class="drawer-links">
+            <li class="has-submenu">
+                <a href="#" id="shop-toggle">Shop ▾</a>
+                <ul class="submenu" id="shop-submenu">
+                    <li><a href="shop.html?category=All Shoes">All Shoes</a></li>
+                    <li><a href="shop.html?category=mens">Men's Shoes</a></li>
+                    <li><a href="shop.html?category=womens">Women's Shoes</a></li>
+                    <li><a href="shop.html?category=kids">Kids' Shoes</a></li>
+                </ul>
             </li>
             <li><a href="#">About</a></li>
             <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white"
+                        class="bi bi-person-circle ms-2" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                        <path fill-rule="evenodd"
+                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                    </svg></a></li>
             <!-- <li><a href="cart.html">Cart</a></li>  -->
         </ul>
-    </nav>
-</header>
+    </aside>
 
-<body>
-    <p> To contact us please fill out the form below:</p>
-    <div class="contact-container">
-        <h2> Contact Us</h2>
-        <form action="\submit_form" method="POST">
-            <label for="name">Your Name:</label>
-            <input type="text" id="name" name="name" placeholder="Enter your name:" required>
+    <main class="container">
+        <h1 class="text-center mt-4">Contact Us</h1>
+        <p class="text-center">To contact us please fill out the form below:</p>
+        
+        <div class="contact-container">
+            <h2>Contact Us</h2>
+            <form id="contact-form">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Your Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name:" required>
+                </div>
 
-            <label for="email">Your Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email:" required>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Your Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email:" required>
+                </div>
 
-            <label for="text">Contact us:</label>
-            <textarea id="message" name="message" rows="4" placeholder="Send message" required></textarea>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message:</label>
+                    <textarea class="form-control" id="message" name="message" rows="4" placeholder="Send message" required></textarea>
+                </div>
 
-            <button type="submit">Send message</button>
-        </form>
-    </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+                <div id="status" class="mt-3"></div>
+            </form>
+        </div>
 
-    <!-- Creators Section -->
-    <div class="creator-container">
-        <h2>Creators</h2>
-        <div class="creator-grid">
-            <div class="creator-box">
-                <img src="creator1.jpg" alt="Creator 1">
-                <p>Brandon Gallegos</p>
-                <a href="mailto:brandon.gallegos@my.utsa.edu">brandon.gallegos@my.utsa.edu</a>
-            </div>
-            <div class="creator-box">
-                <img src="creator2.jpg" alt="Creator 2">
-                <p>Odalys Chacon</p>
-                <a href="mailto:odalys.chacon@my.utsa.edu">odalys.chacon@my.utsa.edu</a>
-            </div>
-            <div class="creator-box">
-                <img src="creator3.jpg" alt="Creator 3">
-                <p>Sean Jauregui</p>
-                <a href="mailto:sean.jauregui@my.utsa.edu">sean.jauregui@my.utsa.edu</a>
-            </div>
-            <div class="creator-box">
-                <img src="creator4.jpg" alt="Creator 4">
-                <p>Mickey</p>
-                <a href="mailto:nope@my.utsa.edu">N/A</a>
-            </div>
-            <div class="creator-box">
-                <img src="creator5.jpg" alt="Creator 5">
-                <p>Ashley Adeniyi</p>
-                <a href="mailto:ashleu.adeniyi@my.utsa.edu">ashley.adeniyi@my.utsa.edu</a>
-            </div>
-            <div class="creator-box">
-                <img src="creator6.jpg" alt="Creator 6">
-                <p>Raul Chavez</p>
-                <a href="mailto:raul.chavez@my.utsa.edu">raul.chavez@my.utsa.edu</a>
+        <!-- Creators Section -->
+        <div class="creator-container mt-5">
+            <h2>Creators</h2>
+            <div class="creator-grid">
+                <div class="creator-box">
+                    <img src="../images/creator1.jpg" alt="Creator 1">
+                    <p>Brandon Gallegos</p>
+                    <a href="mailto:brandon.gallegos@my.utsa.edu">brandon.gallegos@my.utsa.edu</a>
+                </div>
+                <div class="creator-box">
+                    <img src="../images/creator2.jpg" alt="Creator 2">
+                    <p>Odalys Chacon</p>
+                    <a href="mailto:odalys.chacon@my.utsa.edu">odalys.chacon@my.utsa.edu</a>
+                </div>
+                <div class="creator-box">
+                    <img src="../images/creator3.jpg" alt="Creator 3">
+                    <p>Sean Jauregui</p>
+                    <a href="mailto:sean.jauregui@my.utsa.edu">sean.jauregui@my.utsa.edu</a>
+                </div>
+                <div class="creator-box">
+                    <img src="../images/creator4.jpg" alt="Creator 4">
+                    <p>Mickey</p>
+                    <a href="mailto:nope@my.utsa.edu">N/A</a>
+                </div>
+                <div class="creator-box">
+                    <img src="../images/creator5.jpg" alt="Creator 5">
+                    <p>Ashley Adeniyi</p>
+                    <a href="mailto:ashleu.adeniyi@my.utsa.edu">ashley.adeniyi@my.utsa.edu</a>
+                </div>
+                <div class="creator-box">
+                    <img src="../images/creator6.jpg" alt="Creator 6">
+                    <p>Raul Chavez</p>
+                    <a href="mailto:raul.chavez@my.utsa.edu">raul.chavez@my.utsa.edu</a>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
+    
     <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3">
+    <footer class="bg-dark text-white text-center py-3 mt-5">
         <p>© 2025 Fly Feet. All Rights Reserved.</p>
         <ul class="list-inline">
             <li class="list-inline-item"><a href="#" class="text-white">Terms of Service</a></li>
@@ -97,9 +162,11 @@
     
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- contact JS -->
-    <script src="js/contact.js"></script>
-    <!-- Nav bar active page-->
-    <script src="js/navbar.js"></script>
+    <!-- Navbar JS -->
+    <script src="../js/navbar.js"></script>
+    <!-- Cart JS -->
+    <script src="../js/cart.js"></script>
+    <!-- Contact JS -->
+    <script src="../js/contact.js"></script>
 </body>
 </html>
