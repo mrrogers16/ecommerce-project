@@ -68,10 +68,17 @@ document.addEventListener("DOMContentLoaded", function() {
         const discountAmount = document.getElementById("discount-amount").value;
         const discountType = document.getElementById("discount-type").value;
 
+        const discountValue = parseFloat(discountAmount);
+        
+        if (isNaN(discountValue)) {
+            alert("Discount value must be a valid number.");
+            return;
+        }
+
         const newDiscount = {
             code: code,
             discount_type: discountType,
-            discount_value: parseFloat(discountAmount),
+            discount_value: discountValue,
             min_order_total: 0,
             usage_limit: 0
         };
