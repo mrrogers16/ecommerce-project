@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Fetching products from API...");
 
     const productList = document.getElementById("product-list");
+    const paginationContainer = document.getElementById("pagination-container");
     const sizeModal = document.getElementById("sizeModal");
     const sizeOptions = document.getElementById("sizeOptions");
     const confirmSizeButton = document.getElementById("confirmSize");
@@ -17,6 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let selectedProduct = null;
     let allProducts = []; // Store all products
+    let currentPage = 1;
+    let totalPages = 1;
 
     // Get category from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -40,8 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             data-name="${product.name}"
                             data-price="${product.price}"
                             data-image="${product.image_url}"
-                            data-sizes='${JSON.stringify(product.sizes)}'
-                            data-modal="true">
+                            data-sizes='${JSON.stringify(product.sizes)}'>
                             Add to Cart
                         </button>
                     </div>
@@ -50,35 +52,72 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
     }
 
-    // Fetch products from the API endpoint with category filter
-    let apiUrl = "https://fly-feet.com/api/shoes";
-    if (category && category !== "All Shoes") {
-        apiUrl += `?category=${encodeURIComponent(category.toLowerCase())}`;
+    // Function to fetch products from API with pagination
+    function fetchProducts(page) {
+        let apiUrl = `https://fly-feet.com/api/shoes?page=${page}&limit=10`;
+        if (category && category !== "All Shoes") {
+            apiUrl += `&category=${encodeURIComponent(category.toLowerCase())}`;
+        }
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                console.log("✅ API Response:", data);
+                allProducts = data.results;
+                totalPages = data.totalPages;
+
+                // Initialize filters
+                initializeFilters(allProducts);
+
+                // Render products and pagination
+                renderProducts(allProducts);
+                renderPagination();
+            })
+            .catch(error => {
+                console.error("Error fetching shoes:", error);
+                productList.innerHTML = `<p class="text-center text-danger">Failed to load products. Please try again later.</p>`;
+            });
     }
 
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            console.log("✅ API Response:", data);
-            allProducts = data.results;
+    // Function to render products
+    function renderProducts(products) {
+        if (!Array.isArray(products) || products.length === 0) {
+            productList.innerHTML = `<p class="text-center">No products found matching your criteria.</p>`;
+            return;
+        }
 
-            // Initialize filters
-            initializeFilters(allProducts);
+        productList.innerHTML = `<div class="row g-4">${products.map(generateProductCard).join("")}</div>`;
+    }
 
-            // Initial render of products
-            renderProducts(allProducts);
-        })
-        .catch(error => {
-            console.error("Error fetching shoes:", error);
-            productList.innerHTML = `<p class="text-center text-danger">Failed to load products. Please try again later.</p>`;
-        });
+    // Function to render pagination buttons
+    function renderPagination() {
+        paginationContainer.innerHTML = ''; // Clear pagination buttons
 
+        if (totalPages <= 1) return;
+
+        for (let i = 1; i <= totalPages; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.classList.add('page-btn');
+            pageButton.textContent = i;
+            pageButton.addEventListener('click', () => {
+                currentPage = i;
+                fetchProducts(currentPage);
+            });
+
+            if (i === currentPage) {
+                pageButton.classList.add('active');
+            }
+
+            paginationContainer.appendChild(pageButton);
+        }
+    }
+
+    // Filter initialization (brands and sizes)
     function initializeFilters(products) {
-        // Get unique brands
         const brands = [...new Set(products.map(p => p.brand))].sort();
         const brandSelect = document.getElementById('brand-select');
         brands.forEach(brand => {
-            if (brand) { // Only add non-empty brands
+            if (brand) {
                 const option = document.createElement('option');
                 option.value = brand;
                 option.textContent = brand;
@@ -86,7 +125,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Get unique sizes
         const sizes = [...new Set(products.flatMap(p => p.sizes))].sort((a, b) => a - b);
         const sizeSelect = document.getElementById('size-select');
         sizes.forEach(size => {
@@ -97,6 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // Function to apply filters
     function applyFilters() {
         const brandFilter = document.getElementById('brand-select').value;
         const sizeFilter = document.getElementById('size-select').value;
@@ -112,7 +151,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return matchesBrand && matchesSize && matchesPrice;
         });
 
-        // Apply current sort
         const sortValue = document.getElementById('sort-select').value;
         filtered = sortProducts(filtered, sortValue);
 
@@ -127,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('price-min').value = '';
         document.getElementById('price-max').value = '';
         document.getElementById('sort-select').value = 'default';
-        renderProducts(allProducts);
+        fetchProducts(currentPage);
     });
 
     // Sort products function
@@ -148,15 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 break;
         }
         return sorted;
-    }
-
-    function renderProducts(products) {
-        if (!Array.isArray(products) || products.length === 0) {
-            productList.innerHTML = `<p class="text-center">No products found matching your criteria.</p>`;
-            return;
-        }
-
-        productList.innerHTML = `<div class="row g-4">${products.map(generateProductCard).join("")}</div>`;
     }
 
     // Handle "Add to Cart" Click
@@ -258,9 +287,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Add sort change listener
-    document.getElementById('sort-select')?.addEventListener('change', (e) => {
-        const sorted = sortProducts(allProducts, e.target.value);
-        renderProducts(sorted);
-    });
+    // Initially load products
+    fetchProducts(currentPage);
 });
