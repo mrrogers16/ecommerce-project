@@ -9,18 +9,43 @@
 
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if user is logged in
-    if (!isLoggedIn()) {
-        window.location.href = 'login.html';
-        return;
+    // Load user profile data if logged in, otherwise show guest mode
+    if (isLoggedIn()) {
+        getUserProfile();
+    } else {
+        // Show guest mode UI
+        document.getElementById('user-name').textContent = 'Guest User';
+        document.getElementById('user-email').textContent = 'Please log in to access your profile';
+        
+        // Disable profile features for guests
+        const profileUpload = document.getElementById('profile-upload');
+        if (profileUpload) {
+            profileUpload.disabled = true;
+            profileUpload.parentElement.innerHTML = '<p class="text-muted">Please log in to update your profile picture</p>';
+        }
+        
+        // Disable password change for guests
+        const passwordForm = document.getElementById('change-password-form');
+        if (passwordForm) {
+            passwordForm.innerHTML = '<p class="text-muted">Please log in to change your password</p>';
+        }
+        
+        // Show login prompt in wishlist
+        const wishlistContainer = document.getElementById('wishlist');
+        if (wishlistContainer) {
+            wishlistContainer.innerHTML = '<p class="text-muted">Please log in to view your wishlist</p>';
+        }
+        
+        // Show login prompt in orders
+        const ordersContainer = document.getElementById('orders');
+        if (ordersContainer) {
+            ordersContainer.innerHTML = '<p class="text-muted">Please log in to view your orders</p>';
+        }
     }
-    
-    // Load user profile data from the backend
-    getUserProfile();
     
     // Set up profile picture upload
     const profileUpload = document.getElementById('profile-upload');
-    if (profileUpload) {
+    if (profileUpload && !profileUpload.disabled) {
         profileUpload.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -31,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Set up password change form
     const passwordForm = document.getElementById('change-password-form');
-    if (passwordForm) {
+    if (passwordForm && passwordForm.tagName === 'FORM') {
         passwordForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const currentPassword = document.getElementById('current-password').value;

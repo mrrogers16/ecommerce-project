@@ -580,6 +580,58 @@ footer .list-inline-item {
   transform: scale(1.05); /* Slight scale-up effect */
 }
 
+/* Adjust the layout of the header */
+.header {
+    display: flex;
+    justify-content: space-between; /* This will spread out the content across the header */
+    align-items: center;
+    padding: 10px 20px;
+}
+
+/* Style for the right actions (cart and profile icons) */
+#right-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Aligns icons to the right */
+}
+
+/* Profile icon style */
+.profile-icon {
+    margin-left: 20px; /* Add some space between the cart and profile icon */
+}
+.profile-section {
+  padding: 40px 0;
+}
+.profile-picture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+/* Add this new style for the profile icon */
+.profile-icon {
+  position: relative;
+  left: -20px; /* This will move it 20px to the left */
+  top: 2px;
+}
+/* Cart icon style */
+.cart-icon {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.cart-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    padding: 2px 6px;
+    font-size: 12px;
+    border-radius: 50%;
+}
+
 /* Add these styles to your CSS */
 .product-card {
     transition: all 0.3s ease;
