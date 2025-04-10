@@ -30,21 +30,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
     //Existing codes
     function populateDiscountTable(discounts) {
-        discountTableBody.innerHTML = '';  // Clear any existing rows
-
+        discountTableBody.innerHTML = ''; // Clear existing rows
+    
         discounts.forEach(discount => {
             const row = document.createElement('tr');
-
+    
             row.innerHTML = `
                 <td>${discount.code}</td>
                 <td>${discount.discount_value} ${discount.discount_type === 'percent' ? '%' : '$'}</td>
                 <td>${discount.discount_type === 'percent' ? 'Percentage' : 'Fixed Amount'}</td>
-                <td>
-                    Min: $${discount.min_order_total} <br>
-                    Expires: ${discount.expires_at ? new Date(discount.expires_at).toLocaleDateString() : 'Never'} <br>
-                    Limit: ${discount.usage_limit || '∞'} Used: ${discount.times_used} <br>
-                    Active: ${discount.active ? 'Yes' : 'No'}
-                </td>
+                <td>$${discount.min_order_total}</td>
+                <td>${discount.usage_limit || '∞'}</td>
+                <td>${discount.times_used}</td>
+                <td>${discount.expires_at ? new Date(discount.expires_at).toLocaleDateString() : 'Never'}</td>
+                <td>${discount.active ? 'Yes' : 'No'}</td>
                 <td>
                     <button class="edit-discount" data-id="${discount.id}">Edit</button>
                     <button class="delete-discount" data-id="${discount.id}">Delete</button>
@@ -116,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function() {
             alert("An error occurred while creating the discount code.");
         }
     });
-    
+
     // Edit discount code
     async function editDiscount(discountId) {
         const code = prompt("Enter the new discount code:");
