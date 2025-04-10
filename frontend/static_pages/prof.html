@@ -111,37 +111,32 @@
         </div>
     </header>
 
-    <!-- Side Drawer for Navigation -->
-    <div id="side-drawer" class="side-drawer">
-        <div class="drawer-header d-flex justify-content-between align-items-center p-3">
-            <h5 class="m-0">Menu</h5>
-            <button id="close-drawer" class="btn btn-outline-dark">&times;</button>
-        </div>
-        <div class="drawer-content p-3">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="shop.html">Shop</a>
-                </li>
-                <li class="nav-item has-submenu">
-                    <a class="nav-link" href="#" id="shop-toggle">Categories</a>
-                    <ul class="submenu">
-                        <li><a class="nav-link" href="shop.html?category=men">Men</a></li>
-                        <li><a class="nav-link" href="shop.html?category=women">Women</a></li>
-                        <li><a class="nav-link" href="shop.html?category=kids">Kids</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="cart.html">Cart</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="prof.html">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+
+    <!-- Side Navigation Drawer -->
+    <aside id="side-drawer" class="side-drawer">
+        <button class="close-btn" id="close-drawer">&times;</button>
+        <ul class="drawer-links">
+            <li class="has-submenu">
+                <a href="#" id="shop-toggle">Shop ▾</a>
+                <ul class="submenu" id="shop-submenu">
+                    <li><a href="shop.html?category=All Shoes">All Shoes</a></li>
+                    <li><a href="shop.html?category=mens">Men's Shoes</a></li>
+                    <li><a href="shop.html?category=womens">Women's Shoes</a></li>
+                    <li><a href="shop.html?category=kids">Kids' Shoes</a></li>
+                </ul>
+            </li>
+            <li><a href="#">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white"
+                        class="bi bi-person-circle ms-2" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                        <path fill-rule="evenodd"
+                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                    </svg></a></li>
+            <!-- <li><a href="cart.html">Cart</a></li>  -->
+            <li><a href="#" id="logout-button">Logout</a></li>
+        </ul>
+    </aside>
 
     <!-- Add this right after your header -->
     <div id="toast-container"></div>
