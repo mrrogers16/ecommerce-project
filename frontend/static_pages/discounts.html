@@ -69,11 +69,25 @@
                         <option value="fixed">Fixed Amount</option>
                     </select>
 
+                    <label for="min-order-total">Min Order Total:</label>
+                    <input type="number" id="min-order-total" name="min-order-total" placeholder="Optional">
+
+                    <label for="expires-at">Expires At:</label>
+                    <input type="datetime-local" id="expires-at" name="expires-at">
+
+                    <label for="usage-limit">Usage Limit:</label>
+                    <input type="number" id="usage-limit" name="usage-limit" placeholder="0 for unlimited">
+
+                    <label for="active">Active:</label>
+                    <select id="active" name="active">
+                        <option value="true" selected>True</option>
+                        <option value="false">False</option>
+                    </select>
+
                     <button type="submit">Create Discount</button>
                 </form>
             </div>
 
-            <!-- Existing Discounts -->
             <div id="existing-discounts">
                 <h3>Existing Discounts</h3>
                 <table id="discount-table">
@@ -82,6 +96,11 @@
                             <th>Code</th>
                             <th>Amount</th>
                             <th>Type</th>
+                            <th>Min Total</th>
+                            <th>Usage Limit</th>
+                            <th>Used</th>
+                            <th>Expires At</th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -95,5 +114,3 @@
 
     <script src="../js/discount.js"></script>
 </body>
-
-</html>

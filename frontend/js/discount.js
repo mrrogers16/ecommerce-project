@@ -40,6 +40,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 <td>${discount.discount_value} ${discount.discount_type === 'percent' ? '%' : '$'}</td>
                 <td>${discount.discount_type === 'percent' ? 'Percentage' : 'Fixed Amount'}</td>
                 <td>
+                    Min: $${discount.min_order_total} <br>
+                    Expires: ${discount.expires_at ? new Date(discount.expires_at).toLocaleDateString() : 'Never'} <br>
+                    Limit: ${discount.usage_limit || '∞'} Used: ${discount.times_used} <br>
+                    Active: ${discount.active ? 'Yes' : 'No'}
+                </td>
+                <td>
                     <button class="edit-discount" data-id="${discount.id}">Edit</button>
                     <button class="delete-discount" data-id="${discount.id}">Delete</button>
                 </td>
@@ -77,11 +83,13 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     
         const newDiscount = {
-            code: code,
-            discount_type: discountType,
-            discount_value: discountValue, // Send number, not string
-            min_order_total: 0,
-            usage_limit: 0
+            code: document.getElementById("discount-code").value,
+            discount_value: parseFloat(document.getElementById("discount-amount").value),
+            discount_type: document.getElementById("discount-type").value,
+            min_order_total: parseFloat(document.getElementById("min-order-total").value) || 0,
+            usage_limit: parseInt(document.getElementById("usage-limit").value) || 0,
+            active: document.getElementById("active").checked,
+            expires_at: document.getElementById("expires-at").value || null
         };
     
         try {
@@ -108,6 +116,7 @@ document.addEventListener("DOMContentLoaded", function() {
             alert("An error occurred while creating the discount code.");
         }
     });
+    
     // Edit discount code
     async function editDiscount(discountId) {
         const code = prompt("Enter the new discount code:");
