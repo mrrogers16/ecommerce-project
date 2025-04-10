@@ -111,6 +111,38 @@
         </div>
     </header>
 
+    <!-- Side Drawer for Navigation -->
+    <div id="side-drawer" class="side-drawer">
+        <div class="drawer-header d-flex justify-content-between align-items-center p-3">
+            <h5 class="m-0">Menu</h5>
+            <button id="close-drawer" class="btn btn-outline-dark">&times;</button>
+        </div>
+        <div class="drawer-content p-3">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="shop.html">Shop</a>
+                </li>
+                <li class="nav-item has-submenu">
+                    <a class="nav-link" href="#" id="shop-toggle">Categories</a>
+                    <ul class="submenu">
+                        <li><a class="nav-link" href="shop.html?category=men">Men</a></li>
+                        <li><a class="nav-link" href="shop.html?category=women">Women</a></li>
+                        <li><a class="nav-link" href="shop.html?category=kids">Kids</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="cart.html">Cart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="prof.html">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
     <!-- Add this right after your header -->
     <div id="toast-container"></div>
 
