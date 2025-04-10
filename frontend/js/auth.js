@@ -9,11 +9,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Check if user is logged in
             if (isLoggedIn()) {
-                // User is logged in, redirect to profile page
-                window.location.href = 'profile.html';
+                // User is logged in, redirect to profile page after a short delay
+                setTimeout(() => {
+                    window.location.href = 'profile.html';
+                }, 200); // Adjust the delay time as needed
             } else {
-                // User is not logged in, redirect to login page
-                window.location.href = 'login.html';
+                // User is not logged in, redirect to login page after a short delay
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 200); // Adjust the delay time as needed
             }
         });
     }
@@ -26,8 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
             // Clear the token from localStorage
             localStorage.removeItem('token');
 
-            // Redirect to login page
-            window.location.href = 'login.html';
+            // Redirect to login page after a short delay
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 200); // Adjust the delay time as needed
         });
     }
 });
@@ -41,6 +47,8 @@ function isLoggedIn() {
 // Automatically redirect to login page if not logged in
 document.addEventListener('DOMContentLoaded', function() {
     if (!isLoggedIn()) {
-        window.location.href = 'login.html';
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 200); // Adjust the delay time as needed
     }
 });
