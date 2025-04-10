@@ -40,23 +40,23 @@ function showToast(message, type = 'success') {
 }
 
 // Add helper text for demo users
-function addDemoUserHelp() {
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        const helpText = document.createElement('div');
-        helpText.className = 'alert alert-info mt-3';
-        helpText.innerHTML = `
-            <h6>Demo Users Available:</h6>
-            <ul class="mb-0">
-                ${DEMO_USERS.map(user => `
-                    <li>Email: ${user.email}<br>Password: ${user.password}</li>
-                `).join('')}
-            </ul>
-            <p class="mb-0 mt-2"><small>You can also create a new account using the Sign Up page.</small></p>
-        `;
-        loginForm.appendChild(helpText);
-    }
-}
+//function addDemoUserHelp() {
+//    const loginForm = document.getElementById('loginForm');
+//    if (loginForm) {
+//        const helpText = document.createElement('div');
+//       helpText.className = 'alert alert-info mt-3';
+//        helpText.innerHTML = `
+//            <h6>Demo Users Available:</h6>
+//            <ul class="mb-0">
+//                ${DEMO_USERS.map(user => `
+//                    <li>Email: ${user.email}<br>Password: ${user.password}</li>
+//                `).join('')}
+//            </ul>
+//           <p class="mb-0 mt-2"><small>You can also create a new account using the Sign Up page.</small></p>
+//       `;
+//       loginForm.appendChild(helpText);
+//    }
+//}
 
 // Check if backend server is running
 async function checkBackendServer() {
