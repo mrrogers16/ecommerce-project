@@ -13,8 +13,8 @@ body, html {
   
   /* Antipol for the Fly Feet brand */
   .flyfeet-brand {
-    font-family: "antipol-variable",sans-serif;
-    font-variation-settings: 'wdth' 100, 'wght' 400, 'STCH' 1;
+    font-family: "antipol-variable", sans-serif;
+    font-variation-settings: 'wdth' 125, 'wght' 500, 'STCH' 1;
     font-weight: bold;
     font-size: 1.8rem;
     letter-spacing: 1px;
@@ -112,13 +112,23 @@ nav ul li a:hover {
 
 /* Products */
 .products {
-    padding: 40px;
+    padding: 0px;
+    margin: 0 auto; /* Center the container */
+    max-width: 1200px; /* Optional: Limit the width */
 }
 
 .product-grid {
     display: flex;
     justify-content: center;
     gap: 20px;
+}
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the products */
+    gap: 20px; /* Space between products */
+    padding: 20px;
 }
 
 .product {
@@ -411,7 +421,7 @@ nav ul li a:hover {
   /* Image container to keep size consistent */
   .card-img-top {
     height: 250px; /* fixed height */
-    object-fit: cover;
+    object-fit: contain;
   }
   
   /* Card body should flex to fill space */
@@ -739,6 +749,9 @@ footer .list-inline-item {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
     padding: 20px;
+    justify-content: center; /* Center the grid items horizontally */
+    margin: 0 auto; /* Center the grid container itself */
+    max-width: 1200px; /* Optional: Limit the grid width */
 }
 
 @media (max-width: 768px) {
@@ -746,6 +759,7 @@ footer .list-inline-item {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 15px;
         padding: 15px;
+        justify-content: center;
     }
 }
 
