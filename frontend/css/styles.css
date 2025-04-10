@@ -161,7 +161,6 @@ nav ul li a:hover {
     top: 2px; /* Adjust this to move up or down */
 }
 
-
 /* 🔹 for size Modal Background (Full-Screen Overlay) */
 .modal {
     display: none; /* Hidden by default */
@@ -185,6 +184,8 @@ nav ul li a:hover {
 /* 🔹 Modal Content (Small Centered Window) */
 .modal-content {
     background-color: white;
+    left: 88px;
+    bottom: 25px;
     padding: 20px;
     width: 300px;
     border-radius: 8px;
@@ -194,16 +195,16 @@ nav ul li a:hover {
 }
 
 /* 🔹 Close Button */
-.close {
+.modal-close {
     position: absolute;
-    top: 10px;
-    right: 15px;
+    top: 25px;
+    right: 25px;
     font-size: 20px;
     cursor: pointer;
     color: #555;
 }
 
-.close:hover {
+.modal-close.close:hover {
     color: #000;
 }
 
@@ -578,58 +579,6 @@ footer .list-inline-item {
   background-color: #27c46b; /* Darker red when hovered */
   color: white;
   transform: scale(1.05); /* Slight scale-up effect */
-}
-
-/* Adjust the layout of the header */
-.header {
-    display: flex;
-    justify-content: space-between; /* This will spread out the content across the header */
-    align-items: center;
-    padding: 10px 20px;
-}
-
-/* Style for the right actions (cart and profile icons) */
-#right-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end; /* Aligns icons to the right */
-}
-
-/* Profile icon style */
-.profile-icon {
-    margin-left: 20px; /* Add some space between the cart and profile icon */
-}
-.profile-section {
-  padding: 40px 0;
-}
-.profile-picture {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  margin-bottom: 20px;
-}
-/* Add this new style for the profile icon */
-.profile-icon {
-  position: relative;
-  left: -20px; /* This will move it 20px to the left */
-  top: 2px;
-}
-/* Cart icon style */
-.cart-icon {
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
-.cart-count {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background-color: red;
-    color: white;
-    padding: 2px 6px;
-    font-size: 12px;
-    border-radius: 50%;
 }
 
 /* Add these styles to your CSS */
