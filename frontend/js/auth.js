@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
             event.preventDefault(); // Prevent the default link behavior
 
             // Check if user is logged in
-            if (isLoggedIn()) {
+            const token = localStorage.getItem('authToken');
+            if (token) {
                 // User is logged in, redirect to profile page after a short delay
                 setTimeout(() => {
                     window.location.href = 'profile.html';
