@@ -93,14 +93,14 @@
 .focus-wrapper {
   position: relative;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 20px; /* Adjust this value as needed */
 }
 
 /* Make the container take up full width to allow for positioning */
 .focus-container {
   width: 100% !important;
   position: relative;
-  display: block !important;
+  display: block !important; /* Override bootstrap's display */
 }
 
 /* Position "Fly" on the left side */
@@ -108,14 +108,14 @@
   font-size: 200px;
   letter-spacing: 1px;
   text-shadow: 
-   -3px -3px 1px #0E0E0F,
-    3px -3px 1px #0E0E0F,
-   -3px 3px 1px #0E0E0F,
-    3px 3px 1px #0E0E0F;
+   -3px -3px 1 #0E0E0F, /* Top-left */
+    3px -3px 1 #0E0E0F, /* Top-right */
+   -3px 3px 1 #0E0E0F,  /* Bottom-left */
+    3px 3px 1 #0E0E0F;  /* Bottom-right */
   position: absolute;
   left: 0;
-  transform: translateX(-70%);
-  top: -120px;
+  transform: translateX(-70%); /* Move it left of the container */
+  top: -120px; /* Vertical position: negative = higher up, positive = lower down */
   z-index: 10;
 }
 
@@ -124,78 +124,110 @@
   font-size: 200px;
   letter-spacing: 1px;
   text-shadow: 
-   -3px -3px 1px #0E0E0F,
-    3px -3px 1px #0E0E0F,
-   -3px 3px 1px #0E0E0F,
-    3px 3px 1px #0E0E0F;
+   -3px -3px 1 #0E0E0F, /* Top-left */
+    3px -3px 1 #0E0E0F, /* Top-right */
+   -3px 3px 1 #0E0E0F,  /* Bottom-left */
+    3px 3px 1 #0E0E0F;  /* Bottom-right */
   position: absolute;
   right: 0px;
-  transform: translateX(85%);
-  top: -120px;
+  transform: translateX(85%); /* Move it right of the container */
+  top: -120px; /* Vertical position: negative = higher up, positive = lower down */
   z-index: 10;
 }
 
-/* Banner and Button Section */
 .banner-and-button {
-  position: relative;
-  width: 100%;
-  text-align: center;
+  position: relative;  /* This is important for the absolute positioning of the button */
   margin-top: 0%;
 }
 
-/* Shop Now Button */
+/* General Button Styling */
 .button-container a.btn {
-  position: absolute;
+  position: absolute; /* Anchor position for the button */
   margin-left: -7.5%;
   margin-top: 2%;
-  background-color: #979CA1;
-  color: #E6F0F4;
-  border: 10px solid #FFFFFF;
-  padding: 8px 20px;
+  background-color: #979CA1; /* Base color for the button */
+  color: #E6F0F4; /* Text color */
+  border: 10px, #FFFFFF;
+  padding: 8px 20px; /* Button padding */
   font-family: 'Lalezar', sans-serif;
-  font-size: 3vw;
-  font-weight: bold;
+  font-size: 3vw; /* Font size */
+  font-weight: bold; /* Font weight */
   letter-spacing: 1px;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-  z-index: 10;
-  overflow: hidden;
+  border-radius: 10px; /* Rounded corners */
+  transition: background-color 0.3s, transform 0.3s ease-in-out, box-shadow 0.2s ease-in-out;
+  display: inline-block; /* Ensures the button is an inline block for positioning */
+  z-index: 10; /* Keeps button above other elements */
+  overflow: hidden; /* Ensure that the ripple stays within the button */
 }
 
-/* Button Hover Effect */
+/* Ripple Effect - when clicked */
+.button-container a.btn::after {
+  content: '';
+  position: absolute;
+  width: 300%;
+  height: 300%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3); /* Light effect for the ripple */
+  animation: ripple 0.6s linear;
+  pointer-events: none; /* Prevent interaction with the ripple */
+  transform: scale(0);
+  transition: all 0.4s;
+}
+
+/* Active state for the ripple effect */
+.button-container a.btn:active::after {
+  transform: scale(1);
+  animation: ripple 0.6s linear;
+}
+
+/* Keyframes for Ripple Effect */
+@keyframes ripple {
+  to {
+    transform: scale(4); /* Expands the ripple */
+    opacity: 0; /* Fades out the ripple */
+  }
+}
+
+/* Hover Effect for the Button */
 .button-container a.btn:hover {
-  background-color: #4e618c;
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.687);
+  background-color: #4e618c; /* Darker color when hovered */
+  transform: scale(1.05); /* Slightly grow the button */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.687); /* Subtle shadow for emphasis */
 }
 
 /* Active State (When clicked) */
 .button-container a.btn:active {
-  transform: scale(1.03);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Slightly larger shadow when clicked */
+  transform: scale(1.03); /* Slightly shrink the button on click */
 }
 
-/* Responsive Design */
+/* Focus Effect for Accessibility */
+.button-container a.btn:focus {
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 0 3px rgba(255, 87, 51, 0.5); /* Custom focus outline */
+}
+
+/* 🔹 Responsive Text Sizing */
 @media (max-width: 768px) {
   .hero-heading {
-    font-size: 2.5rem;
+      font-size: 2.5rem;
   }
 
   .focus-word {
-    font-size: 2.2rem;
+      font-size: 2.2rem;
   }
 
   .hero-subtitle {
-    font-size: 1.2rem;
+      font-size: 1.2rem;
   }
   
   /* Adjust positions on smaller screens */
   .focus-word:nth-child(1) {
-    transform: translateX(-60%);
+      transform: translateX(-60%); /* Less distance on mobile */
   }
   
   .focus-word:nth-child(2) {
-    transform: translateX(60%);
+      transform: translateX(60%); /* Less distance on mobile */
   }
 }
 
