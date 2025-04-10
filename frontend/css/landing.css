@@ -7,13 +7,9 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: 
-    linear-gradient(135deg, rgba(11, 47, 152, 0.08), rgba(230, 240, 244, 0.15)),
-    url('../assets/images/icon.png') center/cover no-repeat;
-  background-size: 90%;
+  background: url('../assets/images/icon.png') center/cover no-repeat;
+  background-size: 100%; /* Initial zoom in */
   animation: zoomEffect 8s ease-in-out infinite;
-  position: relative;
-  overflow: hidden;
 }
 
 .hero::before {
