@@ -110,12 +110,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: linear-gradient(135deg, #f5f7fa 0%, #b6becc 100%);
 }
 
 .login-card,
 .signup-card {
-    background: white;
+    background: rgb(255, 255, 255);
     border-radius: 15px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     padding: 2rem;
@@ -196,8 +196,8 @@
     left: 20px;
     padding: 10px 20px;
     background-color: white;
-    color: #0b2f98;
-    border: 2px solid #0b2f98;
+    color: #1a51b0;
+    border: 2px solid #1a51b0;
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
