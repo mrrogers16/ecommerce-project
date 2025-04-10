@@ -34,6 +34,7 @@
             height: 150px;
             border-radius: 50%;
             margin-bottom: 20px;
+            object-fit: cover;
         }
         /* Add styles for profile components */
         .nav-pills .nav-link {
@@ -63,6 +64,13 @@
             height: 100px;
             object-fit: cover;
             border-radius: 4px;
+        }
+        /* Hide the file input and style the button */
+        #profile-upload {
+            display: none;
+        }
+        .profile-upload .btn {
+            width: 100%;
         }
     </style>
 </head>
@@ -209,6 +217,7 @@
     <script src="../js/navbar.js"></script>
     <script src="../js/cart.js"></script>
     <script src="../js/LogSign.js"></script>
+    <script src="../js/profile-upload.js"></script>
 </body>
 
 </html>
