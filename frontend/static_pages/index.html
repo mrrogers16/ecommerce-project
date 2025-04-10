@@ -100,6 +100,7 @@
     }
 
     .hero {
+      background-color: #191b1e; /* Fallback color */
       background: 
         linear-gradient(135deg, rgba(11, 47, 152, 0.08), rgba(230, 240, 244, 0.15)),
         url('../assets/images/icon.png') center/cover no-repeat;
@@ -111,13 +112,16 @@
   <script>
     window.addEventListener("load", () => {
       const loader = document.querySelector(".loader");
+      if (!loader) return;
 
       setTimeout(() => {
         loader.classList.add("loader--hidden");
       }, 1250);
       
       loader.addEventListener("transitionend", () => {
-        document.body.removeChild(loader);
+        if (loader && loader.parentNode) {
+          loader.parentNode.removeChild(loader);
+        }
       });
     });
   </script>
@@ -193,7 +197,7 @@
   <script src="../js/products.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-        fetchProducts();
+        // fetchProducts call removed as it's not needed on index page
     });
   </script>
 </body>

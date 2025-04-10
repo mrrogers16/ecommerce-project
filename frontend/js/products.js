@@ -8,8 +8,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const confirmSizeButton = document.getElementById("confirmSize");
     const closeModalButton = document.querySelector(".close");
 
-    if (!productList || !sizeModal) {
-        console.error("Error: Required elements not found!");
+    // Only check for required elements if we're on the shop page
+    if (window.location.pathname.includes('shop.html')) {
+        if (!productList || !sizeModal) {
+            console.error("Error: Required elements not found!");
+            return;
+        }
+    } else {
+        // Not on shop page, exit early
         return;
     }
 
