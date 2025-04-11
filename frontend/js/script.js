@@ -44,7 +44,7 @@ function addToCart(productId, selectedSize, quantity = 1, name, image, price) {
         },
         body: JSON.stringify({
             shoe_id: productId,
-            quantity: 1,
+            quantity: quantity,
             selectedSize: selectedSize
         })
     })
