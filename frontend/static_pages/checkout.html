@@ -181,25 +181,26 @@
         <div class="row">
             <!-- Left Column - Form -->
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="section-heading">Shipping Information</h3>
+                <!-- Shipping Information Box -->
+                <div class="section-box shipping-box">
+                    <div class="section-box-header">
+                        <h3>Shipping Information</h3>
+                    </div>
+                    <div class="section-box-body">
                         <form id="shipping-form">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="firstName" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="lastName" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" required>
-                                </div>
+                            <div class="form-group">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="firstName" required>
                             </div>
-                            <div class="mb-3">
+                            <div class="form-group">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" required>
+                            </div>
+                            <div class="form-group">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" required>
                             </div>
-                            <div class="mb-3">
+                            <div class="form-group">
                                 <label for="address" class="form-label">Address</label>
                                 <input type="text" class="form-control" id="address" required>
                             </div>
@@ -221,9 +222,22 @@
                     </div>
                 </div>
 
-                <div class="card mt-4">
-                    <div class="card-body">
-                        <h3 class="section-heading">Payment Information</h3>
+                <!-- Payment Information Box -->
+                <div class="section-box payment-box">
+                    <div class="section-box-header">
+                        <h3>Payment Information</h3>
+                    </div>
+                    <div class="section-box-body">
+                        <ul class="payment-methods">
+                            <li class="payment-method">
+                                <input type="radio" id="credit-card" name="payment" checked>
+                                <label for="credit-card">Credit Card</label>
+                            </li>
+                            <li class="payment-method">
+                                <input type="radio" id="paypal" name="payment">
+                                <label for="paypal">PayPal</label>
+                            </li>
+                        </ul>
                         <form id="payment-form">
                             <div class="payment-info">
                                 <div class="mb-3">
@@ -249,27 +263,38 @@
 
             <!-- Right Column - Order Summary -->
             <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="section-heading">Order Summary</h3>
-                        <div id="order-items">
-                            <!-- Items will be populated by JavaScript -->
+                <div class="section-box order-summary-box">
+                    <div class="section-box-header">
+                        <h3>Order Summary</h3>
+                    </div>
+                    <div class="section-box-body">
+                        <div class="order-items">
+                            <!-- Order items will be dynamically added here -->
+                            <div class="order-item">
+                                <div class="item-image">
+                                    <img src="../images/products/shoe1.jpg" alt="Product Image">
+                                </div>
+                                <div class="item-details">
+                                    <h4 class="item-name">Product Name</h4>
+                                    <p class="item-price">$99.99</p>
+                                </div>
+                            </div>
                         </div>
                         <div class="totals-section">
                             <div class="total-row">
                                 <span>Subtotal</span>
-                                <span id="subtotal">$0.00</span>
+                                <span class="subtotal">$0.00</span>
                             </div>
                             <div class="total-row">
                                 <span>Shipping</span>
-                                <span id="shipping">$0.00</span>
+                                <span class="shipping">$0.00</span>
                             </div>
                             <div class="total-row final">
-                                <strong>Total</strong>
-                                <strong id="total">$0.00</strong>
+                                <span>Total</span>
+                                <span class="total">$0.00</span>
                             </div>
-                            <button id="place-order" class="btn btn-primary">Place Order</button>
                         </div>
+                        <button class="place-order-btn">Place Order</button>
                     </div>
                 </div>
             </div>

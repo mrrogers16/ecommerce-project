@@ -2,160 +2,206 @@
 .checkout-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 1rem;
 }
 
-/* Card Styles */
-.card {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+/* Section Boxes */
+.section-box {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 1rem;
+    overflow: hidden;
 }
 
-.card-body {
-    padding: 1.5rem;
-}
-
-.card-body > :empty {
-    display: none;
-}
-
-/* Form Styles */
-.form-label {
-    font-weight: 500;
-    color: #333;
-    margin-bottom: 0.5rem;
-}
-
-.form-control {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 0.75rem;
-    transition: all 0.3s ease;
-}
-
-.form-control:focus {
-    border-color: #3f66a0;
-    box-shadow: 0 0 0 0.2rem rgba(63, 102, 160, 0.25);
-}
-
-/* Section Headings */
-.section-heading {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 1.5rem;
-}
-
-/* Order Summary Styles */
-#order-items {
-    max-height: 400px;
-    overflow-y: auto;
-    margin-bottom: 1.5rem;
-    padding-right: 0.5rem;
-}
-
-.order-item {
-    padding: 1rem 0;
+.section-box-header {
+    background: #f8f9fa;
+    padding: 0.75rem 1rem;
     border-bottom: 1px solid #eee;
 }
 
-.order-item:last-child {
+.section-box-header h3 {
+    color: #000000;
+    font-size: 1.25rem;
+    margin: 0;
+    padding: 0;
+}
+
+.section-box-body {
+    padding: 0.5rem 1rem;
+    color: #000000;
+}
+
+/* Shipping Information Box */
+.shipping-box .section-box-header {
+    background: #f8f9fa;
+}
+
+.shipping-box .form-group {
+    margin-bottom: 0.75rem;
+}
+
+.shipping-box .form-label {
+    color: #000000;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.shipping-box .form-control {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Payment Information Box */
+.payment-box .section-box-header {
+    background: #f8f9fa;
+}
+
+.payment-box .payment-methods {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.payment-box .payment-method {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.payment-box .payment-method:last-child {
     border-bottom: none;
 }
 
-.order-item-image {
-    width: 80px;
-    height: 80px;
+/* Order Summary Box */
+.order-summary-box .section-box-header {
+    background: #f8f9fa;
+}
+
+.order-summary-box .order-items {
+    max-height: 300px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.order-summary-box .order-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.order-summary-box .order-item:last-child {
+    border-bottom: none;
+}
+
+.order-summary-box .item-image {
+    width: 60px;
+    height: 60px;
     margin-right: 1rem;
     flex-shrink: 0;
 }
 
-.order-item-image img {
+.order-summary-box .item-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 4px;
 }
 
-.order-item-details {
+.order-summary-box .item-details {
     flex-grow: 1;
 }
 
-.order-item-details h6 {
-    font-size: 1rem;
-    font-weight: 500;
-    margin-bottom: 0.25rem;
+.order-summary-box .item-name {
+    color: #000000;
+    margin: 0;
+    font-size: 0.9rem;
 }
 
-.item-price {
-    font-weight: 500;
-    color: #3f66a0;
+.order-summary-box .item-price {
+    color: #000000;
+    margin: 0;
+    font-size: 0.9rem;
 }
 
 /* Totals Section */
 .totals-section {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 2px solid #eee;
-}
-
-.total-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.75rem;
-}
-
-.total-row.final {
-    font-weight: 600;
-    font-size: 1.1rem;
-    margin-top: 1rem;
-    padding-top: 1rem;
+    margin: 0;
+    padding: 0.75rem 0;
     border-top: 1px solid #eee;
 }
 
-/* Place Order Button */
-#place-order {
-    background-color: #3f66a0;
-    border: none;
-    padding: 1rem;
-    font-size: 1.1rem;
-    font-weight: 500;
-    width: 100%;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
-    margin-top: 1.5rem;
+.total-row {
+    color: #000000;
+    display: flex;
+    justify-content: space-between;
+    margin: 0.25rem 0;
 }
 
-#place-order:hover {
-    background-color: #2d4b7c;
+.total-row.final {
+    color: #000000;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Place Order Button */
+.place-order-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background: #3f66a0;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.place-order-btn:hover {
+    background: #2d4b7c;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-    .card-body {
-        padding: 1.5rem;
-    }
-    
     .checkout-container {
-        padding: 1rem;
+        padding: 0.5rem;
     }
     
-    .section-heading {
-        font-size: 1.25rem;
+    .section-box {
+        margin-bottom: 0.75rem;
+    }
+    
+    .section-box-header {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .section-box-body {
+        padding: 0.5rem 0.75rem;
     }
 }
 
-@media (max-width: 576px) {
-    .order-item-image {
-        width: 60px;
-        height: 60px;
-    }
+/* Custom Scrollbar */
+.order-items::-webkit-scrollbar {
+    width: 4px;
+}
 
-    .order-item-details h6 {
-        font-size: 0.9rem;
-    }
+.order-items::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.order-items::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 2px;
+}
+
+.order-items::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 /* Input Validation Styles */
@@ -178,8 +224,8 @@
 .payment-info {
     background-color: #f8f9fa;
     border-radius: 6px;
-    padding: 1.5rem;
-    margin-top: 1rem;
+    padding: 0.25rem 1rem;
+    margin: 0;
 }
 
 .card-icon {
@@ -187,21 +233,13 @@
     color: #6c757d;
 }
 
-/* Custom Scrollbar for order items */
-#order-items::-webkit-scrollbar {
-    width: 6px;
+.form-label {
+    color: #000000;
+    margin-bottom: 0.25rem;
+    margin-top: 0.5rem;
 }
 
-#order-items::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
-}
-
-#order-items::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 3px;
-}
-
-#order-items::-webkit-scrollbar-thumb:hover {
-    background: #555;
+.payment-method label {
+    color: #000000;
+    margin-left: 0.5rem;
 } 
