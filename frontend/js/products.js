@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Fetching products from API...");
 
     const productList = document.getElementById("product-list");
-    const paginationContainer = document.getElementById("pagination-container");
+    const paginationContainer = document.getElementById("paginationContainer");
     const sizeModal = document.getElementById("sizeModal");
     const sizeOptions = document.getElementById("sizeOptions");
     const confirmSizeButton = document.getElementById("confirmSize");
@@ -26,10 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
     let allProducts = []; // Store all products
     let currentPage = 1;
     let totalPages = 1;
+    let searchTimeout = null; // For debouncing search input
 
-    // Get category from URL parameters
+    // Get category and search query from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const category = urlParams.get('category');
+    const searchQuery = urlParams.get('search');
+    
+    console.log("URL Parameters:", { category, searchQuery });
 
     // Function to generate HTML for each product
     function generateProductCard(product) {
@@ -53,34 +57,127 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
     }
 
-    // Function to fetch products from API with pagination    
-    function fetchProducts(page = 1) {
-        currentPage = page; // Update current page
+    // Function to fetch products from API with pagination and search    
+    function fetchProducts(page = 1, searchTerm = '') {
+        currentPage = page;
         
-        const apiUrl = `https://fly-feet.com/api/shoes?page=${currentPage}&limit=10`;
+        let apiUrl = `https://fly-feet.com/api/shoes?page=${currentPage}&limit=10`;
+        
+        // Add category filter if present
+        if (category && category !== "All Shoes") {
+            apiUrl += `&category=${encodeURIComponent(category.toLowerCase())}`;
+        }
+        
+        // Add search query if present
+        if (searchTerm) {
+            apiUrl += `&name=${encodeURIComponent(searchTerm)}`;
+        }
+        
+        console.log("Fetching products with URL:", apiUrl);
     
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
                 console.log("✅ API Response:", data);
-                allProducts = data.results; // Store all products for the current page
-                totalPages = data.totalPages; // Update total pages for pagination
+                allProducts = data.results;
+                totalPages = data.totalPages;
     
-                renderProducts(allProducts); // Render products
-                renderPagination(); // Update pagination controls
+                renderProducts(allProducts);
+                renderPagination();
             })
             .catch(error => {
                 console.error("Error fetching shoes:", error);
                 productList.innerHTML = `<p class="text-center text-danger">Failed to load products. Please try again later.</p>`;
             });
     }
+
+    // Handle search form submission and real-time search
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
     
+    if (searchForm && searchInput) {
+        console.log("Search form and input found, adding event listeners");
+        
+        // Set initial search value from URL if present
+        if (searchQuery) {
+            searchInput.value = searchQuery;
+        }
+        
+        // Handle form submission (prevent default behavior)
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            console.log("Search form submitted");
+            const searchTerm = searchInput.value.trim();
+            
+            console.log("Search term:", searchTerm);
+            
+            if (searchTerm) {
+                // Update URL without reloading the page
+                const newUrl = new URL(window.location.href);
+                newUrl.searchParams.set('search', searchTerm);
+                window.history.pushState({}, '', newUrl);
+                
+                // Fetch results
+                fetchProducts(1, searchTerm);
+            } else {
+                // If search is cleared, remove search parameter from URL
+                const newUrl = new URL(window.location.href);
+                newUrl.searchParams.delete('search');
+                window.history.pushState({}, '', newUrl);
+                
+                // Fetch all products
+                fetchProducts(1);
+            }
+        });
+        
+        // Add real-time search as user types
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.trim();
+            
+            // Clear previous timeout to implement debouncing
+            if (searchTimeout) {
+                clearTimeout(searchTimeout);
+            }
+            
+            // Set a new timeout to fetch results after user stops typing
+            searchTimeout = setTimeout(() => {
+                console.log("Real-time search term:", searchTerm);
+                
+                if (searchTerm) {
+                    // Update URL without reloading the page
+                    const newUrl = new URL(window.location.href);
+                    newUrl.searchParams.set('search', searchTerm);
+                    window.history.pushState({}, '', newUrl);
+                    
+                    // Fetch results
+                    fetchProducts(1, searchTerm);
+                } else {
+                    // If search is cleared, remove search parameter from URL
+                    const newUrl = new URL(window.location.href);
+                    newUrl.searchParams.delete('search');
+                    window.history.pushState({}, '', newUrl);
+                    
+                    // Fetch all products
+                    fetchProducts(1);
+                }
+            }, 300); // 300ms delay for debouncing
+        });
+    } else {
+        console.error("Search form or input not found!");
+    }
 
     // Fetch products from the API endpoint with category filter
     let apiUrl = "https://fly-feet.com/api/shoes";
     if (category && category !== "All Shoes") {
         apiUrl += `?category=${encodeURIComponent(category.toLowerCase())}`;
     }
+    
+    // Add search query if present
+    if (searchQuery) {
+        apiUrl += apiUrl.includes('?') ? `&name=${encodeURIComponent(searchQuery)}` : `?name=${encodeURIComponent(searchQuery)}`;
+    }
+    
+    console.log("Initial API URL:", apiUrl);
 
     fetch(apiUrl)
         .then(response => response.json())
@@ -226,7 +323,7 @@ document.addEventListener("DOMContentLoaded", () => {
         paginationContainer.append(firstButton, prevButton, pageInfo, nextButton, lastButton, jumpInput);
     }
 
-    fetchProducts(1);
+    fetchProducts(1, searchQuery);
 
     // Handle "Add to Cart" Click
     document.addEventListener("click", (event) => {
