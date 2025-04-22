@@ -107,6 +107,12 @@
   </style>
 
   <script>
+    if (window.location.pathname === "/") {
+      window.location.replace("/static_pages/index.html");
+    }
+  </script>
+
+  <script>
     window.addEventListener("load", () => {
       const loader = document.querySelector(".loader");
       if (!loader) return;
