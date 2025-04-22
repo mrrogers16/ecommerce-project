@@ -25,8 +25,14 @@ app.use(cors({
 app.use(express.json());
 
 // Routes
+const path = require('path');
+
+// Serve static assets like .css, .js, images
+app.use(express.static(path.join(__dirname, 'static_pages')));
+
+// Serve the actual homepage
 app.get('/', (req, res) => {
-    res.redirect(homePage);
+    res.sendFile(path.join(__dirname, 'static_pages', 'index.html'));
 });
 
 const shoesRoutes = require('./backend/routes/shoesRoutes');
