@@ -79,69 +79,114 @@ body {
   }
   
 
-/* creator sectiom*/
-.creator-container {
+/* Team Section */
+.team-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 0 1rem;
     text-align: center;
-    margin-top: 40px;
 }
 
-.creator-container h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
+.team-section h2 {
     color: white;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
 }
 
-/* grid layout for creators*/
-.creator-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);  /* 3 grids per row */
-    gap: 20px;
-    padding: 20px;
+.creators {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.top-row {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.bottom-row {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .creator-box {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    color: #333;
+    padding: 1.5rem;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    width: 100%;
+    max-width: 300px;
 }
 
 .creator-box:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
 }
 
 .creator-box img {
-    width: 100%;
+    width: 150px;
     height: 150px;
+    border-radius: 50%;
     object-fit: cover;
-    border-radius: 5px;
+    margin-bottom: 1rem;
+    border: 3px solid #3f66a0;
+}
+
+.creator-box h3 {
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
 }
 
 .creator-box p {
-    margin: 10px 0;
-    font-weight: bold;
+    color: #909394;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
 }
 
-.creator-box .creator-description {
-    font-size: 14px;
-    font-weight: normal;
-    color: #666;
-    margin-top: 5px;
-    margin-bottom: 15px;
+.creator-box .role {
+    color: #3f66a0;
+    font-weight: 600;
+    margin-bottom: 1rem;
 }
 
-.creator-box a {
-    text-decoration: none;
-    color: #007bff;
-    font-size: 16px;
+.creator-box .description {
+    color: #909394;
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
-.creator-box a:hover {
-    text-decoration: underline;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .team-section {
+        padding: 0 0.5rem;
+    }
+    
+    .top-row,
+    .bottom-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .creator-box {
+        margin: 0.5rem 0;
+    }
 }
 
 /* Loading Screen Animation */

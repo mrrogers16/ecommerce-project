@@ -892,3 +892,60 @@ main {
   flex: 1 0 auto;
   width: 100%;
 }
+
+/* Search Bar Styles */
+.search-container {
+    flex: 1;
+    max-width: 500px;
+    margin: 0 20px;
+}
+
+#search-form {
+    width: 100%;
+}
+
+#search-input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    width: 100%;
+}
+
+#search-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#search-input:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: none;
+    color: white;
+}
+
+#search-form .btn-outline-light {
+    border-color: rgba(255, 255, 255, 0.2);
+    padding: 8px 12px;
+}
+
+#search-form .btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+    .search-container {
+        max-width: none;
+        margin: 10px 0;
+    }
+    
+    .header {
+        flex-direction: column;
+        padding: 10px;
+    }
+    
+    #right-actions {
+        margin-top: 10px;
+    }
+}

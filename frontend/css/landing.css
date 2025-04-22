@@ -18,6 +18,7 @@
   justify-content: center;
   text-align: center;
   background: url('../assets/images/icon.png') center/cover no-repeat;
+  size: 90%;
   background-size: 100%; /* Initial zoom in */
   animation: zoomEffect 8s ease-in-out infinite;
 }
@@ -119,7 +120,7 @@
    -3px 3px 1 #0E0E0F,  /* Bottom-left */
     3px 3px 1 #0E0E0F;  /* Bottom-right */
   position: absolute;
-  left: 0;
+  left: 50px;
   transform: translateX(-70%); /* Move it left of the container */
   top: -120px; /* Vertical position: negative = higher up, positive = lower down */
   z-index: 10;
@@ -135,7 +136,7 @@
    -3px 3px 1 #0E0E0F,  /* Bottom-left */
     3px 3px 1 #0E0E0F;  /* Bottom-right */
   position: absolute;
-  right: 0px;
+  right: 75px;
   transform: translateX(85%); /* Move it right of the container */
   top: -120px; /* Vertical position: negative = higher up, positive = lower down */
   z-index: 10;
