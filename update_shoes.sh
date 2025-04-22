@@ -15,8 +15,8 @@ S3_BUCKET="s3://ecommerce-static-0130"
 ##### ADD NEW PAGES AND THINGS LIKE THAT HERE
 ##### Think of $S3_BUCKET/ and STAGING_DIR as the frontend project root folder. All directories and files branch off of it.
 
-echo "#### Syncing index.html to S3 root ####"
-aws s3 cp "$STAGING_DIR/index.html" "$S3_BUCKET/index.html" || { echo "xxxx Error syncing index.html xxxx"; exit 1; }
+echo "#### Syncing static_pages/index.html to S3 root ####"
+aws s3 cp "$STAGING_DIR/static_pages/index.html" "$S3_BUCKET/index.html" || { echo "xxxx Error syncing index.html xxxx"; exit 1; }
 
 echo "#### Syncing static pages to S3 ####"
 aws s3 sync "$STAGING_DIR/static_pages" "$S3_BUCKET/static_pages" || { echo "xxxx Error syncing static_pages xxxx"; exit 1; }
