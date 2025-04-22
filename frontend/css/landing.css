@@ -16,7 +16,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: url('../assets/images/icon.png') center/cover no-repeat;
+  background: url('/assets/images/icon.png') center/cover no-repeat;
   background-size: 100%; /* Initial zoom in */
   animation: zoomEffect 8s ease-in-out infinite;
 }
