@@ -1,6 +1,7 @@
 // Authentication utility functions
 const API_BASE_URL = window.location.origin; // Use the current origin instead of hardcoding
-
+const LOGIN_ENDPOINT = `${API_BASE_URL}/api/customers/login`;
+const SIGNUP_ENDPOINT= `${API_BASE_URL}/api/customers/signup`;
 // Check if user is logged in
 function isLoggedIn() {
     const token = localStorage.getItem('token');
