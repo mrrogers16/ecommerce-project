@@ -31,7 +31,7 @@ echo "#### Syncing CSS folder to S3 ####"
 aws s3 sync "$STAGING_DIR/css" "$S3_BUCKET/css" --delete || { echo "xxxx Error syncing CSS folder xxxx"; exit 1; }
 
 echo "#### Syncing Images folder to S3 ####"
-aws s3 sync "$STAGING_DIR/images" "$S3_BUCKET/images" --delete || { echo "xxxx Error syncing Images folder xxxx"; exit 1; }
+aws s3 sync "$STAGING_DIR/assets/images" "$S3_BUCKET/assets/images" --delete || { echo "xxxx Error syncing Images folder xxxx"; exit 1; }
 
 echo "#### Syncing Fonts folder to S3 ####"
 aws s3 sync "$STAGING_DIR/fonts" "$S3_BUCKET/fonts" --delete || { echo "xxxx Error syncing Fonts folder xxxx"; exit 1; }
