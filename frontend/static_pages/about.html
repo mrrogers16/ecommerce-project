@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Fly Feet</title>
+
+    <!-- Adobe Fonts: Lalezar -->
+    <link rel="stylesheet" href="https://use.typekit.net/chc1oih.css">
+
+    <!-- Adobe Fonts: Antipol -->
+    <link rel="stylesheet" href="https://use.typekit.net/dro4ebr.css">
+
+    <!-- Google Fonts: Urbanist -->
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/styles.css">   
+    <link rel="stylesheet" href="../css/contact.css">
+    <link rel="stylesheet" href="../css/landing.css">
+    <link rel="stylesheet" href="../css/loading.css">
+    <link rel="stylesheet" href="../css/background.css">
+
+
+    <!--Loading Screen Animation Script-->
+    <script>
+        window.addEventListener("load", () => {
+            const loader = document.querySelector(".loader");
+
+            setTimeout(() => {
+                loader.classList.add("loader--hidden");
+            }, 1250);
+
+            loader.addEventListener("transitionend", () => {
+                document.body.removeChild(loader);
+            });
+        });
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!--Loading Page Overlay-->
+    <div class="loader">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+  <!-- Header with hamburger and logo -->
+  <header class="header d-flex justify-content-between align-items-center px-3 py-2 bg-dark text-white">
+    <div class="d-flex align-items-center" style="width: 100px;">
+        <button id="menu-toggle" class="hamburger btn btn-outline-light">&#9776;</button>
+    </div>
+    <h1 class="site-title m-0 text-center" style="flex: 1; max-width: 200px;">
+        <a href="shop.html" class="flyfeet-brand">Fly Feet</a>
+    </h1>
+    <div class="d-flex align-items-center gap-3" id="right-actions" style="width: 100px; justify-content: flex-end;">
+      <!-- Cart Icon/Link -->
+      <a href="cart.html" class="cart-icon d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" class="bi bi-cart"
+            viewBox="0 0 16 16">
+            <path
+                d="M0 1a1 1 0 0 1 1-1h1.11a1 1 0 0 1 .98.8l.401 2.401a.5.5 0 0 0 .49.399h9.747a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 12 13H4a.5.5 0 0 1-.491-.408L1.01 2.607 1 2.5V2a1 1 0 0 1-1-1zm3.14 3 1.313 7h7.094l1.312-7H3.14zM5.5 14a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+        </svg>
+        <span id="cart-count" class="cart-count">0</span>
+    </a>
+     <!-- Profile Icon/Link -->
+     <a href="prof.html" class="profile-icon d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14c-2.67 0-5-1.34-5-3s2.33-3 5-3 5 1.34 5 3-2.33 3-5 3z"/>
+          </svg>
+    </a>
+        </a>
+    </div>
+    
+    </header>
+
+    <!-- Add this right after your header -->
+    <div id="toast-container"></div>
+
+    <!-- Side Navigation Drawer -->
+    <aside id="side-drawer" class="side-drawer">
+        <button class="close-btn" id="close-drawer">&times;</button>
+        <ul class="drawer-links">
+            <li class="has-submenu">
+                <a href="#" id="shop-toggle">Shop ▾</a>
+                <ul class="submenu" id="shop-submenu">
+                    <li><a href="shop.html?category=All Shoes">All Shoes</a></li>
+                    <li><a href="shop.html?category=mens">Men's Shoes</a></li>
+                    <li><a href="shop.html?category=womens">Women's Shoes</a></li>
+                    <li><a href="shop.html?category=kids">Kids' Shoes</a></li>
+                </ul>
+            </li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white"
+                    class="bi bi-person-circle ms-2" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                    <path fill-rule="evenodd"
+                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                </svg></a></li>
+            <!-- <li><a href="cart.html">Cart</a></li>  -->
+        </ul>
+    </aside>
+
+    <!-- About Section -->
+    <main class="container my-5 text-center about-content">
+        <h1>About Fly Feet</h1>
+        <p>
+            Welcome to Fly Feet, your ultimate destination for stylish and comfortable footwear. 
+            Our mission is to provide high-quality shoes for everyone, blending fashion with functionality.
+        </p>
+        <p>
+            At Fly Feet, we believe that every step you take should be a step in style. 
+            Explore our wide range of shoes for men, women, and kids, and experience the perfect fit for every occasion.
+        </p>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <p>© 2025 Fly Feet. All Rights Reserved.</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#" class="text-white">Terms of Service</a></li>
+            <li class="list-inline-item"><a href="#" class="text-white">Privacy Policy</a></li>
+            <li class="list-inline-item"><a href="#" class="text-white">Follow Us</a></li>
+        </ul>
+    </footer>
+</body>
+
+</html>
