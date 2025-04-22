@@ -20,6 +20,12 @@
   <link rel="stylesheet" href="../css/focus.css">
   <link rel="stylesheet" href="../css/carousel.css">
 
+  <!--Resolve any caching issues upon load-->
+  <link rel="stylesheet" href="../css/styles.css?v=1.0" />
+  <link rel="stylesheet" href="../css/landing.css?v=1.0" />
+  <script src="../js/focus.js?v=1.0"></script>
+  <link rel="preload" href="/path-to-fonts/lalezar.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
   <style>
     .loader {
       --uib-size: 125px;
@@ -100,6 +106,12 @@
     }
   </style>
 
+  <<script>
+    if (window.location.pathname === "/") {
+      window.location.replace("/static_pages/index.html");
+    }
+  </script>
+
   <script>
     window.addEventListener("load", () => {
       const loader = document.querySelector(".loader");
@@ -153,7 +165,7 @@
 
 <!-- 🔹 Shop Button -->
 <section class="banner-and-button"
-  style="height: 20vh; background: url('../assets/images/simple_abstractBanner.png') center/cover no-repeat;">
+style="height: 20vh; background: url('../assets/images/simple_abstractBanner.png') center/cover no-repeat;">
   <div class="button-container">
     <a href="../static_pages/shop.html" class="btn btn-warning btn-lg animate__animated animate__zoomIn">Shop Now</a>
   </div>

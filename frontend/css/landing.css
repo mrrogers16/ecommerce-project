@@ -7,6 +7,7 @@
        url('/path-to-fonts/lalezar.woff') format('woff');
   font-weight: 400;
   font-style: normal;
+  font-display: swap; /* Ensures text is visible while the font loads */
 }
 
 .hero {
