@@ -7,6 +7,16 @@
 // Import the API functions from profile-api.js
 // This file handles the UI interactions and uses the API functions to communicate with the backend
 
+import { isLoggedIn, checkAuth } from './auth.js';
+import {
+    getUserProfile,
+    uploadProfilePicture,
+    updatePassword,
+    addToWishlist,
+    removeFromWishlist,
+    displayUserData
+} from './profile-api.js';
+
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Load user profile data if logged in, otherwise show guest mode
@@ -188,4 +198,10 @@ document.getElementById('change-password-form').addEventListener('submit', funct
     // Here you would typically make an API call to update the password
     alert('Password updated successfully!');
     this.reset();
-}); 
+});
+
+// Helper function to show toast messages
+function showToast(message, type = 'info') {
+    // Implementation depends on your toast library
+    console.log(`${type}: ${message}`);
+} 

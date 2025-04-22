@@ -1,7 +1,101 @@
-// API endpoints
-const API_BASE_URL = 'https://www.fly-feet.com/api';  // Use live production URL
-const LOGIN_ENDPOINT = `${API_BASE_URL}/customers/login`;
-const SIGNUP_ENDPOINT = `${API_BASE_URL}/customers/signup`;
+// Authentication utility functions
+const API_BASE_URL = window.location.origin; // Use the current origin instead of hardcoding
+
+// Check if user is logged in
+function isLoggedIn() {
+    const token = localStorage.getItem('token');
+    return !!token;
+}
+
+// Get the authentication token
+function getToken() {
+    return localStorage.getItem('token');
+}
+
+// Set the authentication token
+function setToken(token) {
+    localStorage.setItem('token', token);
+}
+
+// Remove the authentication token (logout)
+function removeToken() {
+    localStorage.removeItem('token');
+}
+
+// Get the current user's ID
+function getUserId() {
+    const token = getToken();
+    if (!token) return null;
+    
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.user_id;
+    } catch (error) {
+        console.error('Error parsing token:', error);
+        return null;
+    }
+}
+
+// Add token to fetch headers
+function getAuthHeaders() {
+    const token = getToken();
+    return {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+    };
+}
+
+// Handle login
+async function login(email, password) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Login failed');
+        }
+
+        const data = await response.json();
+        setToken(data.token);
+        return data;
+    } catch (error) {
+        console.error('Login error:', error);
+        throw error;
+    }
+}
+
+// Handle logout
+function logout() {
+    removeToken();
+    window.location.href = '/login.html';
+}
+
+// Check authentication and redirect if needed
+function checkAuth() {
+    if (!isLoggedIn()) {
+        window.location.href = '/login.html';
+        return false;
+    }
+    return true;
+}
+
+export {
+    isLoggedIn,
+    getToken,
+    setToken,
+    removeToken,
+    getUserId,
+    getAuthHeaders,
+    login,
+    logout,
+    checkAuth
+};
 
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById('loginForm');

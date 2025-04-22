@@ -1,35 +1,17 @@
+import { isLoggedIn, getToken, getAuthHeaders, checkAuth } from './auth.js';
+
 // API endpoints
-const API_BASE_URL = 'http://localhost:5000/api';
-const USER_ENDPOINT = `${API_BASE_URL}/users`;
-const PROFILE_ENDPOINT = `${API_BASE_URL}/profile`;
-
-// Check if user is logged in
-function isLoggedIn() {
-    const token = localStorage.getItem('authToken');
-    return !!token;
-}
-
-// Redirect to login if not authenticated
-function checkAuth() {
-    if (!isLoggedIn()) {
-        window.location.href = 'login.html';
-        return false;
-    }
-    return true;
-}
+const API_BASE_URL = window.location.origin;
+const PROFILE_ENDPOINT = `${API_BASE_URL}/api/profile`;
 
 // Get user profile data
 async function getUserProfile() {
     if (!checkAuth()) return;
     
     try {
-        const token = localStorage.getItem('authToken');
-        const response = await fetch(`${PROFILE_ENDPOINT}`, {
+        const response = await fetch(PROFILE_ENDPOINT, {
             method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -163,14 +145,13 @@ async function uploadProfilePicture(file) {
     if (!checkAuth()) return;
     
     try {
-        const token = localStorage.getItem('authToken');
         const formData = new FormData();
         formData.append('profilePicture', file);
         
         const response = await fetch(`${PROFILE_ENDPOINT}/picture`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${getToken()}`
             },
             body: formData
         });
@@ -193,13 +174,9 @@ async function updatePassword(currentPassword, newPassword) {
     if (!checkAuth()) return;
     
     try {
-        const token = localStorage.getItem('authToken');
         const response = await fetch(`${PROFILE_ENDPOINT}/password`, {
             method: 'PUT',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
+            headers: getAuthHeaders(),
             body: JSON.stringify({
                 currentPassword,
                 newPassword
@@ -225,13 +202,9 @@ async function addToWishlist(productId) {
     if (!checkAuth()) return;
     
     try {
-        const token = localStorage.getItem('authToken');
         const response = await fetch(`${PROFILE_ENDPOINT}/wishlist`, {
             method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
+            headers: getAuthHeaders(),
             body: JSON.stringify({
                 productId
             })
@@ -255,12 +228,9 @@ async function removeFromWishlist(productId) {
     if (!checkAuth()) return;
     
     try {
-        const token = localStorage.getItem('authToken');
         const response = await fetch(`${PROFILE_ENDPOINT}/wishlist/${productId}`, {
             method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -268,8 +238,6 @@ async function removeFromWishlist(productId) {
         }
         
         showToast('Removed from wishlist', 'success');
-        // Refresh wishlist display
-        getUserProfile();
         return true;
     } catch (error) {
         console.error('Error removing from wishlist:', error);
@@ -379,4 +347,13 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-}); 
+});
+
+export {
+    getUserProfile,
+    uploadProfilePicture,
+    updatePassword,
+    addToWishlist,
+    removeFromWishlist,
+    displayUserData
+}; 
