@@ -17,10 +17,14 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/checkout.css">
+    <link rel="stylesheet" href="../css/background.css">
 
     <style>
         .loader {
@@ -100,9 +104,224 @@
             transform: translateY(-50px);
           }
         }
-      </style>
+        
+        /* New styles for improved checkout */
+        .section-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .section-box-header {
+            background: rgba(248, 249, 250, 0.9);
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(238, 238, 238, 0.8);
+        }
+        
+        .section-box-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .section-box-body {
+            padding: 20px;
+        }
+        
+        .payment-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            list-style: none;
+            padding: 0;
+        }
+        
+        .payment-method {
+            flex: 1;
+            min-width: 120px;
+            position: relative;
+        }
+        
+        .payment-method input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .payment-method label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 15px;
+            background: rgba(248, 249, 250, 0.9);
+            border: 1px solid rgba(221, 221, 221, 0.8);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .payment-method input[type="radio"]:checked + label {
+            background: rgba(233, 236, 239, 0.9);
+            border-color: #007bff;
+            color: #007bff;
+        }
+        
+        .payment-method i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .payment-info {
+            display: none;
+        }
+        
+        .payment-info.active {
+            display: block;
+        }
+        
+        .order-summary-box {
+            position: sticky;
+            top: 20px;
+        }
+        
+        .order-item {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(238, 238, 238, 0.8);
+        }
+        
+        .item-image {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .item-details {
+            flex: 1;
+        }
+        
+        .item-name {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        .item-price {
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+        
+        .totals-section {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(238, 238, 238, 0.8);
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .total-row.final {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(238, 238, 238, 0.8);
+        }
+        
+        .place-order-btn {
+            width: 100%;
+            padding: 12px;
+            background: #212529;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background 0.2s;
+        }
+        
+        .place-order-btn:hover {
+            background: #000;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .form-control {
+            padding: 10px 12px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+        }
+        
+        .payment-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+        }
+        
+        .apple-pay-button {
+            background-color: #000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px;
+            width: 100%;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .apple-pay-button i {
+            margin-right: 8px;
+        }
+        
+        .paypal-button {
+            background-color: #0070ba;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px;
+            width: 100%;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .paypal-button i {
+            margin-right: 8px;
+        }
+    </style>
       
-      <script>
+    <script>
         window.addEventListener("load", () => {
           const loader = document.querySelector(".loader");
     
@@ -114,7 +333,7 @@
             document.body.removeChild(loader);
           });
         });
-      </script>
+    </script>
     </head>
     
     <body>
@@ -144,16 +363,11 @@
                 <span id="cart-count" class="cart-count">0</span>
             </a>
 
-            <!-- Login Link -->
-            <a href="profile.html" class="text-white d-flex align-items-center login-link"
-                style="text-decoration: none; font-weight: bold;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white"
-                    class="bi bi-person-circle me-1" viewBox="0 0 16 16">
-                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                    <path fill-rule="evenodd"
-                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+            <!-- Profile Icon/Link -->
+            <a href="prof.html" class="profile-icon d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14c-2.67 0-5-1.34-5-3s2.33-3 5-3 5 1.34 5 3-2.33 3-5 3z"/>
                 </svg>
-                Profile
             </a>
         </div>
     </header>
@@ -233,38 +447,69 @@
                 <!-- Payment Information Box -->
                 <div class="section-box payment-box">
                     <div class="section-box-header">
-                        <h3>Payment Information</h3>
+                        <h3>Payment Method</h3>
                     </div>
                     <div class="section-box-body">
                         <ul class="payment-methods">
                             <li class="payment-method">
                                 <input type="radio" id="credit-card" name="payment" checked>
-                                <label for="credit-card">Credit Card</label>
+                                <label for="credit-card">
+                                    <i class="fas fa-credit-card"></i> Credit Card
+                                </label>
                             </li>
                             <li class="payment-method">
                                 <input type="radio" id="paypal" name="payment">
-                                <label for="paypal">PayPal</label>
+                                <label for="paypal">
+                                    <i class="fab fa-paypal"></i> PayPal
+                                </label>
+                            </li>
+                            <li class="payment-method">
+                                <input type="radio" id="apple-pay" name="payment">
+                                <label for="apple-pay">
+                                    <i class="fab fa-apple"></i> Apple Pay
+                                </label>
                             </li>
                         </ul>
-                        <form id="payment-form">
-                            <div class="payment-info">
+                        
+                        <!-- Credit Card Form -->
+                        <div id="credit-card-form" class="payment-info active">
+                            <form id="payment-form">
                                 <div class="mb-3">
                                     <label for="cardNumber" class="form-label">Card Number</label>
-                                    <input type="text" class="form-control" id="cardNumber" required>
+                                    <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="expiry" class="form-label">Expiry Date</label>
-                                        <input type="text" class="form-control" id="expiry" placeholder="MM/YY"
-                                            required>
+                                        <input type="text" class="form-control" id="expiry" placeholder="MM/YY" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="cvv" class="form-label">CVV</label>
-                                        <input type="text" class="form-control" id="cvv" required>
+                                        <input type="text" class="form-control" id="cvv" placeholder="123" required>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                                <div class="mb-3">
+                                    <label for="cardName" class="form-label">Name on Card</label>
+                                    <input type="text" class="form-control" id="cardName" required>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- PayPal Button -->
+                        <div id="paypal-form" class="payment-info">
+                            <p>You will be redirected to PayPal to complete your payment.</p>
+                            <button class="paypal-button">
+                                <i class="fab fa-paypal"></i> Continue with PayPal
+                            </button>
+                        </div>
+                        
+                        <!-- Apple Pay Button -->
+                        <div id="apple-pay-form" class="payment-info">
+                            <p>Complete your purchase with Apple Pay.</p>
+                            <button class="apple-pay-button">
+                                <i class="fab fa-apple"></i> Pay with Apple Pay
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -283,23 +528,36 @@
                                     <img src="../images/products/shoe1.jpg" alt="Product Image">
                                 </div>
                                 <div class="item-details">
-                                    <h4 class="item-name">Product Name</h4>
-                                    <p class="item-price">$99.99</p>
+                                    <h4 class="item-name">Nike Air Max</h4>
+                                    <p class="item-price">$129.99</p>
+                                </div>
+                            </div>
+                            <div class="order-item">
+                                <div class="item-image">
+                                    <img src="../images/products/shoe2.jpg" alt="Product Image">
+                                </div>
+                                <div class="item-details">
+                                    <h4 class="item-name">Adidas Ultraboost</h4>
+                                    <p class="item-price">$159.99</p>
                                 </div>
                             </div>
                         </div>
                         <div class="totals-section">
                             <div class="total-row">
                                 <span>Subtotal</span>
-                                <span class="subtotal">$0.00</span>
+                                <span class="subtotal">$289.98</span>
                             </div>
                             <div class="total-row">
                                 <span>Shipping</span>
-                                <span class="shipping">$0.00</span>
+                                <span class="shipping">$5.99</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Tax</span>
+                                <span class="tax">$23.20</span>
                             </div>
                             <div class="total-row final">
                                 <span>Total</span>
-                                <span class="total">$0.00</span>
+                                <span class="total">$319.17</span>
                             </div>
                         </div>
                         <button class="place-order-btn">Place Order</button>
@@ -333,6 +591,28 @@
     <!-- Custom Scripts -->
     <script src="../js/navbar.js"></script>
     <script src="../js/checkout.js"></script>
+    <script>
+        // Payment method toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentMethods = document.querySelectorAll('input[name="payment"]');
+            const paymentForms = document.querySelectorAll('.payment-info');
+            
+            paymentMethods.forEach(method => {
+                method.addEventListener('change', function() {
+                    // Hide all payment forms
+                    paymentForms.forEach(form => {
+                        form.classList.remove('active');
+                    });
+                    
+                    // Show the selected payment form
+                    const selectedForm = document.getElementById(this.id + '-form');
+                    if (selectedForm) {
+                        selectedForm.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
