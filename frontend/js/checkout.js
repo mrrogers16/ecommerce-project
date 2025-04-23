@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Calculate tax and total
-        const tax = subtotal * TAX_RATE;
+        const tax = (subtotal + SHIPPING_COST) * TAX_RATE;
         const total = subtotal + SHIPPING_COST + tax;
 
         // Update totals
