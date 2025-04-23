@@ -2,14 +2,15 @@
 const API_BASE_URL = window.location.origin; // Use the current origin instead of hardcoding
 const LOGIN_ENDPOINT = `${API_BASE_URL}/api/customers/login`;
 const SIGNUP_ENDPOINT= `${API_BASE_URL}/api/customers/signup`;
+
 // Check if user is logged in
-function isLoggedIn() {
+export function isLoggedIn() {
     const token = localStorage.getItem('token');
     return !!token;
 }
 
 // Get the authentication token
-function getToken() {
+export function getToken() {
     return localStorage.getItem('token');
 }
 
@@ -19,8 +20,11 @@ function setToken(token) {
 }
 
 // Remove the authentication token (logout)
-function removeToken() {
+export function logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('rememberMe');
+    window.location.href = 'login.html';
 }
 
 // Get the current user's ID
@@ -38,7 +42,7 @@ function getUserId() {
 }
 
 // Add token to fetch headers
-function getAuthHeaders() {
+export function getAuthHeaders() {
     const token = getToken();
     return {
         'Authorization': `Bearer ${token}`,
@@ -71,16 +75,10 @@ async function login(email, password) {
     }
 }
 
-// Handle logout
-function logout() {
-    removeToken();
-    window.location.href = '/login.html';
-}
-
 // Check authentication and redirect if needed
-function checkAuth() {
+export function checkAuth() {
     if (!isLoggedIn()) {
-        window.location.href = '/login.html';
+        window.location.href = 'login.html';
         return false;
     }
     return true;
@@ -90,11 +88,10 @@ export {
     isLoggedIn,
     getToken,
     setToken,
-    removeToken,
+    logout,
     getUserId,
     getAuthHeaders,
     login,
-    logout,
     checkAuth
 };
 
@@ -235,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
         profileLink.addEventListener('click', (event) => {
             event.preventDefault();
             const token = localStorage.getItem('token');
-            window.location.href = token ? 'profile.html' : 'login.html';
+            window.location.href = token ? 'prof.html' : 'login.html';
         });
     }
 
