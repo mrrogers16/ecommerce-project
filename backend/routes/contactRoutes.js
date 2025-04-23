@@ -9,9 +9,9 @@ router.post('/contact', async (req, res) =>
 {
     try 
     {
-        let { name, email, message } = req.body;
+        let { name, email, subject, message } = req.body;
 
-        if (!name || !email || !message)
+        if (!name || !email || !subject || !message)
         {
             return res.status(400).json({ error: 'All fields are required.' });
         }
@@ -19,6 +19,7 @@ router.post('/contact', async (req, res) =>
         // Sanitize
         name = xss(name.trim());
         email = xss(email.trim());
+        subject = xss(subject.trim());
         message = xss(message.trim());
 
         // Email format check
@@ -29,14 +30,14 @@ router.post('/contact', async (req, res) =>
         }
 
         const result = await pool.query(
-            `INSERT INTO contact_messages (name, email, message)
-            VALUES ($1, $2, $3)
+            `INSERT INTO contact_messages (name, email, subject, message)
+            VALUES ($1, $2, $3, $4)
             RETURNING id, created_at`,
-            [name, email, message]
+            [name, email, subject, message]
         );
 
         res.status(201).json({
-            message: 'Thank you for contacting us!',
+            message: 'Thank you for contacting us! We will get back to you soon.',
             ticket_id: result.rows[0].id,
             timestamp: result.rows[0].created_at
         });
