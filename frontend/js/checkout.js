@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Constants
     const SHIPPING_COST = 5.99;
-    const TAX_RATE = 0.08; // 8% tax rate
+    const TAX_RATE = 0.0825; // 8.25% tax rate
 
     // Render order items and calculate totals
     function renderOrderSummary() {
