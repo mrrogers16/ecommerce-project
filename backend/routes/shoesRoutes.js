@@ -8,7 +8,7 @@ const authorizeRole = require('../middleware/authorizeRole');
 // GET /api/shoes - Return all shoes from DB (Public)
 router.get('/shoes', async (req, res) => {
     try {
-        const { brand, size, priceMin, priceMax, category, name, page = 1, limit = 10, sort = 'created_at', order = 'desc' } = req.query;
+        const { brand, size, priceMin, priceMax, category, name, page = 1, limit = 12, sort = 'created_at', order = 'desc' } = req.query;
 
         const sortableFields = ['created_at', 'price', 'name'];
         const sortBy = sortableFields.includes(sort) ? sort : 'created_at';
