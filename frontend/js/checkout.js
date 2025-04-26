@@ -7,10 +7,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const taxElement = document.querySelector('.tax');
     const totalElement = document.querySelector('.total');
     const placeOrderButton = document.querySelector('.place-order-btn');
+    const discountCodeInput = document.getElementById('discount-code');
+    const applyDiscountBtn = document.getElementById('apply-discount');
 
     // Constants
     const SHIPPING_COST = 5.99;
     const TAX_RATE = 0.0825; // 8.25% tax rate
+
+    //store discount info
+    let appliedDiscount = null;
+
+    //Function to calulate discount
+    function calculateDiscount(subtotal){
+        if(!appliedDiscount) return 0;
+
+        let discountAmount = 0;
+
+        if(appliedDiscount.discount_thpe === 'percent'){
+            discountAmount = subtotal * (appliedDiscount.discount_value / 100);
+        } else if(appliedDiscount.discount_type =='fixed'){
+            discountAmount = appliedDiscount.discount_value;
+        }
+        return Math.min(discountAmount, subtotal);
+    }
+
+    //show.hide discount row
+    function updateDiscountRow(discountAmount){
+        let discountRow = document.querySelector('.discount-row');
+        const totalSelection = document.querySelection('.total-section');
+
+        if(appliedDiscount && discountAmount >0){
+            if(!discountRow){
+                discountRow = document.createElement('div');
+                discountRow.className = 'total-row discount-row';
+                totalsSection.insertBefore(discountRow, totalsSection.querSelector('.total-row.final'));
+            }
+            discountRow.innterHTML = `
+            <span>Discount(${appliedDiscount.code})</span>
+            <span>-$${discountAmount.toFixed(2)}</span>
+            `;
+        } else if(discountRow){
+            discountRow.remove();
+        }
+    }
 
     // Render order items and calculate totals
     function renderOrderSummary() {
@@ -48,10 +87,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
         });
+        //Apply discount
+        const discountAmount = calculateDiscount(subtotal);
+        const discountSubtotal = subtotal - discountAmount;
 
         // Calculate tax and total
-        const tax = (subtotal + SHIPPING_COST) * TAX_RATE;
-        const total = subtotal + SHIPPING_COST + tax;
+        const tax = (discountSubtotal + SHIPPING_COST) * TAX_RATE;
+        const total = discountSubtotal + SHIPPING_COST + tax;
 
         // Update totals
         subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
@@ -59,6 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
         taxElement.textContent = `$${tax.toFixed(2)}`;
         totalElement.textContent = `$${total.toFixed(2)}`;
     }
+
+    //update discount row
+    updateDiswcountRow(discountAmount);
 
     // Form validation
     function validateForms() {
@@ -141,6 +186,41 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error placing order: ', error);
             alert('There was an issue placing your order. Please try again.');
         });
+    });
+
+    //discount button 
+    applyDiscountBtn.addEventListener('click', async() => {
+        const code = discountCodeInput.value.trim();
+        let subtotal = 0;
+        cart.forEach(item => {
+            subtotal += item.price * (item.quantity || 1);
+        });
+        if(!code){
+            alert('Please enter a discount code.');
+            return;
+        }
+        try{
+            const response  = await fetch('/api/discount_codes/calidate',{
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({code, cartTotal: subtotal})
+            });
+            
+            const data = await response.json();
+
+            if(!response.ok){
+                throw new Error(data.error || 'Invalid discount code.');
+            }
+
+            appliedDiscount = data.discount;
+            alert('Discount applied successfully!');
+            renderOrderSummary();
+        } catch(error){
+            console.error('Error applying discount', error);
+            alert(error.message);
+        }
     });
 
     // Initialize the page
