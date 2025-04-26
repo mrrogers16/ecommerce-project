@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
      // Apply discount
      applyDiscountBtn.addEventListener('click', () => {
+        console.log('Apply Discount Button Clicked');
         const code = discountCodeInput.value.trim();
 
         if (!code) {
