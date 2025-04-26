@@ -72,8 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
         taxElement.textContent = `$${tax.toFixed(2)}`;
         totalElement.textContent = `$${total.toFixed(2)}`;
     }
-
-    // Show or hide discount line
+    
+    // show / hide discount total
     const discountLine = document.getElementById('discount-line');
     
     if (appliedDiscount) {
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('discount-amount').textContent = `-${discountAmount.toFixed(2)}`;
     } else {
         discountLine.style.display = 'none';
-}
+    }
 
      // Apply discount button
      applyDiscountBtn.addEventListener('click', () => {
