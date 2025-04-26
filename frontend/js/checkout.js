@@ -14,42 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const SHIPPING_COST = 5.99;
     const TAX_RATE = 0.0825; // 8.25% tax rate
 
-    //store discount info
-    let appliedDiscount = null;
-
-    //Function to calulate discount
-    function calculateDiscount(subtotal){
-        if(!appliedDiscount) return 0;
-
-        let discountAmount = 0;
-
-        if(appliedDiscount.discount_thpe === 'percent'){
-            discountAmount = subtotal * (appliedDiscount.discount_value / 100);
-        } else if(appliedDiscount.discount_type =='fixed'){
-            discountAmount = appliedDiscount.discount_value;
-        }
-        return Math.min(discountAmount, subtotal);
-    }
-
-    //show.hide discount row
-    function updateDiscountRow(discountAmount){
-        let discountRow = document.querySelector('.discount-row');
-        const totalSelection = document.querySelection('.total-section');
-
-        if(appliedDiscount && discountAmount >0){
-            if(!discountRow){
-                discountRow = document.createElement('div');
-                discountRow.className = 'total-row discount-row';
-                totalsSection.insertBefore(discountRow, totalsSection.querSelector('.total-row.final'));
-            }
-            discountRow.innterHTML = `
-            <span>Discount(${appliedDiscount.code})</span>
-            <span>-$${discountAmount.toFixed(2)}</span>
-            `;
-        } else if(discountRow){
-            discountRow.remove();
-        }
-    }
+     // Store discount info
+     let appliedDiscount = null;
 
     // Render order items and calculate totals
     function renderOrderSummary() {
@@ -88,12 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         });
         //Apply discount
-        const discountAmount = calculateDiscount(subtotal);
-        const discountSubtotal = subtotal - discountAmount;
+        if (appliedDiscount) {
+            subtotal = subtotal * (1 - appliedDiscount.discount_value / 100);
+        }
 
         // Calculate tax and total
-        const tax = (discountSubtotal + SHIPPING_COST) * TAX_RATE;
-        const total = discountSubtotal + SHIPPING_COST + tax;
+        const tax = (subtotal + SHIPPING_COST) * TAX_RATE;
+        const total = subtotal + SHIPPING_COST + tax;
 
         // Update totals
         subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
@@ -102,8 +69,41 @@ document.addEventListener('DOMContentLoaded', () => {
         totalElement.textContent = `$${total.toFixed(2)}`;
     }
 
-    //update discount row
-    updateDiswcountRow(discountAmount);
+     // Apply discount
+     applyDiscountBtn.addEventListener('click', () => {
+        const code = discountCodeInput.value.trim();
+
+        if (!code) {
+            alert('Please enter a discount code.');
+            return;
+        }
+
+        // Calculate cart total before discount
+        const cartTotal = cart.reduce((total, item) => total + item.price * (item.quantity || 1), 0) + SHIPPING_COST;
+
+        // Send request to backend to validate discount code
+        fetch('/api/discount_codes/validate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ code, cartTotal })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error); // Show error if discount code is invalid
+            } else {
+                appliedDiscount = data.discount; // Store discount data
+                alert('Discount code applied successfully!');
+                renderOrderSummary(); // Re-render order summary with discount applied
+            }
+        })
+        .catch(error => {
+            console.error('Error applying discount code:', error);
+            alert('There was an issue applying the discount code. Please try again.');
+        });
+    });
 
     // Form validation
     function validateForms() {
@@ -186,41 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error placing order: ', error);
             alert('There was an issue placing your order. Please try again.');
         });
-    });
-
-    //discount button 
-    applyDiscountBtn.addEventListener('click', async() => {
-        const code = discountCodeInput.value.trim();
-        let subtotal = 0;
-        cart.forEach(item => {
-            subtotal += item.price * (item.quantity || 1);
-        });
-        if(!code){
-            alert('Please enter a discount code.');
-            return;
-        }
-        try{
-            const response  = await fetch('/api/discount_codes/calidate',{
-                method: 'POST',
-                headers:{
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({code, cartTotal: subtotal})
-            });
-            
-            const data = await response.json();
-
-            if(!response.ok){
-                throw new Error(data.error || 'Invalid discount code.');
-            }
-
-            appliedDiscount = data.discount;
-            alert('Discount applied successfully!');
-            renderOrderSummary();
-        } catch(error){
-            console.error('Error applying discount', error);
-            alert(error.message);
-        }
     });
 
     // Initialize the page
