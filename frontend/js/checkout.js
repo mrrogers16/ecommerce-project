@@ -56,15 +56,17 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         });
 
-        //Apply discount if applicable
+        // Calculate discount if applied
+        discountAmount = 0;
         if (appliedDiscount) {
             discountAmount = subtotal * (appliedDiscount.discount_value / 100);
-            subtotal -= discountAmount;
-        }
+    }
+
+    const discountedSubtotal = subtotal - discountAmount;
 
         // Calculate tax and total
-        const tax = (subtotal + SHIPPING_COST) * TAX_RATE;
-        const total = subtotal + SHIPPING_COST + tax;
+        const tax = (discountedSubtotal + SHIPPING_COST) * TAX_RATE;
+        const total = discountedSubtotal + SHIPPING_COST + tax;
 
         // Update totals
         subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
@@ -72,26 +74,27 @@ document.addEventListener('DOMContentLoaded', () => {
         taxElement.textContent = `$${tax.toFixed(2)}`;
         totalElement.textContent = `$${total.toFixed(2)}`;
     }
-    
-    // show / hide discount total
-    const discountLine = document.getElementById('discount-line');
-    
-    if (appliedDiscount) {
-        discountLine.style.display = 'block';
-        document.getElementById('discount-amount').textContent = `-${discountAmount.toFixed(2)}`;
-    } else {
-        discountLine.style.display = 'none';
+
+     //\Show discount amount
+     const discountLine = document.getElementById('discount-line');
+     const discountAmountElement = document.getElementById('discount-amount');
+ 
+     if (appliedDiscount) {
+         discountLine.style.display = 'block';
+         discountAmountElement.textContent = discountAmount.toFixed(2);
+     } else {
+         discountLine.style.display = 'none';
+     }
+
+    // Apply discount button
+    applyDiscountBtn.addEventListener('click', () => {
+    console.log('Apply Discount Button Clicked');
+    const code = discountCodeInput.value.trim();
+
+    if (!code) {
+        alert('Please enter a discount code.');
+        return;
     }
-
-     // Apply discount button
-     applyDiscountBtn.addEventListener('click', () => {
-        console.log('Apply Discount Button Clicked');
-        const code = discountCodeInput.value.trim();
-
-        if (!code) {
-            alert('Please enter a discount code.');
-            return;
-        }
 
         // Calculate cart total before discount
         const cartTotal = cart.reduce((total, item) => total + item.price * (item.quantity || 1), 0) + SHIPPING_COST;
