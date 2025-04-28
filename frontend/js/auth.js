@@ -86,17 +86,17 @@ function checkAuth() {
     return true;
 }
 
-export {
-    isLoggedIn,
-    getToken,
-    setToken,
-    removeToken,
-    getUserId,
-    getAuthHeaders,
-    login,
-    logout,
-    checkAuth
-};
+// export {
+//     isLoggedIn,
+//     getToken,
+//     setToken,
+//     removeToken,
+//     getUserId,
+//     getAuthHeaders,
+//     login,
+//     logout,
+//     checkAuth
+// };
 
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById('loginForm');
