@@ -57,14 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Calculate discount if applied
-        discountAmount = 0;
         if (appliedDiscount) {
-        if (appliedDiscount.type === 'fixed') {
-            discountAmount = appliedDiscount.discount_value;
-        } else if (appliedDiscount.type === 'percent') {
-            discountAmount = subtotal * (appliedDiscount.discount_value / 100);
-        }
-    }
+            if (appliedDiscount.discount_type === 'fixed') { // not appliedDiscount.type
+                discountAmount = appliedDiscount.discount_value;
+            } else if (appliedDiscount.discount_type === 'percent') {
+                discountAmount = subtotal * (appliedDiscount.discount_value / 100);
+            }
 
 
     const discountedSubtotal = Math.max(0, subtotal - discountAmount);
