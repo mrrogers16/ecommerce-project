@@ -1,223 +1,223 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    /* ------------------------------------------------------------------ */
-    /*  1.  Grab useful DOM nodes                                        */
-    /* ------------------------------------------------------------------ */
-    const orderItems        = document.querySelector('.order-items');
-    const subtotalElement   = document.querySelector('.subtotal');
-    const shippingElement   = document.querySelector('.shipping');
-    const taxElement        = document.querySelector('.tax');
-    const totalElement      = document.querySelector('.total');
-    const placeOrderButton  = document.querySelector('.place-order-btn');
-    const discountCodeInput = document.getElementById('discount-code');
-    const applyDiscountBtn  = document.getElementById('apply-discount');
-    const discountLine      = document.getElementById('discount-line');
-    const discountAmountElement = document.getElementById('discount-amount');
+document.addEventListener('DOMContentLoaded', () => {
+// Get cart items from localStorage
+const cart = JSON.parse(localStorage.getItem('cart')) || [];
+const orderItems = document.querySelector('.order-items');
+const subtotalElement = document.querySelector('.subtotal');
+const shippingElement = document.querySelector('.shipping');
+const taxElement = document.querySelector('.tax');
+const totalElement = document.querySelector('.total');
+const placeOrderButton = document.querySelector('.place-order-btn');
+const discountCodeInput = document.getElementById('discount-code');
+const applyDiscountBtn = document.getElementById('apply-discount');
 
-    /* ------------------------------------------------------------------ */
-    /*  2.  Constants & state                                             */
-    /* ------------------------------------------------------------------ */
-    const SHIPPING_COST = 5.99;
-    const TAX_RATE      = 0.0825;          // 8.25 %
-    let   cart          = [];              // server-side cart
-    let   appliedDiscount = null;          // object from /discount_codes/validate
-    let   discountAmount  = 0;             // number (calculated each render)
+let discountAmount = 0;
 
-    /* ------------------------------------------------------------------ */
-    /*  3.  Require a logged-in user & pull the real cart                 */
-    /* ------------------------------------------------------------------ */
-    const token = localStorage.getItem('token');
-    if (!token) {
-        alert('You must be logged in to view your cart.');
-        window.location.href = 'login.html';
-        return;
-    }
+// Constants
+const SHIPPING_COST = 5.99;
+const TAX_RATE = 0.0825; // 8.25% tax rate
 
-    try {
-        const res  = await fetch('/api/cart', { headers: { Authorization: `Bearer ${token}` } });
-        if (!res.ok) throw new Error('Failed to fetch cart');
+// Store discount info
+let appliedDiscount = null;
 
-        // normalise field names so the rest of the code can stay the same
-        const data = await res.json();
-        cart = (data.items || []).map(i => ({
-            id:          i.shoe_id,
-            name:        i.name,
-            brand:       i.brand,
-            price:       Number(i.price),
-            quantity:    Number(i.quantity),
-            image:       i.image_url || i.image,     // backend vs local field
-            selectedSize:i.selected_size || i.selectedSize
-        }));
+// Render order items and calculate totals
+function renderOrderSummary() {
+let subtotal = 0;
 
-        renderOrderSummary();
-    } catch (err) {
-        console.error(err);
-        alert('Unable to load cart. Please try again later.');
-        return;
-    }
+// Clear existing items
+orderItems.innerHTML = '';
 
-    /* ------------------------------------------------------------------ */
-    /*  4.  Helpers                                                       */
-    /* ------------------------------------------------------------------ */
-    function renderOrderSummary () {
-        /* --- 4 a.  clear / build list --------------------------------- */
-        orderItems.innerHTML = '';
+if (cart.length === 0) {
+orderItems.innerHTML = `
+<div class="text-center py-4">
+<p>Your cart is empty</p>
+<a href="shop.html" class="btn btn-primary">Continue Shopping</a>
+</div>
+`;
+return;
+}
 
-        if (cart.length === 0) {
-            orderItems.innerHTML = `
-                <div class="text-center py-4">
-                    <p>Your cart is empty</p>
-                    <a href="shop.html" class="btn btn-primary">Continue Shopping</a>
-                </div>`;
-            subtotalElement.textContent = shippingElement.textContent =
-            taxElement.textContent      = totalElement.textContent    = '$0.00';
-            discountLine.style.display  = 'none';
-            return;
-        }
+// Add each item to the order summary
+cart.forEach(item => {
+const itemTotal = item.price * (item.quantity || 1);
+subtotal += itemTotal;
 
-        let subtotal = 0;
-        cart.forEach(item => {
-            const lineTotal = item.price * (item.quantity || 1);
-            subtotal       += lineTotal;
+orderItems.innerHTML += `
+<div class="order-item">
+<div class="item-image">
+<img src="${item.image}" alt="${item.name}">
+</div>
+<div class="item-details">
+<h4 class="item-name">${item.name}</h4>
+<p class="item-price">$${itemTotal.toFixed(2)}</p>
+<p class="text-muted">Size: ${item.selectedSize}</p>
+${item.quantity > 1 ? `<p class="text-muted">Quantity: ${item.quantity}</p>` : ''}
+</div>
+</div>
+`;
+});
 
-            orderItems.insertAdjacentHTML('beforeend', `
-                <div class="order-item">
-                    <div class="item-image">
-                        <img src="${item.image}" alt="${item.name}">
-                    </div>
-                    <div class="item-details">
-                        <h4 class="item-name">${item.name}</h4>
-                        <p class="item-price">$${lineTotal.toFixed(2)}</p>
-                        <p class="text-muted">Size: ${item.selectedSize}</p>
-                        ${item.quantity > 1 ? `<p class="text-muted">Quantity: ${item.quantity}</p>` : ''}
-                    </div>
-                </div>`);
-        });
-
-        /* --- 4 b.  discounts ------------------------------------------ */
+// Reset discount amount
         discountAmount = 0;
+
         if (appliedDiscount) {
-            if (appliedDiscount.type === 'fixed') {
-                discountAmount = appliedDiscount.discount_value;
-            } else if (appliedDiscount.type === 'percent') {
+            if (appliedDiscount.discount_type === 'percent') {
                 discountAmount = subtotal * (appliedDiscount.discount_value / 100);
+            } else if (appliedDiscount.discount_type === 'fixed') {
+                discountAmount = appliedDiscount.discount_value;
             }
+            subtotal -= discountAmount;
+            if (subtotal < 0) subtotal = 0; // prevent negative subtotal
         }
-        const discountedSubtotal = Math.max(0, subtotal - discountAmount);
 
-        /* --- 4 c.  tax / total ---------------------------------------- */
-        const tax   = (discountedSubtotal + SHIPPING_COST) * TAX_RATE;
-        const total = discountedSubtotal + SHIPPING_COST + tax;
+// Calculate tax and total
+const tax = (subtotal + SHIPPING_COST) * TAX_RATE;
+const total = subtotal + SHIPPING_COST + tax;
 
-        /* --- 4 d.  update DOM ----------------------------------------- */
-        subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
-        shippingElement.textContent = `$${SHIPPING_COST.toFixed(2)}`;
-        taxElement.textContent      = `$${tax.toFixed(2)}`;
-        totalElement.textContent    = `$${total.toFixed(2)}`;
+// Update totals
+subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+shippingElement.textContent = `$${SHIPPING_COST.toFixed(2)}`;
+taxElement.textContent = `$${tax.toFixed(2)}`;
+totalElement.textContent = `$${total.toFixed(2)}`;
 
+// Show or hide discount line
         if (appliedDiscount) {
-            discountLine.style.display   = 'flex';
-            discountAmountElement.textContent = `-$${discountAmount.toFixed(2)}`;
+            discountLine.style.display = 'block';
+            discountAmountElement.textContent = `- $${discountAmount.toFixed(2)}`;
         } else {
             discountLine.style.display = 'none';
         }
     }
 
-    /* ------------------------------------------------------------------ */
-    /*  5.  Discount code handler                                         */
-    /* ------------------------------------------------------------------ */
-    applyDiscountBtn.addEventListener('click', () => {
-        const code = discountCodeInput.value.trim();
-        if (!code) { alert('Please enter a discount code.'); return; }
+// Apply discount button
+applyDiscountBtn.addEventListener('click', () => {
+console.log('Apply Discount Button Clicked');
+const code = discountCodeInput.value.trim();
 
-        const preDiscountTotal = cart.reduce((t,i) => t + i.price * (i.quantity||1), 0) + SHIPPING_COST;
+if (!code) {
+alert('Please enter a discount code.');
+return;
+}
 
-        fetch('/api/discount_codes/validate', {
-            method:'POST',
-            headers:{ 'Content-Type':'application/json' },
-            body: JSON.stringify({ code, cartTotal: preDiscountTotal })
-        })
-        .then(r => r.json())
-        .then(data => {
-            if (data.error) return alert(data.error);
-            appliedDiscount = data.discount;
-            alert('Discount code applied!');
-            renderOrderSummary();
-        })
-        .catch(err => {
-            console.error(err);
-            alert('Unable to apply discount – please try again.');
-        });
-    });
+// Calculate cart total before discount
+const cartTotal = cart.reduce((total, item) => total + item.price * (item.quantity || 1), 0) + SHIPPING_COST;
 
-    /* ------------------------------------------------------------------ */
-    /*  6.  Place-order handler                                           */
-    /* ------------------------------------------------------------------ */
-    function formsAreValid () {
-        const s = document.getElementById('shipping-form');
-        const p = document.getElementById('payment-form');
-        const payMethod = document.querySelector('input[name="payment"]:checked');
-        if (!payMethod) { alert('Choose a payment method.'); return false; }
-        return s.checkValidity() && p.checkValidity();
-    }
+// Send request to backend to validate discount code
+fetch('/api/discount_codes/validate', {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json'
+},
+body: JSON.stringify({ code, cartTotal })
+})
+.then(response => response.json())
+.then(data => {
+if (data.error) {
+alert(data.error); // Show error if discount code is invalid
+} else {
+appliedDiscount = data.discount; // Store discount data
+alert('Discount code applied successfully!');
+renderOrderSummary(); // Re-render order summary with discount applied
+}
+})
+.catch(error => {
+console.error('Error applying discount code:', error);
+alert('There was an issue applying the discount code. Please try again.');
+});
+});
 
-    placeOrderButton.addEventListener('click', async e => {
-        e.preventDefault();
-        if (!formsAreValid()) return;
+// Form validation
+function validateForms() {
+const shippingForm = document.getElementById('shipping-form');
+const paymentForm = document.getElementById('payment-form');
+const selectedPayment = document.querySelector('input[name="payment"]:checked');
 
-        const orderData = {
-            shipping: {
-                firstName:document.getElementById('firstName').value,
-                lastName :document.getElementById('lastName').value,
-                email    :document.getElementById('email').value,
-                address  :document.getElementById('address').value,
-                city     :document.getElementById('city').value,
-                state    :document.getElementById('state').value,
-                zip      :document.getElementById('zip').value
-            },
-            payment: {
-                method    :document.querySelector('input[name="payment"]:checked').id,
-                cardNumber:document.getElementById('cardNumber')?.value,
-                expiry    :document.getElementById('expiry')?.value,
-                cvv       :document.getElementById('cvv')?.value,
-                cardName  :document.getElementById('cardName')?.value
-            },
-            // server already has the authoritative cart; no need to send items
-            discount_code: appliedDiscount ? appliedDiscount.code : undefined
-        };
+if (!selectedPayment) {
+alert('Please select a payment method');
+return false;
+}
 
-        try {
-            const res = await fetch('/api/orders', {
-                method :'POST',
-                headers:{
-                    'Content-Type':'application/json',
-                    Authorization :`Bearer ${token}`
-                },
-                body: JSON.stringify(orderData)
-            });
-            if (!res.ok) throw new Error('Order failed');
-            const data = await res.json();
+return shippingForm.checkValidity() && paymentForm.checkValidity();
+}
 
-            alert(
-                `Thank you!\n\nSubtotal: $${data.summary.subtotal.toFixed(2)}\n`+
-                `Tax:      $${data.summary.tax.toFixed(2)}\n`+
-                `Total:    $${data.summary.total.toFixed(2)}`
-            );
+// Handle order placement
+placeOrderButton.addEventListener('click', (e) => {
+e.preventDefault();
 
-            localStorage.removeItem('cart');  // wipe local cache
-            window.location.href = 'index.html';
-        } catch (err) {
-            console.error(err);
-            alert('There was a problem placing your order. Please try again.');
-        }
-    });
+if (!validateForms()) {
+alert('Please fill in all required fields');
+return;
+}
 
-    /* ------------------------------------------------------------------ */
-    /*  7.  Toggle credit-card / PayPal / Apple-Pay panes                 */
-    /* ------------------------------------------------------------------ */
-    document.querySelectorAll('input[name="payment"]').forEach(radio => {
-        radio.addEventListener('change', () => {
-            document.querySelectorAll('.payment-info').forEach(p => p.classList.remove('active'));
-            document.getElementById(`${radio.id}-form`).classList.add('active');
-        });
-    });
+const token = localStorage.getItem('token');
+
+if (!token) {
+alert('You must be logged in to place an order.');
+window.location.href = 'login.html';
+return;
+}
+
+// Get form data
+const orderData = {
+shipping: {
+firstName: document.getElementById('firstName').value,
+lastName: document.getElementById('lastName').value,
+email: document.getElementById('email').value,
+address: document.getElementById('address').value,
+city: document.getElementById('city').value,
+state: document.getElementById('state').value,
+zip: document.getElementById('zip').value
+},
+payment: {
+method: document.querySelector('input[name="payment"]:checked').id,
+cardNumber: document.getElementById('cardNumber')?.value,
+expiry: document.getElementById('expiry')?.value,
+cvv: document.getElementById('cvv')?.value,
+cardName: document.getElementById('cardName')?.value
+},
+items: cart,
+subtotal: parseFloat(subtotalElement.textContent.replace('$', '')),
+shipping: SHIPPING_COST,
+tax: parseFloat(taxElement.textContent.replace('$', '')),
+total: parseFloat(totalElement.textContent.replace('$', ''))
+};
+
+// Send order to backend
+fetch('/api/orders', {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json',
+'Authorization': `Bearer ${token}`
+},
+body: JSON.stringify(orderData)
+})
+.then(response => {
+if (!response.ok) {
+throw new Error('Network response was not ok.');
+}
+return response.json();
+})
+.then(data => {
+console.log('Order Created', data);
+alert('Order placed successfully! Thank you for your purchase.');
+localStorage.removeItem('cart');
+window.location.href = 'index.html';
+})
+.catch(error => {
+console.error('Error placing order: ', error);
+alert('There was an issue placing your order. Please try again.');
+});
+});
+
+// Initialize the page
+renderOrderSummary();
+
+// Add payment method toggle functionality
+document.querySelectorAll('input[name="payment"]').forEach(radio => {
+radio.addEventListener('change', function() {
+document.querySelectorAll('.payment-info').forEach(info => {
+info.classList.remove('active');
+});
+document.getElementById(`${this.id}-form`).classList.add('active');
+});
+});
 });
