@@ -59,10 +59,23 @@ document.addEventListener('DOMContentLoaded', () => {
         // Calculate discount if applied
         discountAmount = 0;
         if (appliedDiscount) {
+        if (appliedDiscount.type === 'fixed') {
+            discountAmount = appliedDiscount.discount_value;
+        } else if (appliedDiscount.type === 'percent') {
             discountAmount = subtotal * (appliedDiscount.discount_value / 100);
+        }
     }
 
-    const discountedSubtotal = subtotal - discountAmount;
+
+    const discountedSubtotal = Math.max(0, subtotal - discountAmount);
+
+        //Update discount display 
+        if (appliedDiscount) {
+            discountLine.style.display = 'block';
+            discountAmountElement.textContent = discountAmount.toFixed(2);
+        } else {
+            discountLine.style.display = 'none';
+        }
 
         // Calculate tax and total
         const tax = (discountedSubtotal + SHIPPING_COST) * TAX_RATE;
@@ -75,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         totalElement.textContent = `$${total.toFixed(2)}`;
     }
 
-     //\Show discount amount
+     //Show discount amount
      const discountLine = document.getElementById('discount-line');
      const discountAmountElement = document.getElementById('discount-amount');
  
