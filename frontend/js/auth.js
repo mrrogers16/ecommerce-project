@@ -1,7 +1,7 @@
 // Authentication utility functions
 const API_BASE_URL = window.location.origin; // Use the current origin instead of hardcoding
 const LOGIN_ENDPOINT = `${API_BASE_URL}/api/customers/login`;
-const SIGNUP_ENDPOINT= `${API_BASE_URL}/api/customers/signup`;
+const SIGNUP_ENDPOINT = `${API_BASE_URL}/api/customers/signup`;
 // Check if user is logged in
 function isLoggedIn() {
     const token = localStorage.getItem('token');
@@ -27,7 +27,7 @@ function removeToken() {
 function getUserId() {
     const token = getToken();
     if (!token) return null;
-    
+
     try {
         const payload = JSON.parse(atob(token.split('.')[1]));
         return payload.user_id;
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const rememberMe = document.getElementById('rememberMe')?.checked;
@@ -142,12 +142,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (rememberMe) {
                         localStorage.setItem('rememberMe', 'true');
                     }
-                    
+
                     // Check for admin role
                     try {
                         const payload = JSON.parse(atob(data.token.split('.')[1]));
                         const role = payload.role;
-                        
+
                         showToast('Login successful!');
                         setTimeout(() => {
                             // Redirect based on role
@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (signupForm) {
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
@@ -204,10 +204,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ 
-                        first_name, 
-                        last_name, 
-                        email, 
+                    body: JSON.stringify({
+                        first_name,
+                        last_name,
+                        email,
                         password,
                         phone: '',
                         address: ''
@@ -245,10 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
             localStorage.removeItem('rememberMe');
-            showToast('Logged out successfully');
-            setTimeout(() => {
-                window.location.href = 'login.html';
-            }, 1500);
+            window.location.href = 'login.html'; // Immediately redirect
         });
     }
 });
