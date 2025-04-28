@@ -10,7 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const discountCodeInput = document.getElementById('discount-code');
     const applyDiscountBtn = document.getElementById('apply-discount');
 
-    let discountAmount = 0;
+    const discountLine = document.getElementById('discount-line');
+    const discountAmountElement = document.getElementById('discount-amount');
 
     // Constants
     const SHIPPING_COST = 5.99;
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
      // Store discount info
      let appliedDiscount = null;
+     let discountAmount = 0;
 
     // Render order items and calculate totals
     function renderOrderSummary() {
@@ -56,13 +58,16 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         });
 
-        // Calculate discount if applied
-        discountAmount = 0;
-        if (appliedDiscount) {
+        // Apply discount if any
+    discountAmount = 0;
+    if (appliedDiscount) {
+        if (appliedDiscount.type === 'fixed') {
+            discountAmount = appliedDiscount.discount_value;
+        } else if (appliedDiscount.type === 'percent') {
             discountAmount = subtotal * (appliedDiscount.discount_value / 100);
+        }
     }
-
-    const discountedSubtotal = subtotal - discountAmount;
+    const discountedSubtotal = Math.max(0, subtotal - discountAmount);
 
         // Calculate tax and total
         const tax = (discountedSubtotal + SHIPPING_COST) * TAX_RATE;
@@ -75,26 +80,22 @@ document.addEventListener('DOMContentLoaded', () => {
         totalElement.textContent = `$${total.toFixed(2)}`;
     }
 
-     //\Show discount amount
-     const discountLine = document.getElementById('discount-line');
-     const discountAmountElement = document.getElementById('discount-amount');
- 
-     if (appliedDiscount) {
-         discountLine.style.display = 'block';
-         discountAmountElement.textContent = discountAmount.toFixed(2);
-     } else {
-         discountLine.style.display = 'none';
-     }
-
-    // Apply discount button
-    applyDiscountBtn.addEventListener('click', () => {
-    console.log('Apply Discount Button Clicked');
-    const code = discountCodeInput.value.trim();
-
-    if (!code) {
-        alert('Please enter a discount code.');
-        return;
+    // Show or hide discount line
+        if (appliedDiscount) {
+            discountLine.style.display = 'flex';
+            discountAmountElement.textContent = `-$${discountAmount.toFixed(2)}`;
+        } else {
+            discountLine.style.display = 'none';
+        }
     }
+
+    applyDiscountBtn.addEventListener('click', () => {
+        const code = discountCodeInput.value.trim();
+
+        if (!code) {
+            alert('Please enter a discount code.');
+            return;
+        }
 
         // Calculate cart total before discount
         const cartTotal = cart.reduce((total, item) => total + item.price * (item.quantity || 1), 0) + SHIPPING_COST;
