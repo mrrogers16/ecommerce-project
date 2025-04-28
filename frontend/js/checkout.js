@@ -1,6 +1,7 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // Get cart items from localStorage
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    let cart = [];
     const orderItems = document.querySelector('.order-items');
     const subtotalElement = document.querySelector('.subtotal');
     const shippingElement = document.querySelector('.shipping');
@@ -16,8 +17,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const SHIPPING_COST = 5.99;
     const TAX_RATE = 0.0825; // 8.25% tax rate
 
-     // Store discount info
-     let appliedDiscount = null;
+    // Store discount info
+    let appliedDiscount = null;
+
+    // New code: Fetch the real cart from backend
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('You must be logged in to view your cart.');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    try {
+        const res = await fetch('/api/cart', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!res.ok) {
+            throw new Error('Failed to fetch cart from server.');
+        }
+
+        const data = await res.json();
+        cart = data.items || [];
+
+        console.log('Cart loaded from server:', cart);
+
+        renderOrderSummary(); // Only render AFTER cart is loaded
+    }
+    catch (error) {
+        console.error('Error fetching cart:', error);
+        alert('Unable to load cart. Please try again later.');
+    }
 
     // Render order items and calculate totals
     function renderOrderSummary() {
@@ -59,15 +91,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // Calculate discount if applied
         discountAmount = 0;
         if (appliedDiscount) {
-        if (appliedDiscount.type === 'fixed') {
-            discountAmount = appliedDiscount.discount_value;
-        } else if (appliedDiscount.type === 'percent') {
-            discountAmount = subtotal * (appliedDiscount.discount_value / 100);
+            if (appliedDiscount.type === 'fixed') {
+                discountAmount = appliedDiscount.discount_value;
+            } else if (appliedDiscount.type === 'percent') {
+                discountAmount = subtotal * (appliedDiscount.discount_value / 100);
+            }
         }
-    }
 
 
-    const discountedSubtotal = Math.max(0, subtotal - discountAmount);
+        const discountedSubtotal = Math.max(0, subtotal - discountAmount);
 
         //Update discount display 
         if (appliedDiscount) {
@@ -88,26 +120,26 @@ document.addEventListener('DOMContentLoaded', () => {
         totalElement.textContent = `$${total.toFixed(2)}`;
     }
 
-     //Show discount amount
-     const discountLine = document.getElementById('discount-line');
-     const discountAmountElement = document.getElementById('discount-amount');
- 
-     if (appliedDiscount) {
-         discountLine.style.display = 'block';
-         discountAmountElement.textContent = discountAmount.toFixed(2);
-     } else {
-         discountLine.style.display = 'none';
-     }
+    //Show discount amount
+    const discountLine = document.getElementById('discount-line');
+    const discountAmountElement = document.getElementById('discount-amount');
+
+    if (appliedDiscount) {
+        discountLine.style.display = 'block';
+        discountAmountElement.textContent = discountAmount.toFixed(2);
+    } else {
+        discountLine.style.display = 'none';
+    }
 
     // Apply discount button
     applyDiscountBtn.addEventListener('click', () => {
-    console.log('Apply Discount Button Clicked');
-    const code = discountCodeInput.value.trim();
+        console.log('Apply Discount Button Clicked');
+        const code = discountCodeInput.value.trim();
 
-    if (!code) {
-        alert('Please enter a discount code.');
-        return;
-    }
+        if (!code) {
+            alert('Please enter a discount code.');
+            return;
+        }
 
         // Calculate cart total before discount
         const cartTotal = cart.reduce((total, item) => total + item.price * (item.quantity || 1), 0) + SHIPPING_COST;
@@ -120,20 +152,20 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             body: JSON.stringify({ code, cartTotal })
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                alert(data.error); // Show error if discount code is invalid
-            } else {
-                appliedDiscount = data.discount; // Store discount data
-                alert('Discount code applied successfully!');
-                renderOrderSummary(); // Re-render order summary with discount applied
-            }
-        })
-        .catch(error => {
-            console.error('Error applying discount code:', error);
-            alert('There was an issue applying the discount code. Please try again.');
-        });
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error); // Show error if discount code is invalid
+                } else {
+                    appliedDiscount = data.discount; // Store discount data
+                    alert('Discount code applied successfully!');
+                    renderOrderSummary(); // Re-render order summary with discount applied
+                }
+            })
+            .catch(error => {
+                console.error('Error applying discount code:', error);
+                alert('There was an issue applying the discount code. Please try again.');
+            });
     });
 
     // Form validation
@@ -185,11 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 cvv: document.getElementById('cvv')?.value,
                 cardName: document.getElementById('cardName')?.value
             },
-            items: cart,
-            subtotal: parseFloat(subtotalElement.textContent.replace('$', '')),
-            shipping: SHIPPING_COST,
-            tax: parseFloat(taxElement.textContent.replace('$', '')),
-            total: parseFloat(totalElement.textContent.replace('$', ''))
         };
 
         // Send order to backend
@@ -201,30 +228,34 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             body: JSON.stringify(orderData)
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok.');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Order Created', data);
-            alert('Order placed successfully! Thank you for your purchase.');
-            localStorage.removeItem('cart');
-            window.location.href = 'index.html';
-        })
-        .catch(error => {
-            console.error('Error placing order: ', error);
-            alert('There was an issue placing your order. Please try again.');
-        });
-    });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Order Created', data.order);
+                console.table(data.summary);
+                alert(
+                    `Thank you for  your purchase!\n\n` +
+                    `Subtotal: $${data.summary.subtotal.toFixed(2)}\n` +
+                    `Tax:      $${data.summary.tax.toFixed(2)}\n` +
+                    `Total:    $${data.summary.total.toFixed(2)}`
+                );
 
-    // Initialize the page
-    renderOrderSummary();
+                localStorage.removeItem('cart');
+                window.location.href = 'index.html';
+            })
+            .catch(err => {
+                console.error('Order error:', err);
+                alert('There was an issue placing your order. Please try again.');
+            });
+    });
 
     // Add payment method toggle functionality
     document.querySelectorAll('input[name="payment"]').forEach(radio => {
-        radio.addEventListener('change', function() {
+        radio.addEventListener('change', function () {
             document.querySelectorAll('.payment-info').forEach(info => {
                 info.classList.remove('active');
             });
