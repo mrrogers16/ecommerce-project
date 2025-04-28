@@ -11,14 +11,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const discountCodeInput = document.getElementById('discount-code');
     const applyDiscountBtn = document.getElementById('apply-discount');
 
-    let discountAmount = 0;
+    const discountLine = document.getElementById('discount-line');
+    const discountAmountElement = document.getElementById('discount-amount');
 
     // Constants
     const SHIPPING_COST = 5.99;
     const TAX_RATE = 0.0825; // 8.25% tax rate
 
-    // Store discount info
-    let appliedDiscount = null;
+     // Store discount info
+     let appliedDiscount = null;
+     let discountAmount = 0;
 
     // New code: Fetch the real cart from backend
     const token = localStorage.getItem('token');
@@ -88,26 +90,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             `;
         });
 
-        // Calculate discount if applied
-        discountAmount = 0;
-        if (appliedDiscount) {
-            if (appliedDiscount.type === 'fixed') {
-                discountAmount = appliedDiscount.discount_value;
-            } else if (appliedDiscount.type === 'percent') {
-                discountAmount = subtotal * (appliedDiscount.discount_value / 100);
-            }
+        // Apply discount if any
+    discountAmount = 0;
+    if (appliedDiscount) {
+        if (appliedDiscount.type === 'fixed') {
+            discountAmount = appliedDiscount.discount_value;
+        } else if (appliedDiscount.type === 'percent') {
+            discountAmount = subtotal * (appliedDiscount.discount_value / 100);
         }
-
-
-        const discountedSubtotal = Math.max(0, subtotal - discountAmount);
-
-        //Update discount display 
-        if (appliedDiscount) {
-            discountLine.style.display = 'block';
-            discountAmountElement.textContent = discountAmount.toFixed(2);
-        } else {
-            discountLine.style.display = 'none';
-        }
+    }
+    const discountedSubtotal = Math.max(0, subtotal - discountAmount);
 
         // Calculate tax and total
         const tax = (discountedSubtotal + SHIPPING_COST) * TAX_RATE;
@@ -120,20 +112,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         totalElement.textContent = `$${total.toFixed(2)}`;
     }
 
-    //Show discount amount
-    const discountLine = document.getElementById('discount-line');
-    const discountAmountElement = document.getElementById('discount-amount');
-
-    if (appliedDiscount) {
-        discountLine.style.display = 'block';
-        discountAmountElement.textContent = discountAmount.toFixed(2);
-    } else {
-        discountLine.style.display = 'none';
+    // Show or hide discount line
+        if (appliedDiscount) {
+            discountLine.style.display = 'flex';
+            discountAmountElement.textContent = `-$${discountAmount.toFixed(2)}`;
+        } else {
+            discountLine.style.display = 'none';
+        }
     }
 
-    // Apply discount button
     applyDiscountBtn.addEventListener('click', () => {
-        console.log('Apply Discount Button Clicked');
         const code = discountCodeInput.value.trim();
 
         if (!code) {
