@@ -56,18 +56,18 @@ ${item.quantity > 1 ? `<p class="text-muted">Quantity: ${item.quantity}</p>` : '
 `;
 });
 
-// Apply discount if applicable
-if (appliedDiscount) {
-if (appliedDiscount.discount_type === 'percentage') {
-discountAmount = subtotal * (appliedDiscount.discount_value / 100);
-} else if (appliedDiscount.discount_type === 'fixed') {
-discountAmount = appliedDiscount.discount_value;
-} else {
-discountAmount = 0;
-}
+// Reset discount amount
+        discountAmount = 0;
 
-subtotal = Math.max(0, subtotal - discountAmount);
-}
+        if (appliedDiscount) {
+            if (appliedDiscount.discount_type === 'percent') {
+                discountAmount = subtotal * (appliedDiscount.discount_value / 100);
+            } else if (appliedDiscount.discount_type === 'fixed') {
+                discountAmount = appliedDiscount.discount_value;
+            }
+            subtotal -= discountAmount;
+            if (subtotal < 0) subtotal = 0; // prevent negative subtotal
+        }
 
 // Calculate tax and total
 const tax = (subtotal + SHIPPING_COST) * TAX_RATE;
@@ -79,15 +79,14 @@ shippingElement.textContent = `$${SHIPPING_COST.toFixed(2)}`;
 taxElement.textContent = `$${tax.toFixed(2)}`;
 totalElement.textContent = `$${total.toFixed(2)}`;
 
-// Update discount line
-const discountLine = document.getElementById('discount-line');
-if (appliedDiscount) {
-discountLine.style.display = 'block';
-document.getElementById('discount-amount').textContent = `- $${discountAmount.toFixed(2)}`;
-} else {
-discountLine.style.display = 'none';
-}
-}
+// Show or hide discount line
+        if (appliedDiscount) {
+            discountLine.style.display = 'block';
+            discountAmountElement.textContent = `- $${discountAmount.toFixed(2)}`;
+        } else {
+            discountLine.style.display = 'none';
+        }
+    }
 
 // Apply discount button
 applyDiscountBtn.addEventListener('click', () => {
