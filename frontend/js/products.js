@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
     const category = urlParams.get('category');
     const searchQuery = urlParams.get('search');
-    
+
     console.log("URL Parameters:", { category, searchQuery });
 
     // Function to generate HTML for each product
@@ -60,28 +60,28 @@ document.addEventListener("DOMContentLoaded", () => {
     // Function to fetch products from API with pagination and search    
     function fetchProducts(page = 1, searchTerm = '') {
         currentPage = page;
-        
-        let apiUrl = `https://fly-feet.com/api/shoes?page=${currentPage}&limit=10`;
-        
+
+        let apiUrl = `https://fly-feet.com/api/shoes?page=${currentPage}&limit=12`;
+
         // Add category filter if present
         if (category && category !== "All Shoes") {
             apiUrl += `&category=${encodeURIComponent(category.toLowerCase())}`;
         }
-        
+
         // Add search query if present
         if (searchTerm) {
             apiUrl += `&name=${encodeURIComponent(searchTerm)}`;
         }
-        
+
         console.log("Fetching products with URL:", apiUrl);
-    
+
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
                 console.log("✅ API Response:", data);
                 allProducts = data.results;
                 totalPages = data.totalPages;
-    
+
                 renderProducts(allProducts);
                 renderPagination();
             })
@@ -94,29 +94,29 @@ document.addEventListener("DOMContentLoaded", () => {
     // Handle search form submission and real-time search
     const searchForm = document.getElementById('search-form');
     const searchInput = document.getElementById('search-input');
-    
+
     if (searchForm && searchInput) {
         console.log("Search form and input found, adding event listeners");
-        
+
         // Set initial search value from URL if present
         if (searchQuery) {
             searchInput.value = searchQuery;
         }
-        
+
         // Handle form submission (prevent default behavior)
         searchForm.addEventListener('submit', (e) => {
             e.preventDefault();
             console.log("Search form submitted");
             const searchTerm = searchInput.value.trim();
-            
+
             console.log("Search term:", searchTerm);
-            
+
             if (searchTerm) {
                 // Update URL without reloading the page
                 const newUrl = new URL(window.location.href);
                 newUrl.searchParams.set('search', searchTerm);
                 window.history.pushState({}, '', newUrl);
-                
+
                 // Fetch results
                 fetchProducts(1, searchTerm);
             } else {
@@ -124,31 +124,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 const newUrl = new URL(window.location.href);
                 newUrl.searchParams.delete('search');
                 window.history.pushState({}, '', newUrl);
-                
+
                 // Fetch all products
                 fetchProducts(1);
             }
         });
-        
+
         // Add real-time search as user types
         searchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.trim();
-            
+
             // Clear previous timeout to implement debouncing
             if (searchTimeout) {
                 clearTimeout(searchTimeout);
             }
-            
+
             // Set a new timeout to fetch results after user stops typing
             searchTimeout = setTimeout(() => {
                 console.log("Real-time search term:", searchTerm);
-                
+
                 if (searchTerm) {
                     // Update URL without reloading the page
                     const newUrl = new URL(window.location.href);
                     newUrl.searchParams.set('search', searchTerm);
                     window.history.pushState({}, '', newUrl);
-                    
+
                     // Fetch results
                     fetchProducts(1, searchTerm);
                 } else {
@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const newUrl = new URL(window.location.href);
                     newUrl.searchParams.delete('search');
                     window.history.pushState({}, '', newUrl);
-                    
+
                     // Fetch all products
                     fetchProducts(1);
                 }
@@ -171,12 +171,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (category && category !== "All Shoes") {
         apiUrl += `?category=${encodeURIComponent(category.toLowerCase())}`;
     }
-    
+
     // Add search query if present
     if (searchQuery) {
         apiUrl += apiUrl.includes('?') ? `&name=${encodeURIComponent(searchQuery)}` : `?name=${encodeURIComponent(searchQuery)}`;
     }
-    
+
     console.log("Initial API URL:", apiUrl);
 
     fetch(apiUrl)
@@ -292,21 +292,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderPagination() {
         const paginationContainer = document.getElementById("paginationContainer");
-        if (!paginationContainer){
+        if (!paginationContainer) {
             console.error("Pagination container not found!");
             return;
-        } 
+        }
         paginationContainer.innerHTML = ""; // Clear previous pagination
-    
+
         // Add First, Previous, Next, Last buttons based on the current page
         const firstButton = createPaginationButton("First", () => fetchProducts(1), currentPage === 1);
         const prevButton = createPaginationButton("Previous", () => fetchProducts(currentPage - 1), currentPage === 1);
         const nextButton = createPaginationButton("Next", () => fetchProducts(currentPage + 1), currentPage === totalPages);
         const lastButton = createPaginationButton("Last", () => fetchProducts(totalPages), currentPage === totalPages);
-    
+
         const pageInfo = document.createElement("span");
         pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-    
+
         const jumpInput = document.createElement("input");
         jumpInput.type = "number";
         jumpInput.min = 1;
@@ -319,7 +319,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 fetchProducts(targetPage);
             }
         };
-    
+
         paginationContainer.append(firstButton, prevButton, pageInfo, nextButton, lastButton, jumpInput);
     }
 
